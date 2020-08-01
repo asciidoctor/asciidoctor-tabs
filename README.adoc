@@ -8,6 +8,7 @@ ifdef::env-github[]
 :note-caption: :paperclip:
 :tip-caption: :bulb:
 endif::[]
+:url-repo: https://github.com/asciidoctor/asciidoctor-tabs
 
 An Asciidoctor extension that adds a tabs block to the AsciiDoc syntax.
 
@@ -329,6 +330,86 @@ The added stylesheet sets up the appearance of the tabbed interface and the adde
 
 A tab can be selected when the page loads using a URL fragment (e.g., `#id-of-tab-here`).
 Otherwise, the first tab is selected when the page loads.
+
+== Development
+
+Follow the instructions below to learn how to get started developing on this project.
+
+=== Retrieve the source code
+
+Copy the {url-repo}[GitHub repository URL] and pass it to the `git clone` command:
+
+[subs=attributes+]
+ $ git clone {url-repo}
+
+Next, switch to the project directory:
+
+[subs=attributes+]
+ $ cd asciidoctor-tabs
+
+=== Install the dependencies
+
+The development dependencies are defined in the [.path]_Gemfile_ at the root of the project.
+Use the `bundle` command from Bundler to install these dependencies under the project directory:
+
+ $ bundle --path=.bundle/gems
+
+You must invoke `bundle` from the project's root directory so it can locate the [.path]_Gemfile_.
+
+=== Run the tests
+
+The test suite is located in the [.path]_spec_ directory.
+The tests are based on RSpec.
+
+==== Run all tests
+
+You can run all of the tests using Rake:
+
+ $ bundle exec rake spec
+
+For more fine-grained control, you can also run the tests directly using RSpec:
+
+ $ bundle exec rspec
+
+To run all tests in a single spec, pass the spec file to the `rpec` command:
+
+ $ bundle exec rspec spec/reducer_spec.rb
+
+==== Run specific tests
+
+If you only want to run a single test (or a group of tests), you can do so by first tagging the test cases, then filtering the test run using that tag.
+
+Start by adding the `only` tag to one or more specifications:
+
+[source,ruby]
+----
+it 'should do something new', only: true do
+  expect(true).to be true
+end
+----
+
+Next, run RSpec with the `only` flag enabled:
+
+ $ bundle exec rspec -t only
+
+RSpec will only run the specifications that contain this flag.
+
+You can also filter tests by keyword.
+Let's assume we want to run all the tests that have `role` in their description.
+Run RSpec with the example filter:
+
+ $ bundle exec rspec -e role
+
+RSpec will only run the specifications that have a description containing the text `only`.
+
+=== Generate code coverage
+
+To generate a code coverage report when running tests using simplecov, set the `COVERAGE` environment variable as follows when running the tests:
+
+ $ COVERAGE=deep bundle exec rake spec
+
+You'll see a total coverage score, a detailed coverage report, and a link to HTML report in the output.
+The HTML report helps you understand which lines and branches were missed, if any.
 
 == Authors
 
