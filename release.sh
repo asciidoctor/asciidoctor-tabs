@@ -55,15 +55,16 @@ echo -e "//registry.npmjs.org/:_authToken=$RELEASE_NPM_TOKEN" > $HOME/.npmrc
     git add dist data
   )
   git commit -a -m "release $RELEASE_VERSION [no ci]"
-  git tag -m "version $RELEASE_VERSION" v$RELEASE_VERSION
-  gem build $GEMSPEC
-  git push origin $(git describe --tags --exact-match)
-  gem push $RELEASE_NAME-$GEM_RELEASE_VERSION.gem
-  (
-    cd js
-    npm publish --tag $RELEASE_NPM_TAG
-  )
-  git push origin $RELEASE_BRANCH
+  git show -p
+  #git tag -m "version $RELEASE_VERSION" v$RELEASE_VERSION
+  #gem build $GEMSPEC
+  #git push origin $(git describe --tags --exact-match)
+  #gem push $RELEASE_NAME-$GEM_RELEASE_VERSION.gem
+  #(
+  #  cd js
+  #  npm publish --tag $RELEASE_NPM_TAG
+  #)
+  #git push origin $RELEASE_BRANCH
 )
 
 exit_code=$?
