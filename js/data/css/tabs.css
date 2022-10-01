@@ -1,0 +1,67 @@
+/*! Asciidoctor Tabs stylesheet | Copyright (c) 2018-present Dan Allen | MIT License */
+.tabs ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0 -0.25em 0 0;
+  padding: 0;
+}
+
+.tabs li {
+  align-items: center;
+  border: 1px solid black;
+  border-bottom: 0;
+  cursor: pointer;
+  display: flex;
+  font-weight: bold;
+  height: 2em;
+  line-height: 1;
+  margin-right: 0.25em;
+  padding: 0 1em;
+  position: relative;
+}
+
+.tabs.ulist li, .tabs.ulist p {
+  margin-bottom: 0;
+}
+
+.tabs li + li {
+  margin-top: 0;
+}
+
+.tabset.is-loading .tabs li:not(:first-child),
+.tabset:not(.is-loading) .tabs li:not(.is-active) {
+  background-color: black;
+  color: white;
+}
+
+.tabset.is-loading .tabs li:first-child::after,
+.tabs li.is-active::after {
+  background-color: white;
+  content: "";
+  display: block;
+  height: 3px; /* Chrome doesn't always paint the line accurately, so add a little extra */
+  position: absolute;
+  bottom: -1.5px;
+  left: 0;
+  right: 0;
+}
+
+.tabset > .content {
+  border: 1px solid gray;
+  padding: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.tabset.is-loading .tab-pane:not(:first-child),
+.tabset:not(.is-loading) .tab-pane:not(.is-active) {
+  display: none;
+}
+
+.tab-pane > :first-child {
+  margin-top: 0;
+}
+
+.tab-pane > :last-child > :last-child {
+  margin-bottom: 0;
+}
