@@ -13,7 +13,7 @@
   },
   "scripts": {
     "clean": "npx rimraf data dist node_modules",
-    "transpile": "node transpile.js"
+    "transpile": "node npm/transpile.js"
   },
   "main": "lib/index.js",
   "exports": {
