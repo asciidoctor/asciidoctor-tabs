@@ -71,7 +71,7 @@ Contains more than one block.
 
 == Authors
 
-Asciidoctor Tabs was written by Dan Alle of OpenDevise Inc. and contributed to the Asciidoctor project.
+Asciidoctor Tabs was written by Dan Allen of OpenDevise Inc. and contributed to the Asciidoctor project.
 
 == Copyright and License
 
