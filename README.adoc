@@ -37,19 +37,28 @@ Then use Bundler to install the gem:
 
 == Syntax
 
+A tabset is defined using a dlist enclosed in an example block marked with the tabs style.
+Each item in the dlist becomes a separate tab.
+The term in the dlist item is used for the title of the tab.
+The description in the dlist item is used for the contents of the tab.
+The contents can be defined as primary text, attached blocks, or blocks enclosed in an attached open block.
+If the blocks are enclosed in an attached open block, the open block enclosure itself will be discarded.
+
 .document-with-tabs.adoc
 [,asciidoc]
 ----
 [tabs]
 ====
-Tab A::
-+
-Contents of tab A.
+Tab A:: Contents of tab A.
 
 Tab B::
 +
---
 Contents of tab B.
+
+Tab C::
++
+--
+Contents of tab C.
 
 Contains more than one block.
 --
