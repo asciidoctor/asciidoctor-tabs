@@ -16,14 +16,16 @@ npm i asciidoctor @asciidoctor/tabs
 ```asciidoc
 [tabs]
 ====
-Tab A::
-+
-Contents of tab A.
+Tab A:: Contents of tab A.
 
 Tab B::
 +
---
 Contents of tab B.
+
+Tab C::
++
+--
+Contents of tab C.
 
 Contains more than one block.
 --
