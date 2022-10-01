@@ -4,8 +4,8 @@ v1.0.0-alpha.1, 2022-10-01
 :idprefix:
 :idseparator: -
 
-An Asciidoctor extension that adds tabs to the AsciiDoc syntax.
-The tabset is constructed from a dlist enclosed in an example block marked with the tabs style.
+An Asciidoctor extension that adds a tabs block to the AsciiDoc syntax.
+Each set of tabs (a "tabset") is constructed from a dlist enclosed in an example block marked with the tabs style.
 This extension is only designed to be used with the `html` backend.
 
 == Install
@@ -41,7 +41,7 @@ Then use Bundler to install the gem:
 
 A tabset is defined using a dlist enclosed in an example block marked with the tabs style.
 Each item in the dlist becomes a separate tab.
-The term in the dlist item is used for the title of the tab.
+The term in the dlist item is used as the tab's label.
 The description in the dlist item is used for the contents of the tab.
 The contents can be defined as primary text, attached blocks, or blocks enclosed in an attached open block.
 If the blocks are enclosed in an attached open block, the open block enclosure itself will be discarded.
