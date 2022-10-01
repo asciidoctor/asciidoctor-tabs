@@ -3,13 +3,13 @@
 require 'time'
 
 release_version = ENV['RELEASE_VERSION']
-gem_release_version = ENV['GEM_RELEASE_VERSION']
+release_gem_version = ENV['RELEASE_GEM_VERSION']
 release_date = Time.now.strftime '%Y-%m-%d'
 release_user = ENV['RELEASE_USER']
 
 version_file = Dir['lib/**/version.rb'].first
 version_contents = (File.readlines version_file, mode: 'r:UTF-8').map do |l|
-  (l.include? 'VERSION') ? (l.sub %r/'[^']+'/, %('#{gem_release_version}')) : l
+  (l.include? 'VERSION') ? (l.sub %r/'[^']+'/, %('#{release_gem_version}')) : l
 end
 
 readme_file = 'README.adoc'

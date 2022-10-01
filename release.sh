@@ -15,12 +15,12 @@ fi
 RELEASE_GIT_NAME=$(curl -s https://api.github.com/users/$RELEASE_USER | jq -r .name)
 RELEASE_GIT_EMAIL=$RELEASE_USER@users.noreply.github.com
 GEMSPEC=$(ls -1 *.gemspec | head -1)
-RELEASE_NAME=$(ruby -e "print (Gem::Specification.load '$GEMSPEC').name")
+RELEASE_GEM_NAME=$(ruby -e "print (Gem::Specification.load '$GEMSPEC').name")
 # RELEASE_VERSION must be an exact version number or else it defaults to the next patch release
 if [ -z $RELEASE_VERSION ]; then
   export RELEASE_VERSION=$(ruby -e "print (Gem::Specification.load '$GEMSPEC').version.then { _1.prerelease? ? _1.release.to_s : (_1.segments.tap {|s| s[-1] += 1 }.join ?.) }")
 fi
-export GEM_RELEASE_VERSION=${RELEASE_VERSION/-/.}
+export RELEASE_VERSION=${RELEASE_GEM_VERSION/-/.}
 
 # configure git to push changes
 git config --local user.name "$RELEASE_GIT_NAME"
@@ -52,13 +52,19 @@ echo -e "//registry.npmjs.org/:_authToken=$RELEASE_NPM_TOKEN" > $HOME/.npmrc
     npm run transpile
     npm version --no-git-tag-version $RELEASE_VERSION
     echo '/node_modules/' > .gitignore
-    git add dist data
+    git add data dist
   )
-  git commit -a -m "release $RELEASE_VERSION [no ci]"
+  git commit -a -m "release $RELEASE_VERSION"
   git tag -m "version $RELEASE_VERSION" v$RELEASE_VERSION
   gem build $GEMSPEC
   git push origin $(git describe --tags --exact-match)
-  gem push $RELEASE_NAME-$GEM_RELEASE_VERSION.gem
+  (
+    cd js
+    echo -e '/data/\n/dist/\n/node_modules/' > .gitignore
+    git rm -r data dist
+  )
+  git commit -a --amend -m "release $RELEASE_VERSION [no ci]"
+  gem push $RELEASE_GEM_NAME-$RELEASE_GEM_VERSION.gem
   (
     cd js
     npm publish --tag $RELEASE_NPM_TAG
