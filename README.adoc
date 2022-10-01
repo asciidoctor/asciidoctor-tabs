@@ -5,6 +5,7 @@ Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
 
 An Asciidoctor extension that adds tabs to the AsciiDoc syntax.
 The tabset is constructed from a dlist enclosed in an example block marked with the tabs style.
+This extension is only designed to be used with the `html` backend.
 
 == Install
 
