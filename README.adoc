@@ -1,5 +1,6 @@
 = Asciidoctor Tabs
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
+v1.0.0-alpha.1, 2022-10-01
 :idprefix:
 :idseparator: -
 
