@@ -1,0 +1,76 @@
+= Asciidoctor Tabs
+Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
+:idprefix:
+:idseparator: -
+
+An Asciidoctor extension that adds tabs to the AsciiDoc syntax.
+The tabset is constructed from a dlist enclosed in an example block marked with the tabs style.
+
+== Install
+
+=== Using gem command
+
+ $ gem install --prerelease asciidoctor-tabs
+
+=== Using Bundler
+
+Create a [.path]_Gemfile_ in your project:
+
+.Gemfile
+[,ruby]
+----
+source 'https://rubygems.org'
+
+gem 'asciidoctor-tabs'
+
+# or use the code directlly from GitHub
+# gem 'asciidoctor-tabs', github: 'asciidoctor/asciidoctor-pdf'
+----
+
+Then configure Bundler to install gems locally (optional):
+
+ $ bundle config --local path .bundle/gems
+
+Then use Bundler to install the gem:
+
+ $ bundle
+
+== Syntax
+
+.document-with-tabs.adoc
+[,asciidoc]
+----
+[tabs]
+====
+Tab A::
++
+Contents of tab A.
+
+Tab B::
++
+--
+Contents of tab B.
+
+Contains more than one block.
+--
+====
+----
+
+== Usage
+
+ $ asciidoctor -r asciidoctor-tabs document-with-tabs.adoc
+
+== Authors
+
+Asciidoctor Tabs was written by Dan Alle of OpenDevise Inc. and contributed to the Asciidoctor project.
+
+== Copyright and License
+
+Copyright (C) 2018-present Dan Allen (OpenDevise Inc.) and the individual contributors to this project.
+Use of this software is granted under the terms of the MIT License.
+
+See the link:LICENSE[LICENSE] for the full license text.
+
+== Trademarks
+
+AsciiDoc(R) is a trademark of the Eclipse Foundation, Inc.

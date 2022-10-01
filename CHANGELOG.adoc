@@ -1,0 +1,9 @@
+= Asciidoctor Tabs Changelog
+:url-repo: https://github.com/asciidoctor/asciidoctor-tabs
+
+This document provides a curated view of the changes to Asciidoctor Tabs per release.
+For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
+
+== Unreleased
+
+_Initial release._
