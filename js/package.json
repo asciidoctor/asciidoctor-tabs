@@ -1,0 +1,42 @@
+{
+  "name": "@asciidoctor/tabs",
+  "version": "1.0.0-alpha.0",
+  "description": "An Asciidoctor.js extension that adds a tabs block to the AsciiDoc syntax.",
+  "license": "MIT",
+  "author": "Dan Allen",
+  "contributors": [
+    "Dan Allen <dan@opendevise.com>"
+  ],
+  "repository": "github:asciidoctor/asciidoctor-tabs",
+  "bugs": {
+    "url": "https://github.com/asciidoctor/asciidoctor-tabs/issues"
+  },
+  "scripts": {
+    "clean": "npx rimraf data dist node_modules",
+    "transpile": "node transpile.js"
+  },
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "files": [
+    "data",
+    "dist",
+    "lib"
+  ],
+  "devDependencies": {
+    "opal-compiler": "1.0.13"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [
+    "asciidoc",
+    "asciidoctor",
+    "extension",
+    "tabs"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
