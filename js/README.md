@@ -36,6 +36,8 @@ Contains more than one block.
 npx asciidoctor -r @asciidoctor/tabs document-with-tabs.adoc
 ```
 
+The `asciidoctor` command automatically registers the tabs extension group when the package is required.
+
 ## Copyright and License
 
 Copyright (C) 2018-present Dan Allen (OpenDevise Inc.) and the individual contributors to this project.
