@@ -76,24 +76,24 @@ describe Asciidoctor::Tabs do
     END
 
     expected = <<~'END'.chomp
-    <div id="tabset1" class="tabset is-loading">
+    <div id="_tabset1" class="tabset is-loading">
     <div class="ulist tabs">
     <ul>
     <li>
-    <p><a id="tabset1_tab-a"></a>Tab A</p>
+    <p><a id="_tabset1_tab_a"></a>Tab A</p>
     </li>
     <li>
-    <p><a id="tabset1_tab-b"></a>Tab B</p>
+    <p><a id="_tabset1_tab_b"></a>Tab B</p>
     </li>
     </ul>
     </div>
     <div class="content">
-    <div class="tab-pane" aria-labelledby="tabset1_tab-a">
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
     <div class="paragraph">
     <p>Contents of tab A.</p>
     </div>
     </div>
-    <div class="tab-pane" aria-labelledby="tabset1_tab-b">
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_b">
     <div class="paragraph">
     <p>Contents of tab B.</p>
     </div>
@@ -141,6 +141,65 @@ describe Asciidoctor::Tabs do
     (expect actual).to include 'aria-labelledby="install_commands_yarn"'
   end
 
+  it 'should clean invalid ID chars and condense repeating separator chars' do
+    input = <<~'END'
+    [tabs]
+    ====
+    cURL command & `output` (/v2)::
+    +
+    curl command shown here.
+    ====
+    END
+
+    actual = Asciidoctor.convert input
+    (expect actual).to include 'id="_tabset1_curl_command_output_v2"'
+    (expect actual).to include 'aria-labelledby="_tabset1_curl_command_output_v2"'
+  end
+
+  it 'should generate IDs using idprefix and idseparator' do
+    input = <<~'END'
+    :idprefix:
+    :idseparator: -
+
+    [tabs]
+    ====
+    First Tab::
+    +
+    Contents of first tab.
+    ====
+    END
+
+    actual = Asciidoctor.convert input
+    (expect actual).to include 'id="tabset1'
+    (expect actual).to include 'id="tabset1-first-tab"'
+  end
+
+  it 'should increment generate ID for each tabs block' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents.
+    ====
+
+    and
+
+    [tabs]
+    ====
+    Tab 1::
+    +
+    Contents.
+    ====
+    END
+
+    actual = Asciidoctor.convert input
+    (expect actual).to include 'id="_tabset1'
+    (expect actual).to include 'id="_tabset1_tab_a"'
+    (expect actual).to include 'id="_tabset2'
+    (expect actual).to include 'id="_tabset2_tab_1"'
+  end
+
   it 'should use text of tab item if it has no blocks' do
     input = <<~'END'
     [tabs]
@@ -151,24 +210,24 @@ describe Asciidoctor::Tabs do
     END
 
     expected = <<~'END'.chomp
-    <div id="tabset1" class="tabset is-loading">
+    <div id="_tabset1" class="tabset is-loading">
     <div class="ulist tabs">
     <ul>
     <li>
-    <p><a id="tabset1_tab-a"></a>Tab A</p>
+    <p><a id="_tabset1_tab_a"></a>Tab A</p>
     </li>
     <li>
-    <p><a id="tabset1_tab-b"></a>Tab B</p>
+    <p><a id="_tabset1_tab_b"></a>Tab B</p>
     </li>
     </ul>
     </div>
     <div class="content">
-    <div class="tab-pane" aria-labelledby="tabset1_tab-a">
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
     <div class="paragraph">
     <p>Contents of tab A.</p>
     </div>
     </div>
-    <div class="tab-pane" aria-labelledby="tabset1_tab-b">
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_b">
     <div class="paragraph">
     <p>Contents of tab B.</p>
     </div>
@@ -196,16 +255,16 @@ describe Asciidoctor::Tabs do
     END
 
     expected = <<~'END'.chomp
-    <div id="tabset1" class="tabset is-loading">
+    <div id="_tabset1" class="tabset is-loading">
     <div class="ulist tabs">
     <ul>
     <li>
-    <p><a id="tabset1_tab-a"></a>Tab A</p>
+    <p><a id="_tabset1_tab_a"></a>Tab A</p>
     </li>
     </ul>
     </div>
     <div class="content">
-    <div class="tab-pane" aria-labelledby="tabset1_tab-a">
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
     <div class="paragraph">
     <p>Contents of tab A.</p>
     </div>
