@@ -258,4 +258,38 @@ describe Asciidoctor::Tabs do
     (expect behavior_idx).not_to be_nil
     (expect behavior_idx).to be > footer_idx
   end
+
+  it 'should register extensions on specified global registry' do
+    described_class::Extensions.unregister
+    described_class::Extensions.register Asciidoctor::Extensions
+
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    actual = Asciidoctor.convert input
+    (expect actual).to include 'class="tabset'
+  end
+
+  it 'should register extensions on specified local registry' do
+    described_class::Extensions.unregister
+    described_class::Extensions.register (registry = Asciidoctor::Extensions.create)
+
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    actual = Asciidoctor.convert input, extension_registry: registry
+    (expect actual).to include 'class="tabset'
+  end
 end

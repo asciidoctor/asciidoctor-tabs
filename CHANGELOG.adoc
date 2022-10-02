@@ -6,10 +6,16 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 == Unreleased
 
+=== Added
+
+* Transpile `Asciidoctor::Tabs::Extensions` class for npm package
+
 === Changed
 
 * Rename `idx-tabset` counter to `tabset-number` to be consistent with built-in counter names
 * Don't register docinfo extensions if converter is producing embedded output
+* Update `register` and `unregister` on `Asciidoctor::Tabs::Extensions` to accept a registry argument
+* Delegate registration of extension in npm package to `Asciidoctor::Tabs::Extensions.register` method
 
 === Fixed
 

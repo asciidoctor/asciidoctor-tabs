@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'block'
-require_relative 'docinfo'
+unless RUBY_ENGINE == 'opal'
+  require_relative 'block'
+  require_relative 'docinfo'
+end
 
 module Asciidoctor
   module Tabs
@@ -22,12 +24,12 @@ module Asciidoctor
         :tabs
       end
 
-      def register
-        ::Asciidoctor::Extensions.register key, &group
+      def register registry = nil
+        (registry || ::Asciidoctor::Extensions).groups[key] ||= group
       end
 
-      def unregister
-        ::Asciidoctor::Extensions.groups.delete key
+      def unregister registry = nil
+        (registry || ::Asciidoctor::Extensions).groups.delete key
         nil
       end
     end
