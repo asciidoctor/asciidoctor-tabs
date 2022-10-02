@@ -6,16 +6,13 @@ module Asciidoctor
       use_dsl
       on_context :example
 
-      ID_SEPARATOR_CHAR = '-'
-      INVALID_ID_CHARS_RX = /[^a-zA-Z0-9_]/
-
       def process parent, reader, attrs
-        block = create_block parent, :example, nil, attrs, content_model: :compound
+        block = create_block parent, attrs['cloaked-context'], nil, attrs, content_model: :compound
         children = (parse_content block, reader).blocks
         return block unless children.size == 1 && (source_tabs = children[0]).context == :dlist && source_tabs.items?
         nodes = []
-        tabset_number = parent.document.counter 'tabset-number'
-        id = attrs['id'] || %(tabset#{tabset_number})
+        tabset_number = (doc = parent.document).counter 'tabset-number'
+        id = attrs['id'] || %(#{doc.attributes['idprefix'] || '_'}tabset#{tabset_number})
         nodes << (create_html_fragment parent, %(<div id="#{id}" class="tabset is-loading">))
         tabs = create_list parent, :ulist
         tabs.add_role 'tabs'
@@ -23,7 +20,7 @@ module Asciidoctor
         source_tabs.items.each do |(title), details|
           tab = create_list_item tabs
           tabs << tab
-          tab_id = generate_id title.text, id
+          tab_id = generate_id title.text, id, doc
           tab.text = %([[#{tab_id}]]#{title.instance_variable_get :@text})
           if details.blocks?
             blocks = details.blocks
@@ -56,8 +53,12 @@ module Asciidoctor
         create_block parent, 'pass', html, nil
       end
 
-      def generate_id str, base_id
-        %(#{base_id}_#{str.downcase.gsub INVALID_ID_CHARS_RX, ID_SEPARATOR_CHAR})
+      def generate_id str, base_id, doc
+        restore_idprefix = (attrs = doc.attributes)['idprefix']
+        attrs['idprefix'] = %(#{base_id}#{attrs['idseparator'] || '_'})
+        ::Asciidoctor::Section.generate_id str, doc
+      ensure
+        restore_idprefix ? (attrs['idprefix'] = restore_idprefix) : (attrs.delete 'idprefix')
       end
     end
   end
