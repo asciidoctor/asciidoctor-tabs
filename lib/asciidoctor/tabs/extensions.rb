@@ -14,6 +14,7 @@ module Asciidoctor
           next if @document.embedded?
           docinfo_processor Docinfo::Styles
           docinfo_processor Docinfo::Behavior
+          nil
         end
       end
 
@@ -27,6 +28,7 @@ module Asciidoctor
 
       def unregister
         ::Asciidoctor::Extensions.groups.delete key
+        nil
       end
     end
   end
