@@ -8,7 +8,7 @@ This package depends on the `asciidoctor` package, but does not declare it as a 
 Therefore, you must install that package when installing this package.
 
 ```console
-npm i asciidoctor @asciidoctor/tabs
+$ npm i asciidoctor @asciidoctor/tabs
 ```
 
 ## Syntax
@@ -35,7 +35,7 @@ Contains more than one block.
 ## Usage
 
 ```console
-npx asciidoctor -r @asciidoctor/tabs document-with-tabs.adoc
+$ npx asciidoctor -r @asciidoctor/tabs document-with-tabs.adoc
 ```
 
 The `asciidoctor` command automatically registers the tabs extension group when the package is required.
