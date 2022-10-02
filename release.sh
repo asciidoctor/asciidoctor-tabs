@@ -48,27 +48,27 @@ echo -e "//registry.npmjs.org/:_authToken=$RELEASE_NPM_TOKEN" > $HOME/.npmrc
   ruby tasks/version.rb
   (
     cd js
+    npm version --no-git-tag-version $RELEASE_VERSION
+  )
+  git commit -a -m "release $RELEASE_VERSION [skip ci]"
+  HEAD_COMMIT=$(git rev-parse HEAD)
+  (
+    cd js
     npm i --quiet
     npm run transpile
-    npm version --no-git-tag-version $RELEASE_VERSION
     echo '/node_modules/' > .gitignore
     git add data dist
   )
-  git commit -a -m "release $RELEASE_VERSION"
+  git commit -a -m 'add dist files for npm package'
   git tag -m "version $RELEASE_VERSION" v$RELEASE_VERSION
   gem build $GEMSPEC
   git push origin $(git describe --tags --exact-match)
-  (
-    cd js
-    echo -e '/data/\n/dist/\n/node_modules/' > .gitignore
-    git rm -r data dist
-  )
-  git commit -a --amend -m "release $RELEASE_VERSION [no ci]"
   gem push $RELEASE_GEM_NAME-$RELEASE_GEM_VERSION.gem
   (
     cd js
     npm publish --tag $RELEASE_NPM_TAG
   )
+  git reset --hard $HEAD_COMMIT
   git push origin $RELEASE_BRANCH
 )
 
