@@ -106,6 +106,19 @@ describe Asciidoctor::Tabs do
     (expect actual).to eql expected
   end
 
+  it 'should not register docinfo processors for embedded document' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    (expect (Asciidoctor.load input).extensions.docinfo_processors?).to be false
+  end
+
   it 'should honor ID specified on block and use value as prefix for tabs' do
     input = <<~'END'
     [tabs#install_commands]
@@ -218,7 +231,9 @@ describe Asciidoctor::Tabs do
     ====
     END
 
-    actual = Asciidoctor.convert input, standalone: true
+    doc = Asciidoctor.load input, standalone: true
+    (expect doc.extensions.docinfo_processors?).to be true
+    actual = doc.convert
     styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
     end_head_idx = actual.index '</head>'
     (expect styles_idx).not_to be_nil
@@ -235,7 +250,9 @@ describe Asciidoctor::Tabs do
     ====
     END
 
-    actual = Asciidoctor.convert input, standalone: true
+    doc = Asciidoctor.load input, standalone: true
+    (expect doc.extensions.docinfo_processors?).to be true
+    actual = doc.convert
     behavior_idx = actual.index %r/<script>[^<]*\.tabset[^<]*<\/script>/
     footer_idx = actual.index '<div id="footer">'
     (expect behavior_idx).not_to be_nil

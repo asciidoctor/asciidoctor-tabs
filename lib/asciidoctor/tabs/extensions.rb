@@ -11,6 +11,7 @@ module Asciidoctor
       def group
         proc do
           block Block, :tabs
+          next if @document.embedded?
           docinfo_processor Docinfo::Styles
           docinfo_processor Docinfo::Behavior
         end

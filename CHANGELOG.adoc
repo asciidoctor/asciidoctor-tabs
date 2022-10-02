@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Changed
 
 * Rename `idx-tabset` counter to `tabset-number` to be consistent with built-in counter names
+* Don't register docinfo extensions if converter is producing embedded output
 
 === Fixed
 
