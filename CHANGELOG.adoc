@@ -10,6 +10,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 * Rename `idx-tabset` counter to `tabset-number` to be consistent with built-in counter names
 
+=== Fixed
+
+* Honor explicit ID on tabs block and use it as ID prefix for tabs
+
 == 1.0.0-alpha.1 (2022-10-01) - @mojavelinux
 
 _Initial release._

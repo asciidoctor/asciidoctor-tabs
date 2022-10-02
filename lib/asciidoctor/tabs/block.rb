@@ -15,7 +15,7 @@ module Asciidoctor
         return block unless children.size == 1 && (source_tabs = children[0]).context == :dlist && source_tabs.items?
         nodes = []
         tabset_number = parent.document.counter 'tabset-number'
-        id = block.id || %(tabset#{tabset_number})
+        id = attrs['id'] || %(tabset#{tabset_number})
         nodes << (create_html_fragment parent, %(<div id="#{id}" class="tabset is-loading">))
         tabs = create_list parent, :ulist
         tabs.add_role 'tabs'

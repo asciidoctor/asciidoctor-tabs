@@ -106,6 +106,28 @@ describe Asciidoctor::Tabs do
     (expect actual).to eql expected
   end
 
+  it 'should honor ID specified on block and use value as prefix for tabs' do
+    input = <<~'END'
+    [tabs#install_commands]
+    ====
+    npm::
+    +
+     $ npm i name
+
+    yarn::
+    +
+     $ yarn add name
+    ====
+    END
+
+    actual = Asciidoctor.convert input
+    (expect actual).to include 'id="install_commands'
+    (expect actual).to include 'id="install_commands_npm"'
+    (expect actual).to include 'aria-labelledby="install_commands_npm"'
+    (expect actual).to include 'id="install_commands_yarn"'
+    (expect actual).to include 'aria-labelledby="install_commands_yarn"'
+  end
+
   it 'should use text of tab item if it has no blocks' do
     input = <<~'END'
     [tabs]
