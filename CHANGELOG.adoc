@@ -4,6 +4,12 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Changed
+
+* Rename `idx-tabset` counter to `tabset-number` to be consistent with built-in counter names
+
 == 1.0.0-alpha.1 (2022-10-01) - @mojavelinux
 
 _Initial release._
