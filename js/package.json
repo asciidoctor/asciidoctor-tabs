@@ -35,8 +35,5 @@
     "asciidoctor",
     "extension",
     "tabs"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }
