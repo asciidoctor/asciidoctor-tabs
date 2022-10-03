@@ -1,15 +1,15 @@
 #!/bin/bash
 
-if [ -z $RELEASE_RUBYGEMS_API_KEY ]; then
+if [ -z "$RELEASE_RUBYGEMS_API_KEY" ]; then
   echo No API key specified for publishing to rubygems.org. Stopping release.
   exit 1
 fi
-if [ -z $RELEASE_NPM_TOKEN ]; then
+if [ -z "$RELEASE_NPM_TOKEN" ]; then
   echo No npm token specified for publishing to npmjs.com. Stopping release.
   exit 1
 fi
-RELEASE_BRANCH=$GITHUB_REF_NAME
-if [ -z $RELEASE_USER ]; then
+export RELEASE_BRANCH=${GITHUB_REF_NAME:-main}
+if [ ! -v RELEASE_USER ]; then
   export RELEASE_USER=$GITHUB_ACTOR
 fi
 RELEASE_GIT_NAME=$(curl -s https://api.github.com/users/$RELEASE_USER | jq -r .name)
@@ -17,7 +17,7 @@ RELEASE_GIT_EMAIL=$RELEASE_USER@users.noreply.github.com
 GEMSPEC=$(ls -1 *.gemspec | head -1)
 RELEASE_GEM_NAME=$(ruby -e "print (Gem::Specification.load '$GEMSPEC').name")
 # RELEASE_VERSION must be an exact version number or else it defaults to the next patch release
-if [ -z $RELEASE_VERSION ]; then
+if [ -z "$RELEASE_VERSION" ]; then
   export RELEASE_VERSION=$(ruby -e "print (Gem::Specification.load '$GEMSPEC').version.then { _1.prerelease? ? _1.release.to_s : (_1.segments.tap {|s| s[-1] += 1 }.join ?.) }")
 fi
 export RELEASE_VERSION=${RELEASE_GEM_VERSION/-/.}
