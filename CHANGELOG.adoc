@@ -4,7 +4,7 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
-== Unreleased
+== 1.0.0-alpha.2 (2022-10-03) - @mojavelinux
 
 === Added
 
@@ -22,6 +22,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 * Honor explicit ID on tabs block and use it as ID prefix for tabs
 * Autogenerate IDs for tabsets and tabs in a manner consistent with section ID generation (#2)
+
+=== Details
+
+{url-repo}/releases/tag/v1.0.0-alpha.2[git tag] | {url-repo}/compare/v1.0.0-alpha.1\...v1.0.0-alpha.2[full diff]
 
 == 1.0.0-alpha.1 (2022-10-01) - @mojavelinux
 
