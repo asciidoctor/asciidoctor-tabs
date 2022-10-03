@@ -1,11 +1,13 @@
 #!/bin/bash
 
+# required packages (for ubuntu:kinetic): curl git jq nodejs npm ruby
+
 if [ -z "$RELEASE_RUBYGEMS_API_KEY" ]; then
   echo No API key specified for publishing to rubygems.org. Stopping release.
   exit 1
 fi
 if [ -z "$RELEASE_NPM_TOKEN" ]; then
-  echo No npm token specified for publishing to npmjs.com. Stopping release.
+  echo No npm token speci nodejs npmfied for publishing to npmjs.com. Stopping release.
   exit 1
 fi
 export RELEASE_BRANCH=${GITHUB_REF_NAME:-main}
