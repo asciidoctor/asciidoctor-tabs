@@ -1,5 +1,5 @@
 'use strict'
 
-require('../dist')
+const Extensions = require('./extensions')
 
-module.exports = require('./register')
+module.exports.register = (registry) => Extensions.$register(registry)

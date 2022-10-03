@@ -16,6 +16,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 * Don't register docinfo extensions if converter is producing embedded output
 * Update `register` and `unregister` on `Asciidoctor::Tabs::Extensions` to accept a registry argument
 * Delegate registration of extension in npm package to `Asciidoctor::Tabs::Extensions.register` method
+* Allow `Extensions` class to be required from `@asciidoctor/tabs/extensions` in Node.js; attach `Block` and `Docinfo` classes
 
 === Fixed
 
