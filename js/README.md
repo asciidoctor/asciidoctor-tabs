@@ -4,7 +4,7 @@ An Asciidoctor.js extension that adds a tabs block to the AsciiDoc syntax.
 
 ## Install
 
-This package depends on the `asciidoctor` package, but does not declare it as a dependency.
+This package depends on the `asciidoctor` package (>= 2.2.0, < 3.0.0), but does not declare it as a dependency.
 Therefore, you must install that package when installing this package.
 
 ```console
