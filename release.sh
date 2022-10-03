@@ -18,11 +18,11 @@ RELEASE_GIT_NAME=$(curl -s https://api.github.com/users/$RELEASE_USER | jq -r .n
 RELEASE_GIT_EMAIL=$RELEASE_USER@users.noreply.github.com
 GEMSPEC=$(ls -1 *.gemspec | head -1)
 RELEASE_GEM_NAME=$(ruby -e "print (Gem::Specification.load '$GEMSPEC').name")
-# RELEASE_VERSION must be an exact version number or else it defaults to the next patch release
+# RELEASE_VERSION must be an exact version number; if not set, defaults to next patch release
 if [ -z "$RELEASE_VERSION" ]; then
   export RELEASE_VERSION=$(ruby -e "print (Gem::Specification.load '$GEMSPEC').version.then { _1.prerelease? ? _1.release.to_s : (_1.segments.tap {|s| s[-1] += 1 }.join ?.) }")
 fi
-export RELEASE_VERSION=${RELEASE_GEM_VERSION/-/.}
+export RELEASE_GEM_VERSION=${RELEASE_VERSION/-/.}
 
 # configure git to push changes
 git config --local user.name "$RELEASE_GIT_NAME"
