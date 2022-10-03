@@ -4,8 +4,8 @@ An Asciidoctor.js extension that adds a tabs block to the AsciiDoc syntax.
 
 ## Install
 
-This package depends on the `asciidoctor` package (>= 2.2.0, < 3.0.0), but does not declare it as a dependency.
-Therefore, you must install that package when installing this package.
+This package depends on the `asciidoctor` package (>= 2.2.0, < 3.0.0), but doesn't declare it as a dependency.
+Therefore, you must install that package when installing this one.
 
 ```console
 $ npm i asciidoctor @asciidoctor/tabs
@@ -40,12 +40,12 @@ Contains more than one block.
 $ npx asciidoctor -r @asciidoctor/tabs document-with-tabs.adoc
 ```
 
-The `asciidoctor` command automatically registers the tabs extension group when the package is required.
+The `asciidoctor` command automatically registers the tabs extension when the package is required.
 
 ### API
 
 There are two ways to use the extension with the Asciidoctor.js API.
-In each case, you must require the Asciidoctor.js module before requiring this extension.
+In each case, you must require the Asciidoctor.js module (`asciidoctor`) before requiring this one.
 
 You can call the exported `register` method with no arguments to register the extension as a global extension.
 
@@ -57,7 +57,7 @@ require('@asciidoctor/tabs').register()
 Asciidoctor.convertFile('document-with-tabs.adoc', { safe: 'safe' })
 ```
 
-Or you can pass a registry to the `register` method to register the extension with a scoped registry.
+Or you can pass the registry to the `register` method to register the extension with a scoped registry.
 
 ```js
 const Asciidoctor = require('asciidoctor')()
