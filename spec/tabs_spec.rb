@@ -253,6 +253,43 @@ describe Asciidoctor::Tabs do
     (expect actual).to eql expected
   end
 
+  it 'should create empty pane if tab has no description' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A:: Contents of tab A.
+    Tab B::
+    ====
+    END
+
+    expected = <<~'END'.chomp
+    <div id="_tabset1" class="tabset is-loading">
+    <div class="ulist tabs">
+    <ul>
+    <li>
+    <p><a id="_tabset1_tab_a"></a>Tab A</p>
+    </li>
+    <li>
+    <p><a id="_tabset1_tab_b"></a>Tab B</p>
+    </li>
+    </ul>
+    </div>
+    <div class="content">
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
+    <div class="paragraph">
+    <p>Contents of tab A.</p>
+    </div>
+    </div>
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_b">
+    </div>
+    </div>
+    </div>
+    END
+
+    actual = Asciidoctor.convert input
+    (expect actual).to eql expected
+  end
+
   it 'should unwrap open block if only child of tab item' do
     input = <<~'END'
     [tabs]

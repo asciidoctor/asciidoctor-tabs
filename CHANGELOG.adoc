@@ -10,6 +10,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 * Provide fallback behavior for non-HTML backends (filetype is not html) (#4)
 
+=== Fixed
+
+* Create empty pane instead of crashing if dlist item has term only / no description
+
 == 1.0.0-alpha.2 (2022-10-03) - @mojavelinux
 
 === Added
