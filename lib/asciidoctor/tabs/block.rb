@@ -22,19 +22,19 @@ module Asciidoctor
         tabs = create_list parent, :ulist
         tabs.add_role 'tabs'
         panes = {}
-        source_tabs.items.each do |labels, details|
+        source_tabs.items.each do |labels, content|
           tab_ids = labels.map do |label|
             tabs << (tab = create_list_item tabs)
             tab.text = %([[#{tab_id = generate_id label.text, id, doc}]]#{label.instance_variable_get :@text})
             tab_id
           end
-          if details
-            if details.blocks?
-              if (block0 = (blocks = details.blocks)[0]).context == :open && blocks.size == 1 && block0.blocks?
+          if content
+            if content.blocks?
+              if (block0 = (blocks = content.blocks)[0]).context == :open && blocks.size == 1 && block0.blocks?
                 blocks = block0.blocks
               end
-            elsif details.text?
-              blocks = [(create_paragraph parent, (details.instance_variable_get :@text), {})]
+            elsif content.text?
+              blocks = [(create_paragraph parent, (content.instance_variable_get :@text), {})]
             end
           end
           (panes[tab_ids] = blocks || []).each {|it| it.parent = parent }
