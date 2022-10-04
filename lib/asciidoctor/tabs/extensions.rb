@@ -13,7 +13,7 @@ module Asciidoctor
       def group
         proc do
           block Block, :tabs
-          next if @document.embedded?
+          next if @document.embedded? || !(@document.attr? 'filetype', 'html')
           docinfo_processor Docinfo::Styles
           docinfo_processor Docinfo::Behavior
           nil

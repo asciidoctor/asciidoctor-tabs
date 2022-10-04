@@ -4,6 +4,12 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Added
+
+* Provide fallback behavior for non-HTML backends (filetype is not html) (#4)
+
 == 1.0.0-alpha.2 (2022-10-03) - @mojavelinux
 
 === Added
