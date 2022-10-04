@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Added
 
 * Provide fallback behavior for non-HTML backends (filetype is not html) (#4)
+* Support multiple tab labels (terms) for the same content (description) (#8)
 
 === Fixed
 

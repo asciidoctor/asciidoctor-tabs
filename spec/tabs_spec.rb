@@ -253,6 +253,52 @@ describe Asciidoctor::Tabs do
     (expect actual).to eql expected
   end
 
+  it 'should support multiple tabs for same content pane' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    Tab B::
+    Shared contents for tab A and B.
+
+    Tab C:: Contents only for tab C.
+    ====
+    END
+
+    expected = <<~'END'.chomp
+    <div id="_tabset1" class="tabset is-loading">
+    <div class="ulist tabs">
+    <ul>
+    <li>
+    <p><a id="_tabset1_tab_a"></a>Tab A</p>
+    </li>
+    <li>
+    <p><a id="_tabset1_tab_b"></a>Tab B</p>
+    </li>
+    <li>
+    <p><a id="_tabset1_tab_c"></a>Tab C</p>
+    </li>
+    </ul>
+    </div>
+    <div class="content">
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_a _tabset1_tab_b">
+    <div class="paragraph">
+    <p>Shared contents for tab A and B.</p>
+    </div>
+    </div>
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_c">
+    <div class="paragraph">
+    <p>Contents only for tab C.</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    END
+
+    actual = Asciidoctor.convert input
+    (expect actual).to eql expected
+  end
+
   it 'should create empty pane if tab has no description' do
     input = <<~'END'
     [tabs]

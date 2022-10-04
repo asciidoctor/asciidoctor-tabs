@@ -22,9 +22,12 @@ module Asciidoctor
         tabs = create_list parent, :ulist
         tabs.add_role 'tabs'
         panes = {}
-        source_tabs.items.each do |(title), details|
-          tabs << (tab = create_list_item tabs)
-          tab.text = %([[#{tab_id = generate_id title.text, id, doc}]]#{title.instance_variable_get :@text})
+        source_tabs.items.each do |labels, details|
+          tab_ids = labels.map do |label|
+            tabs << (tab = create_list_item tabs)
+            tab.text = %([[#{tab_id = generate_id label.text, id, doc}]]#{label.instance_variable_get :@text})
+            tab_id
+          end
           if details
             if details.blocks?
               if (block0 = (blocks = details.blocks)[0]).context == :open && blocks.size == 1 && block0.blocks?
@@ -34,12 +37,12 @@ module Asciidoctor
               blocks = [(create_paragraph parent, (details.instance_variable_get :@text), {})]
             end
           end
-          (panes[tab_id] = blocks || []).each {|it| it.parent = parent }
+          (panes[tab_ids] = blocks || []).each {|it| it.parent = parent }
         end
         nodes << tabs
         nodes << (create_html_fragment parent, '<div class="content">')
-        panes.each do |tab_id, blocks|
-          nodes << (create_html_fragment parent, %(<div class="tab-pane" aria-labelledby="#{tab_id}">))
+        panes.each do |tab_ids, blocks|
+          nodes << (create_html_fragment parent, %(<div class="tab-pane" aria-labelledby="#{tab_ids.join ' '}">))
           nodes.push(*blocks)
           nodes << (create_html_fragment parent, '</div>')
         end

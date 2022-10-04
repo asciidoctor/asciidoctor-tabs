@@ -11,7 +11,8 @@
       find('li', tabs).forEach(function (tab, idx) {
         var id = (tab.querySelector('a[id]') || tab).id
         if (!id) return
-        var pane = getPane(id, tabset)
+        var pane = tabset.querySelector('.tab-pane[aria-labelledby~="' + id + '"]')
+        if (!pane) return
         if (!idx) first = { tab: tab, pane: pane }
         if (!active && hash === '#' + id && (active = true)) {
           tab.classList.add('is-active')
@@ -41,11 +42,5 @@
 
   function find (selector, from) {
     return Array.prototype.slice.call((from || document).querySelectorAll(selector))
-  }
-
-  function getPane (id, tabset) {
-    return find('.tab-pane', tabset).find(function (it) {
-      return it.getAttribute('aria-labelledby') === id
-    })
   }
 })()
