@@ -28,14 +28,13 @@ module Asciidoctor
           tab_id = generate_id title.text, id, doc
           tab.text = %([[#{tab_id}]]#{title.instance_variable_get :@text})
           if details.blocks?
-            blocks = details.blocks
+            if (block0 = (blocks = details.blocks)[0]).context == :open && blocks.size == 1 && block0.blocks?
+              blocks = block0.blocks
+            end
           elsif details.text?
             blocks = [(create_paragraph parent, (details.instance_variable_get :@text), {})]
           else
             next
-          end
-          if (block0 = blocks[0]).context == :open && blocks.size == 1 && block0.blocks?
-            blocks = block0.blocks
           end
           (panes[tab_id] = blocks).each {|it| it.parent = parent }
         end
