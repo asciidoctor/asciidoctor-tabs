@@ -10,8 +10,13 @@ module Asciidoctor
         block = create_block parent, attrs['cloaked-context'], nil, attrs, content_model: :compound
         children = (parse_content block, reader).blocks
         return block unless children.size == 1 && (source_tabs = children[0]).context == :dlist && source_tabs.items?
+        unless (doc = parent.document).attr? 'filetype', 'html'
+          source_tabs.id ||= attrs['id']
+          (reftext = attrs['reftext']) && (source_tabs.set_attr 'reftext', reftext) unless source_tabs.attr? 'reftext'
+          return source_tabs
+        end
         nodes = []
-        tabset_number = (doc = parent.document).counter 'tabset-number'
+        tabset_number = doc.counter 'tabset-number'
         id = attrs['id'] || %(#{doc.attributes['idprefix'] || '_'}tabset#{tabset_number})
         nodes << (create_html_fragment parent, %(<div id="#{id}" class="tabset is-loading">))
         tabs = create_list parent, :ulist

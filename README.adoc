@@ -3,10 +3,16 @@ Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
 v1.0.0-alpha.2, 2022-10-03
 :idprefix:
 :idseparator: -
+ifndef::env-github[:icons: font]
+ifdef::env-github[]
+:note-caption: :paperclip:
+endif::[]
 
 An Asciidoctor extension that adds a tabs block to the AsciiDoc syntax.
 Each set of tabs (a "tabset") is constructed from a dlist enclosed in an example block marked with the tabs style.
-This extension is only designed to be used with the `html` backend.
+
+NOTE: This extension is intended to be used with HTML backends (e.g., `html`).
+For other backends (i.e., filetype is not html), the example block enclosure will be taken away and the dlist will be converted normally.
 
 == Install
 

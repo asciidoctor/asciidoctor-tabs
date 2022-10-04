@@ -119,6 +119,19 @@ describe Asciidoctor::Tabs do
     (expect (Asciidoctor.load input).extensions.docinfo_processors?).to be false
   end
 
+  it 'should not register docinfo processors for non-HTML output' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    (expect (Asciidoctor.load input, backend: 'docbook', standalone: true).extensions.docinfo_processors?).to be false
+  end
+
   it 'should honor ID specified on block and use value as prefix for tabs' do
     input = <<~'END'
     [tabs#install_commands]
@@ -350,5 +363,30 @@ describe Asciidoctor::Tabs do
 
     actual = Asciidoctor.convert input, extension_registry: registry
     (expect actual).to include 'class="tabset'
+  end
+
+  it 'should output original dlist if filetype is not html' do
+    input = <<~'END'
+    [tabs#not-tabs,reftext=Not Tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    expected = <<~'END'.chomp
+    <variablelist xml:id="not-tabs" xreflabel="Not Tabs">
+    <varlistentry>
+    <term>Tab A</term>
+    <listitem>
+    <simpara>Contents of tab A.</simpara>
+    </listitem>
+    </varlistentry>
+    </variablelist>
+    END
+
+    actual = Asciidoctor.convert input, backend: 'docbook'
+    (expect actual).to eql expected
   end
 end
