@@ -23,10 +23,8 @@ module Asciidoctor
         tabs.add_role 'tabs'
         panes = {}
         source_tabs.items.each do |(title), details|
-          tab = create_list_item tabs
-          tabs << tab
-          tab_id = generate_id title.text, id, doc
-          tab.text = %([[#{tab_id}]]#{title.instance_variable_get :@text})
+          tabs << (tab = create_list_item tabs)
+          tab.text = %([[#{tab_id = generate_id title.text, id, doc}]]#{title.instance_variable_get :@text})
           if details
             if details.blocks?
               if (block0 = (blocks = details.blocks)[0]).context == :open && blocks.size == 1 && block0.blocks?
