@@ -19,8 +19,7 @@ module Asciidoctor
         tabset_number = doc.counter 'tabset-number'
         id = attrs['id'] || %(#{doc.attributes['idprefix'] || '_'}tabset#{tabset_number})
         nodes << (create_html_fragment parent, %(<div id="#{id}" class="tabset is-loading">))
-        tabs = create_list parent, :ulist
-        tabs.add_role 'tabs'
+        (tabs = create_list parent, :ulist).add_role 'tabs'
         panes = {}
         source_tabs.items.each do |labels, content|
           tab_ids = labels.map do |label|
