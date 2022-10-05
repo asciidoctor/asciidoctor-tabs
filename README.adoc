@@ -75,7 +75,44 @@ Contains more than one block.
 
 == Usage
 
+=== CLI
+
  $ asciidoctor -r asciidoctor-tabs document-with-tabs.adoc
+
+=== API
+
+There are two ways to use the extension with the Asciidoctor API.
+In either case, you must require the Asciidoctor gem (`asciidoctor`) before requiring this one.
+
+You can require `asciidoctor/tabs` to register the extension as a global extension, just like with the CLI.
+
+[,js]
+----
+require 'asciidoctor'
+require 'asciidoctor/tabs'
+
+Asciidoctor.convert_file 'document-with-tabs.adoc', safe: :safe
+----
+
+Or you can pass a registry instance to the `Extensions.register` method to register the extension with a scoped registry.
+
+[,js]
+----
+require 'asciidoctor'
+require 'asciidoctor/tabs/extensions'
+
+registry = Asciidoctor::Extensions.create
+Asciidoctor::Tabs::Extensions.register registry
+
+Asciidoctor.convert_file 'document-with-tabs.adoc', extension_registry: registry, safe: :safe
+----
+
+If you're not using other scoped extensions, you can pass in the extensions group without creating a registry instance:
+
+[,js]
+----
+Asciidoctor.convert_file 'document-with-tabs.adoc', extensions: Asciidoctor::Tabs::Extensions.group, safe: :safe
+----
 
 == Authors
 

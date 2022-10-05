@@ -45,7 +45,7 @@ The `asciidoctor` command automatically registers the tabs extension when the pa
 ### API
 
 There are two ways to use the extension with the Asciidoctor.js API.
-In each case, you must require the Asciidoctor.js module (`asciidoctor`) before requiring this one.
+In either case, you must require the Asciidoctor.js module (`asciidoctor`) before requiring this one.
 
 You can call the exported `register` method with no arguments to register the extension as a global extension.
 
@@ -57,7 +57,7 @@ require('@asciidoctor/tabs').register()
 Asciidoctor.convertFile('document-with-tabs.adoc', { safe: 'safe' })
 ```
 
-Or you can pass the registry to the `register` method to register the extension with a scoped registry.
+Or you can pass a registry instance to the `register` method to register the extension with a scoped registry.
 
 ```js
 const Asciidoctor = require('asciidoctor')()
