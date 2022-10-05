@@ -29,12 +29,14 @@ module Asciidoctor
             tab_id
           end
           if content
+            text = create_paragraph parent, (content.instance_variable_get :@text), nil if content.text?
             if content.blocks?
               if (block0 = (blocks = content.blocks)[0]).context == :open && blocks.size == 1 && block0.blocks?
                 blocks = block0.blocks
               end
-            elsif content.text?
-              blocks = [(create_paragraph parent, (content.instance_variable_get :@text), {})]
+              blocks.unshift text if text
+            elsif text
+              blocks = [text]
             end
           end
           panes[tab_ids] = blocks || []
