@@ -1,5 +1,6 @@
 /.bundle/
 /pkg/
+/vendor/
 /.ruby-version
 /Gemfile.lock
 /WORKLOG.adoc
