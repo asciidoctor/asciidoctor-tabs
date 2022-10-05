@@ -1,5 +1,5 @@
 /*! Asciidoctor Tabs stylesheet | Copyright (c) 2018-present Dan Allen | MIT License */
-.tabs ul {
+.tabs > ul {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -7,7 +7,7 @@
   padding: 0;
 }
 
-.tabs li {
+.tabs > ul li {
   align-items: center;
   border: 1px solid black;
   border-bottom: 0;
@@ -21,11 +21,11 @@
   position: relative;
 }
 
-.tabs.ulist li, .tabs.ulist p {
+.tabs > ul li, .tabs > ul p {
   margin-bottom: 0;
 }
 
-.tabs li + li {
+.tabs > ul li + li {
   margin-top: 0;
 }
 
