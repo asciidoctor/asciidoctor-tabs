@@ -376,7 +376,29 @@ describe Asciidoctor::Tabs do
     (expect actual).to eql expected
   end
 
-  it 'should include styles in head tag of standalone document' do
+  it 'should include styles in head tag of standalone document if tabs-stylesheet attribute is empty' do
+    [{}, 'tabs-stylesheet' => ''].each do |attributes|
+      input = <<~'END'
+      [tabs]
+      ====
+      Tab A::
+      +
+      Contents of tab A.
+      ====
+      END
+
+      doc = Asciidoctor.load input, attributes: attributes, safe: :safe, standalone: true
+      (expect doc.attr? 'tabs-stylesheet').to be true
+      (expect doc.extensions.docinfo_processors?).to be true
+      actual = doc.convert
+      styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
+      end_head_idx = actual.index '</head>'
+      (expect styles_idx).not_to be_nil
+      (expect styles_idx).to be < end_head_idx
+    end
+  end
+
+  it 'should not include styles in head tag of standalone document if tabs-stylesheet is unset' do
     input = <<~'END'
     [tabs]
     ====
@@ -386,13 +408,56 @@ describe Asciidoctor::Tabs do
     ====
     END
 
-    doc = Asciidoctor.load input, standalone: true
-    (expect doc.extensions.docinfo_processors?).to be true
+    doc = Asciidoctor.load input, attributes: { 'tabs-stylesheet' => nil }, safe: :safe, standalone: true
+    (expect doc.attr? 'tabs-stylesheet').to be false
     actual = doc.convert
     styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
-    end_head_idx = actual.index '</head>'
-    (expect styles_idx).not_to be_nil
-    (expect styles_idx).to be < end_head_idx
+    (expect styles_idx).to be_nil
+  end
+
+  it 'should include custom styles if tabs-stylesheet is set to absolute path' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    expected = <<~'END'.chomp
+    .tabs > ul li.is-active {
+      border-color: orange;
+    }
+    END
+
+    attributes = { 'tabs-stylesheet' => (fixture_file 'custom-tabs.css') }
+    actual = Asciidoctor.convert input, attributes: attributes, safe: :safe, standalone: true
+    (expect actual).to include expected
+  end
+
+  it 'should include custom styles if tabs-stylesheet is set to path relative to stylesdir' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    expected = <<~'END'.chomp
+    .tabs > ul li.is-active {
+      border-color: orange;
+    }
+    END
+
+    attributes = {
+      'stylesdir' => fixtures_dir,
+      'tabs-stylesheet' => 'custom-tabs.css',
+    }
+    actual = Asciidoctor.convert input, attributes: attributes, safe: :safe, standalone: true
+    (expect actual).to include expected
   end
 
   it 'should include behavior below footer of standalone document' do

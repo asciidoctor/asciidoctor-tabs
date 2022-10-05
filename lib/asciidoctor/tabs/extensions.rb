@@ -13,7 +13,11 @@ module Asciidoctor
       def group
         proc do
           block Block, :tabs
-          next if @document.embedded? || !(@document.attr? 'filetype', 'html')
+          next if (doc = @document).embedded? || !(doc.attr? 'filetype', 'html')
+          unless (doc.attribute_locked? 'tabs-stylesheet') ||
+              ((doc.options[:attributes] || {}).transform_keys {|it| it.delete '@!' }.key? 'tabs-stylesheet')
+            doc.set_attr 'tabs-stylesheet'
+          end
           docinfo_processor Docinfo::Styles
           docinfo_processor Docinfo::Behavior
           nil

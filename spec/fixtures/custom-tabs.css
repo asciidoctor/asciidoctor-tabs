@@ -1,0 +1,23 @@
+.tabs > ul {
+  margin: 0 0 1em;
+  display: flex;
+  gap: 0.5em;
+}
+
+.tabs > ul li {
+  display: block;
+  border-bottom: 3px solid gray;
+  cursor: pointer;
+}
+
+.tabs > ul li.is-active {
+  border-color: orange;
+}
+
+.tabs > ul li p {
+  margin: 0;
+}
+
+.tab-pane:not(.is-active) {
+  display: none;
+}

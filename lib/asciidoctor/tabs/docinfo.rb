@@ -15,10 +15,15 @@ module Asciidoctor
         use_dsl
         at_location :head
 
-        STYLESHEET_FILE = ::File.join DATA_DIR, 'css/tabs.css'
+        DEFAULT_STYLESHEET_FILE = ::File.join DATA_DIR, 'css/tabs.css'
 
-        def process _doc
-          %(<style>\n#{(::File.read STYLESHEET_FILE, mode: FILE_READ_MODE).chomp}\n</style>)
+        def process doc
+          return unless (path = doc.attr 'tabs-stylesheet')
+          styles = path.empty? ?
+            (::File.read DEFAULT_STYLESHEET_FILE, mode: FILE_READ_MODE) :
+            (doc.read_contents path, start: (doc.attr 'stylesdir'), warn_on_failure: true, label: 'tabs stylesheet')
+          return unless styles
+          %(<style>\n#{styles.chomp}\n</style>)
         end
       end
 
