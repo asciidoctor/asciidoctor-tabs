@@ -37,6 +37,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Fixed
 
 * Honor explicit ID on tabs block and use it as ID prefix for tabs
+* Register reference for tabset in document catalog
 * Autogenerate IDs for tabsets and tabs in a manner consistent with section ID generation (#2)
 * Fix context value on pass blocks created by extension
 

@@ -154,6 +154,26 @@ describe Asciidoctor::Tabs do
     (expect actual).to include 'aria-labelledby="install_commands_yarn"'
   end
 
+  it 'should register reference for tabset if it defines an ID' do
+    input = <<~'END'
+    [tabs#parts]
+    ====
+    CPU:: The brains of your computer.
+    Hard drive:: Where all your files are stored (that aren't in the cloud).
+    ====
+
+    See <<parts>>.
+    END
+
+    with_memory_logger :info do |logger|
+      doc = Asciidoctor.load input
+      actual = doc.convert
+      (expect actual).to include 'id="parts"'
+      (expect logger).to be_empty
+      (expect doc.catalog[:refs]).to have_key 'parts'
+    end
+  end
+
   it 'should clean invalid ID chars and condense repeating separator chars' do
     input = <<~'END'
     [tabs]

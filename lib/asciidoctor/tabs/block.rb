@@ -48,15 +48,14 @@ module Asciidoctor
           nodes << (create_html_fragment parent, '</div>')
         end
         nodes << (create_html_fragment parent, '</div>')
-        nodes << (create_html_fragment parent, '</div>')
         nodes.each {|it| parent.blocks << it }
-        nil
+        create_html_fragment parent, '</div>', 'id' => id
       end
 
       private
 
-      def create_html_fragment parent, html
-        create_block parent, :pass, html, nil
+      def create_html_fragment parent, html, attributes = nil
+        create_block parent, :pass, html, attributes
       end
 
       def generate_id str, base_id, doc
