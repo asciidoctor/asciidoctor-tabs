@@ -147,7 +147,7 @@ describe Asciidoctor::Tabs do
     END
 
     actual = Asciidoctor.convert input
-    (expect actual).to include 'id="install_commands'
+    (expect actual).to include 'id="install_commands"'
     (expect actual).to include 'id="install_commands_npm"'
     (expect actual).to include 'aria-labelledby="install_commands_npm"'
     (expect actual).to include 'id="install_commands_yarn"'
@@ -183,7 +183,7 @@ describe Asciidoctor::Tabs do
     END
 
     actual = Asciidoctor.convert input
-    (expect actual).to include 'id="tabset1'
+    (expect actual).to include 'id="tabset1"'
     (expect actual).to include 'id="tabset1-first-tab"'
   end
 
@@ -207,9 +207,9 @@ describe Asciidoctor::Tabs do
     END
 
     actual = Asciidoctor.convert input
-    (expect actual).to include 'id="_tabset1'
+    (expect actual).to include 'id="_tabset1"'
     (expect actual).to include 'id="_tabset1_tab_a"'
-    (expect actual).to include 'id="_tabset2'
+    (expect actual).to include 'id="_tabset2"'
     (expect actual).to include 'id="_tabset2_tab_1"'
   end
 
