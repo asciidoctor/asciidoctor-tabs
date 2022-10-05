@@ -432,6 +432,53 @@ describe Asciidoctor::Tabs do
     (expect actual).to eql expected
   end
 
+  it 'should support using an include to populate the tab content' do
+    input = <<~END
+    [tabs]
+    ====
+    Tab A::
+    +
+    --
+    include::include.adoc[]
+    --
+    ====
+    END
+
+    expected = <<~'END'.chomp
+    <div id="_tabset1" class="tabset is-loading">
+    <div class="ulist tabs">
+    <ul>
+    <li id="_tabset1_tab_a">
+    <p>Tab A</p>
+    </li>
+    </ul>
+    </div>
+    <div class="content">
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
+    <div class="literalblock">
+    <div class="content">
+    <pre>$ command</pre>
+    </div>
+    </div>
+    <div class="ulist">
+    <ul>
+    <li>
+    <p>list</p>
+    </li>
+    </ul>
+    </div>
+    <div class="paragraph">
+    <p>paragraph</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    END
+
+    actual = Asciidoctor.convert input, safe: :safe, base_dir: fixtures_dir
+    (expect actual).to eql expected
+  end
+
   it 'should include styles in head tag of standalone document if tabs-stylesheet attribute is empty' do
     [{}, 'tabs-stylesheet' => ''].each do |attributes|
       input = <<~'END'
