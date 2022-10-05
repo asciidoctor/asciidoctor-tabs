@@ -56,7 +56,7 @@ module Asciidoctor
       private
 
       def create_html_fragment parent, html
-        create_block parent, 'pass', html, nil
+        create_block parent, :pass, html, nil
       end
 
       def generate_id str, base_id, doc
