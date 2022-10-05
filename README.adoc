@@ -79,6 +79,12 @@ Contains more than one block.
 
  $ asciidoctor -r asciidoctor-tabs document-with-tabs.adoc
 
+You can specify an alternate stylesheet for tabs using the `tabs-stylesheet` document attribute.
+The value of this attribute is handled in the same way as the built-in `stylesheet` document attribute.
+A relative path is resolved starting from the value of the `stylesdir` document attribute, which defaults to the directory of the document.
+
+ $ asciidoctor -r asciidoctor-tabs -a tabs-stylesheet=my-tabs.css document-with-tabs.adoc
+
 === API
 
 There are two ways to use the extension with the Asciidoctor API.

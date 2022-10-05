@@ -10,6 +10,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 * Provide fallback behavior for non-HTML backends (filetype is not html) (#4)
 * Support multiple tab labels (terms) for the same content (description) (#8)
+* Allow alternate stylesheet for tabs to be specified using `tabs-stylesheet` attribute (#6)
 
 === Fixed
 
