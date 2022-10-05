@@ -15,10 +15,9 @@ module Asciidoctor
           (reftext = attrs['reftext']) && (source_tabs.set_attr 'reftext', reftext) unless source_tabs.attr? 'reftext'
           return source_tabs
         end
-        nodes = []
         tabset_number = doc.counter 'tabset-number'
         id = attrs['id'] || %(#{doc.attributes['idprefix'] || '_'}tabset#{tabset_number})
-        nodes << (create_html_fragment parent, %(<div id="#{id}" class="tabset is-loading">))
+        parent << (create_html_fragment parent, %(<div id="#{id}" class="tabset is-loading">))
         (tabs = create_list parent, :ulist).add_role 'tabs'
         panes = {}
         set_id_on_tab = (doc.backend == 'html5') || (list_item_supports_id? doc)
@@ -38,17 +37,16 @@ module Asciidoctor
               blocks = [(create_paragraph parent, (content.instance_variable_get :@text), {})]
             end
           end
-          (panes[tab_ids] = blocks || []).each {|it| it.parent = parent }
+          panes[tab_ids] = blocks || []
         end
-        nodes << tabs
-        nodes << (create_html_fragment parent, '<div class="content">')
+        parent << tabs
+        parent << (create_html_fragment parent, '<div class="content">')
         panes.each do |tab_ids, blocks|
-          nodes << (create_html_fragment parent, %(<div class="tab-pane" aria-labelledby="#{tab_ids.join ' '}">))
-          nodes.push(*blocks)
-          nodes << (create_html_fragment parent, '</div>')
+          parent << (create_html_fragment parent, %(<div class="tab-pane" aria-labelledby="#{tab_ids.join ' '}">))
+          blocks.each {|it| parent << it }
+          parent << (create_html_fragment parent, '</div>')
         end
-        nodes << (create_html_fragment parent, '</div>')
-        nodes.each {|it| parent.blocks << it }
+        parent << (create_html_fragment parent, '</div>')
         create_html_fragment parent, '</div>', 'id' => id
       end
 
