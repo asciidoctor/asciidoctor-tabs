@@ -63,9 +63,10 @@ echo -e "//registry.npmjs.org/:_authToken=$RELEASE_NPM_TOKEN" > $HOME/.npmrc
   )
   git commit -a -m 'add dist files for npm package'
   git tag -m "version $RELEASE_VERSION" v$RELEASE_VERSION
-  gem build $GEMSPEC
+  mkdir -p
+  gem build $GEMSPEC -o pkg/$RELEASE_GEM_NAME-$RELEASE_GEM_VERSION.gem
   git push origin $(git describe --tags --exact-match)
-  gem push $RELEASE_GEM_NAME-$RELEASE_GEM_VERSION.gem
+  gem push pkg/$RELEASE_GEM_NAME-$RELEASE_GEM_VERSION.gem
   (
     cd js
     npm publish --tag $RELEASE_NPM_TAG
