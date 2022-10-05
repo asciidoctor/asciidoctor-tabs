@@ -273,6 +273,42 @@ describe Asciidoctor::Tabs do
     (expect actual).to eql expected
   end
 
+  it 'should preserve text if tab item has both text and blocks' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A:: Text
+    +
+    First block.
+    ====
+    END
+
+    expected = <<~'END'.chomp
+    <div id="_tabset1" class="tabset is-loading">
+    <div class="ulist tabs">
+    <ul>
+    <li id="_tabset1_tab_a">
+    <p>Tab A</p>
+    </li>
+    </ul>
+    </div>
+    <div class="content">
+    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
+    <div class="paragraph">
+    <p>Text</p>
+    </div>
+    <div class="paragraph">
+    <p>First block.</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    END
+
+    actual = Asciidoctor.convert input
+    (expect actual).to eql expected
+  end
+
   it 'should support multiple tabs for same content pane' do
     input = <<~'END'
     [tabs]
