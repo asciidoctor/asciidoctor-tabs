@@ -21,10 +21,12 @@ module Asciidoctor
         nodes << (create_html_fragment parent, %(<div id="#{id}" class="tabset is-loading">))
         (tabs = create_list parent, :ulist).add_role 'tabs'
         panes = {}
+        set_id_on_tab = (doc.backend == 'html5') || (list_item_supports_id? doc)
         source_tabs.items.each do |labels, content|
-          tab_ids = labels.map do |label|
-            tabs << (tab = create_list_item tabs)
-            tab.text = %([[#{tab_id = generate_id label.text, id, doc}]]#{label.instance_variable_get :@text})
+          tab_ids = labels.map do |tab|
+            tabs << tab
+            tab_id = generate_id tab.text, id, doc
+            set_id_on_tab ? (tab.id = tab_id) : (tab.text = %([[#{tab_id}]]#{tab.instance_variable_get :@text}))
             tab_id
           end
           if content
@@ -63,6 +65,15 @@ module Asciidoctor
         ::Asciidoctor::Section.generate_id str, doc
       ensure
         restore_idprefix ? (attrs['idprefix'] = restore_idprefix) : (attrs.delete 'idprefix')
+      end
+
+      def list_item_supports_id? doc
+        if (converter = doc.converter).instance_variable_defined? :@list_item_supports_id
+          converter.instance_variable_get :@list_item_supports_id
+        else
+          output = (create_list doc, :ulist).tap {|ul| ul << (create_list_item ul).tap {|li| li.id = 'name' } }.convert
+          converter.instance_variable_set :@list_item_supports_id, (output.include? ' id="name"')
+        end
       end
     end
   end
