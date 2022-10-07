@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Changed
 
 * Add aliases for `Block` and `Docinfo` classes to `Extensions` class; remove workaround in js module
+* Move `margin-bottom` style to tabset element
 
 == 1.0.0-alpha.3 (2022-10-05) - @mojavelinux
 

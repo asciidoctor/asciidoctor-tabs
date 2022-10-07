@@ -29,6 +29,10 @@
   margin-top: 0;
 }
 
+.tabset {
+  margin-bottom: 1.25em;
+}
+
 .tabset.is-loading .tabs li:not(:first-child),
 .tabset:not(.is-loading) .tabs li:not(.is-active) {
   background-color: black;
@@ -50,7 +54,6 @@
 .tabset > .content {
   border: 1px solid gray;
   padding: 1.25em;
-  margin-bottom: 1.25em;
 }
 
 .tabset.is-loading .tab-pane:not(:first-child),
