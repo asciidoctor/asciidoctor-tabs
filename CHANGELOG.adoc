@@ -4,6 +4,12 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Changed
+
+* Add aliases for `Block` and `Docinfo` classes to `Extensions` class; remove workaround in js module
+
 == 1.0.0-alpha.3 (2022-10-05) - @mojavelinux
 
 === Added

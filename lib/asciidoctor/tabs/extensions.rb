@@ -8,6 +8,9 @@ end
 module Asciidoctor
   module Tabs
     module Extensions
+      const_set :Block, Block
+      const_set :Docinfo, Docinfo
+
       module_function
 
       def group
