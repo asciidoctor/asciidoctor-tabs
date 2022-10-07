@@ -57,7 +57,7 @@ echo -e "//registry.npmjs.org/:_authToken=$RELEASE_NPM_TOKEN" > $HOME/.npmrc
   (
     cd js
     npm i --quiet
-    npm run transpile
+    npm run build
     echo '/node_modules/' > .gitignore
     git add data dist
   )
