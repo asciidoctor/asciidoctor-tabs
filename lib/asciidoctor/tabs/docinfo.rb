@@ -5,10 +5,8 @@ module Asciidoctor
     module Docinfo
       if RUBY_ENGINE == 'opal'
         DATA_DIR = ::File.absolute_path '../data', %x(__dirname)
-        FILE_READ_MODE = 'r'
       else
         DATA_DIR = ::File.join (::File.absolute_path '../../..', __dir__), 'data'
-        FILE_READ_MODE = 'rb:utf-8:utf-8'
       end
 
       class Styles < ::Asciidoctor::Extensions::DocinfoProcessor
@@ -19,10 +17,9 @@ module Asciidoctor
 
         def process doc
           return unless (path = doc.attr 'tabs-stylesheet')
-          styles = path.empty? ?
-            (::File.read DEFAULT_STYLESHEET_FILE, mode: FILE_READ_MODE) :
-            (doc.read_contents path, start: (doc.attr 'stylesdir'), warn_on_failure: true, label: 'tabs stylesheet')
-          return unless styles
+          return unless (styles = path.empty? ?
+            (doc.read_asset DEFAULT_STYLESHEET_FILE) :
+            (doc.read_contents path, start: (doc.attr 'stylesdir'), warn_on_failure: true, label: 'tabs stylesheet'))
           %(<style>\n#{styles.chomp}\n</style>)
         end
       end
@@ -33,8 +30,9 @@ module Asciidoctor
 
         JAVASCRIPT_FILE = ::File.join DATA_DIR, 'js/tabs.js'
 
-        def process _doc
-          %(<script>\n#{(::File.read JAVASCRIPT_FILE, mode: FILE_READ_MODE).chomp}\n</script>)
+        def process doc
+          return unless (script = doc.read_asset JAVASCRIPT_FILE)
+          %(<script>\n#{script.chomp}\n</script>)
         end
       end
     end
