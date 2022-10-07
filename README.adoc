@@ -15,7 +15,7 @@ Each set of tabs (a "tabset") is constructed from a dlist enclosed in an example
 NOTE: This extension is intended to be used with HTML backends (e.g., `html`).
 For other backends (i.e., filetype is not html), the example block enclosure will be taken away and the dlist will be converted normally.
 
-TIP: This extension is also available as an npm package named `@asciidoctor/tabs` for use with Asciidoctor.js.
+TIP: This extension is also published as an npm package named `@asciidoctor/tabs` for use with Asciidoctor.js (and thus Antora).
 
 == Install
 
