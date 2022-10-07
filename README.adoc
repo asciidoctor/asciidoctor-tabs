@@ -6,6 +6,7 @@ v1.0.0-alpha.3, 2022-10-05
 ifndef::env-github[:icons: font]
 ifdef::env-github[]
 :note-caption: :paperclip:
+:tip-caption: :bulb:
 endif::[]
 
 An Asciidoctor extension that adds a tabs block to the AsciiDoc syntax.
@@ -13,6 +14,8 @@ Each set of tabs (a "tabset") is constructed from a dlist enclosed in an example
 
 NOTE: This extension is intended to be used with HTML backends (e.g., `html`).
 For other backends (i.e., filetype is not html), the example block enclosure will be taken away and the dlist will be converted normally.
+
+TIP: This extension is also available as an npm package named `@asciidoctor/tabs` for use with Asciidoctor.js.
 
 == Install
 
