@@ -59,7 +59,7 @@ echo -e "//registry.npmjs.org/:_authToken=$RELEASE_NPM_TOKEN" > $HOME/.npmrc
     npm i --quiet
     npm run build
     echo '/node_modules/' > .gitignore
-    git add data dist
+    git add dist
   )
   git commit -a -m 'add dist files for npm package'
   git tag -m "version $RELEASE_VERSION" v$RELEASE_VERSION
