@@ -16,7 +16,8 @@ module Asciidoctor
           return source_tabs
         end
         tabset_number = doc.counter 'tabset-number'
-        id = attrs['id'] || %(#{doc.attributes['idprefix'] || '_'}tabset#{tabset_number})
+        id = attrs['id'] ||
+          %(#{doc.attributes['idprefix'] || '_'}tabset#{doc.attributes['idseparator'] || '_'}#{tabset_number})
         parent << (create_html_fragment parent, %(<div id="#{id}" class="tabset is-loading">))
         (tabs = create_list parent, :ulist).add_role 'tabs'
         panes = {}

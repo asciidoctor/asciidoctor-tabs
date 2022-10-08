@@ -76,24 +76,24 @@ describe Asciidoctor::Tabs do
     END
 
     expected = <<~'END'.chomp
-    <div id="_tabset1" class="tabset is-loading">
+    <div id="_tabset_1" class="tabset is-loading">
     <div class="ulist tabs">
     <ul>
-    <li id="_tabset1_tab_a">
+    <li id="_tabset_1_tab_a">
     <p>Tab A</p>
     </li>
-    <li id="_tabset1_tab_b">
+    <li id="_tabset_1_tab_b">
     <p>Tab B</p>
     </li>
     </ul>
     </div>
     <div class="content">
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
     <div class="paragraph">
     <p>Contents of tab A.</p>
     </div>
     </div>
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_b">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_b">
     <div class="paragraph">
     <p>Contents of tab B.</p>
     </div>
@@ -154,6 +154,40 @@ describe Asciidoctor::Tabs do
     (expect actual).to include 'aria-labelledby="install_commands_yarn"'
   end
 
+  it 'should continue sequence when generating ID for tabset following tabset with custom ID' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A:: A
+    Tab B:: B
+    Tab C:: C
+    ====
+
+    [tabs#install_commands]
+    ====
+    npm::
+    +
+     $ npm i name
+
+    yarn::
+    +
+     $ yarn add name
+    ====
+
+    [tabs]
+    ====
+    Tab X:: X
+    Tab Y:: Y
+    Tab Z:: Z
+    ====
+    END
+
+    actual = Asciidoctor.convert input
+    (expect actual).to include 'id="_tabset_1"'
+    (expect actual).to include 'id="install_commands"'
+    (expect actual).to include 'id="_tabset_3"'
+  end
+
   it 'should register reference for tabset if it defines an ID' do
     input = <<~'END'
     [tabs#parts]
@@ -185,8 +219,8 @@ describe Asciidoctor::Tabs do
     END
 
     actual = Asciidoctor.convert input
-    (expect actual).to include 'id="_tabset1_curl_command_output_v2"'
-    (expect actual).to include 'aria-labelledby="_tabset1_curl_command_output_v2"'
+    (expect actual).to include 'id="_tabset_1_curl_command_output_v2"'
+    (expect actual).to include 'aria-labelledby="_tabset_1_curl_command_output_v2"'
   end
 
   it 'should generate IDs using idprefix and idseparator' do
@@ -203,8 +237,8 @@ describe Asciidoctor::Tabs do
     END
 
     actual = Asciidoctor.convert input
-    (expect actual).to include 'id="tabset1"'
-    (expect actual).to include 'id="tabset1-first-tab"'
+    (expect actual).to include 'id="tabset-1"'
+    (expect actual).to include 'id="tabset-1-first-tab"'
   end
 
   it 'should increment generate ID for each tabs block' do
@@ -227,10 +261,10 @@ describe Asciidoctor::Tabs do
     END
 
     actual = Asciidoctor.convert input
-    (expect actual).to include 'id="_tabset1"'
-    (expect actual).to include 'id="_tabset1_tab_a"'
-    (expect actual).to include 'id="_tabset2"'
-    (expect actual).to include 'id="_tabset2_tab_1"'
+    (expect actual).to include 'id="_tabset_1"'
+    (expect actual).to include 'id="_tabset_1_tab_a"'
+    (expect actual).to include 'id="_tabset_2"'
+    (expect actual).to include 'id="_tabset_2_tab_1"'
   end
 
   it 'should use text of tab item if it has no blocks' do
@@ -243,24 +277,24 @@ describe Asciidoctor::Tabs do
     END
 
     expected = <<~'END'.chomp
-    <div id="_tabset1" class="tabset is-loading">
+    <div id="_tabset_1" class="tabset is-loading">
     <div class="ulist tabs">
     <ul>
-    <li id="_tabset1_tab_a">
+    <li id="_tabset_1_tab_a">
     <p>Tab A</p>
     </li>
-    <li id="_tabset1_tab_b">
+    <li id="_tabset_1_tab_b">
     <p>Tab B</p>
     </li>
     </ul>
     </div>
     <div class="content">
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
     <div class="paragraph">
     <p>Contents of tab A.</p>
     </div>
     </div>
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_b">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_b">
     <div class="paragraph">
     <p>Contents of tab B.</p>
     </div>
@@ -284,16 +318,16 @@ describe Asciidoctor::Tabs do
     END
 
     expected = <<~'END'.chomp
-    <div id="_tabset1" class="tabset is-loading">
+    <div id="_tabset_1" class="tabset is-loading">
     <div class="ulist tabs">
     <ul>
-    <li id="_tabset1_tab_a">
+    <li id="_tabset_1_tab_a">
     <p>Tab A</p>
     </li>
     </ul>
     </div>
     <div class="content">
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
     <div class="paragraph">
     <p>Text</p>
     </div>
@@ -322,27 +356,27 @@ describe Asciidoctor::Tabs do
     END
 
     expected = <<~'END'.chomp
-    <div id="_tabset1" class="tabset is-loading">
+    <div id="_tabset_1" class="tabset is-loading">
     <div class="ulist tabs">
     <ul>
-    <li id="_tabset1_tab_a">
+    <li id="_tabset_1_tab_a">
     <p>Tab A</p>
     </li>
-    <li id="_tabset1_tab_b">
+    <li id="_tabset_1_tab_b">
     <p>Tab B</p>
     </li>
-    <li id="_tabset1_tab_c">
+    <li id="_tabset_1_tab_c">
     <p>Tab C</p>
     </li>
     </ul>
     </div>
     <div class="content">
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_a _tabset1_tab_b">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_a _tabset_1_tab_b">
     <div class="paragraph">
     <p>Shared contents for tab A and B.</p>
     </div>
     </div>
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_c">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_c">
     <div class="paragraph">
     <p>Contents only for tab C.</p>
     </div>
@@ -365,24 +399,24 @@ describe Asciidoctor::Tabs do
     END
 
     expected = <<~'END'.chomp
-    <div id="_tabset1" class="tabset is-loading">
+    <div id="_tabset_1" class="tabset is-loading">
     <div class="ulist tabs">
     <ul>
-    <li id="_tabset1_tab_a">
+    <li id="_tabset_1_tab_a">
     <p>Tab A</p>
     </li>
-    <li id="_tabset1_tab_b">
+    <li id="_tabset_1_tab_b">
     <p>Tab B</p>
     </li>
     </ul>
     </div>
     <div class="content">
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
     <div class="paragraph">
     <p>Contents of tab A.</p>
     </div>
     </div>
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_b">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_b">
     </div>
     </div>
     </div>
@@ -407,16 +441,16 @@ describe Asciidoctor::Tabs do
     END
 
     expected = <<~'END'.chomp
-    <div id="_tabset1" class="tabset is-loading">
+    <div id="_tabset_1" class="tabset is-loading">
     <div class="ulist tabs">
     <ul>
-    <li id="_tabset1_tab_a">
+    <li id="_tabset_1_tab_a">
     <p>Tab A</p>
     </li>
     </ul>
     </div>
     <div class="content">
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
     <div class="paragraph">
     <p>Contents of tab A.</p>
     </div>
@@ -445,16 +479,16 @@ describe Asciidoctor::Tabs do
     END
 
     expected = <<~'END'.chomp
-    <div id="_tabset1" class="tabset is-loading">
+    <div id="_tabset_1" class="tabset is-loading">
     <div class="ulist tabs">
     <ul>
-    <li id="_tabset1_tab_a">
+    <li id="_tabset_1_tab_a">
     <p>Tab A</p>
     </li>
     </ul>
     </div>
     <div class="content">
-    <div class="tab-pane" aria-labelledby="_tabset1_tab_a">
+    <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
     <div class="literalblock">
     <div class="content">
     <pre>$ command</pre>

@@ -12,6 +12,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 === Changed
 
+* Use value of `idseparator` attribute in front of tabset number in auto-generated ID
 * Add aliases for `Block` and `Docinfo` classes to `Extensions` class; remove workaround in js module
 * Move `margin-bottom` style to tabset element
 * Move behavior (tabs.js) and style (tabs.css) to dist folder in npm package
