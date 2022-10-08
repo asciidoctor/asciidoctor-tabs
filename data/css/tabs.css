@@ -25,7 +25,7 @@
   margin-bottom: 0;
 }
 
-.tabs > ul li + li {
+.tabs > ul li + li[id] {
   margin-top: 0;
 }
 
