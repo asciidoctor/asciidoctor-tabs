@@ -35,6 +35,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 === Fixed
 
+* Preserve text of dlist item for tab if item has both text and blocks (#13)
 * Create empty pane instead of crashing if dlist item has term only / no description
 
 === Details
@@ -57,7 +58,6 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 === Fixed
 
-* Preserve text of dlist item for tab if item has both text and blocks (#13)
 * Honor explicit ID on tabs block and use it as ID prefix for tabs
 * Register reference for tabset in document catalog
 * Autogenerate IDs for tabsets and tabs in a manner consistent with section ID generation (#2)
