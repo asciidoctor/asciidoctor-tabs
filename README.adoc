@@ -35,7 +35,7 @@ source 'https://rubygems.org'
 gem 'asciidoctor-tabs'
 
 # or use the code directlly from GitHub
-# gem 'asciidoctor-tabs', github: 'asciidoctor/asciidoctor-pdf'
+# gem 'asciidoctor-tabs', github: 'asciidoctor/asciidoctor-tabs'
 ----
 
 Then configure Bundler to install gems locally (optional):
