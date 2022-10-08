@@ -16,9 +16,14 @@
     "build": "node npm/transpile.js"
   },
   "main": "lib/index.js",
+  "browser": "./dist/js/tabs.js",
+  "style": "./dist/css/tabs.css",
   "exports": {
     ".": "./lib/index.js",
-    "./extensions": "./lib/extensions.js"
+    "./extensions": "./lib/extensions.js",
+    "./dist/*": "./dist/*",
+    "./script": "./dist/js/tabs.js",
+    "./style": "./dist/css/tabs.css"
   },
   "files": [
     "dist",
