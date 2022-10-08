@@ -1,4 +1,4 @@
-/*! Asciidoctor Tabs behavior | Copyright (c) 2018-present Dan Allen | MIT License */
+/*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
 ;(function () {
   'use strict'
 
