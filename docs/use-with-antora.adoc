@@ -24,7 +24,7 @@ Next, add the following line to the bottom of the [.path]_src/partials/head-styl
 
 [,hbs]
 ----
-    <link rel="stylesheet" href="{{{uiRootPath}}}/css/vendor/tabs.css">
+<link rel="stylesheet" href="{{{uiRootPath}}}/css/vendor/tabs.css">
 ----
 
 TIP: You can add the `@import` line to the bottom of the existing [.path]_src/css/site.css_ file.
