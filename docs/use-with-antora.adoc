@@ -1,0 +1,86 @@
+= How to use with Antora
+
+This document explains how to integrate Asciidoctor Tabs into your Antora-based documentation site.
+
+== UI
+
+The first step is to incorporate the behavior and style into your UI.
+These instructions assume that your UI was created using the Antora default UI template.
+
+First, declare a dependency on this package in [.path]_package.json_ for your Antora UI project:
+
+ $ npm i -D @asciidoctor/tabs@latest
+
+Next, define a vendor stylesheet at [.path]_src/css/vendor/tabs.css_ and populate it with the following content:
+
+[,css]
+----
+@import "@asciidoctor/tabs"
+----
+
+postCSS will know how to find the stylesheet based on metadata provided by the npm package.
+
+Next, add the following line to the bottom of the [.path]_src/partials/head-styles.hbs_ to link to the stylesheet from the HTML pages.
+
+[,hbs]
+----
+    <link rel="stylesheet" href="{{{uiRootPath}}}/css/vendor/tabs.css">
+----
+
+TIP: You can add the `@import` line to the bottom of the existing [.path]_src/css/site.css_ file.
+In that case, you _don't_ have to add a link to the vendor stylesheet in your template.
+You could also choose to develop your own CSS.
+
+Next, define a vendor script at [.path]_src/js/vendor/tabs.bundle.js_ and populate it with the following content:
+
+[,js]
+----
+;(function () {
+  require('@asciidoctor/tabs')
+})()
+----
+
+browserify will know how to find the script based on metadata provided by the npm package.
+
+Next, add the following line to the bottom of the [.path]_src/partials/footer-scripts.hbs_ to link to the script from the HTML pages.
+
+[,hbs]
+----
+<script async src="{{{uiRootPath}}}/js/vendor/tabs.js"></script>
+----
+
+The next time you bundle your UI, it will be ready to be used with the Asciidoctor Tabs extension!
+
+[TIP]
+====
+In order to use tabs in the UI preview, you need to add the following key to the top of [.path]_preview-src/ui-model.yml_:
+
+[,yaml]
+----
+asciidoc:
+  extensions:
+  - '@asciidoctor/tabs'
+----
+
+The UI preview builder will require each entry and invoke the `register` function on the object it exports.
+====
+
+== Generator
+
+Now that your UI is set up to support tabs, you need to enable the extension when generating your site.
+To do so, you once again need to declare a dependency on this package in [.path]_package.json_ for your Antora playbook project:
+
+ $ npm i @asciidoctor/tabs
+
+Next, configure Antora to require the package after initializing Asciidoctor by adding the following to your playbook file:
+
+[,yaml]
+----
+asciidoc:
+  extensions:
+  - '@asciidoctor/tabs'
+----
+
+NOTE: If the `asciidoc` key or `asciidoc.extensions` keys already exists, merge this entry with the existing key.
+
+You can now use Asciidoctor Tabs in your Antora-based documentation!
