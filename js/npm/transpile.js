@@ -12,6 +12,4 @@ const transpiled = Builder
 
 fs.mkdirSync('dist', { recursive: true })
 fs.writeFileSync('dist/index.js', transpiled)
-
-fs.mkdirSync('data', { recursive: true })
-fs.cpSync('../data', 'data', { recursive: true })
+fs.cpSync('../data', 'dist', { recursive: true })

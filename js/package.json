@@ -12,7 +12,7 @@
     "url": "https://github.com/asciidoctor/asciidoctor-tabs/issues"
   },
   "scripts": {
-    "clean": "npx rimraf data dist node_modules",
+    "clean": "npx rimraf dist node_modules",
     "build": "node npm/transpile.js"
   },
   "main": "lib/index.js",
@@ -21,7 +21,6 @@
     "./extensions": "./lib/extensions.js"
   },
   "files": [
-    "data",
     "dist",
     "lib"
   ],
