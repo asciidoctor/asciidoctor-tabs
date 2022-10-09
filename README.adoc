@@ -148,6 +148,26 @@ If you're not using other scoped extensions, you can pass in the extensions grou
 Asciidoctor.convert_file 'document-with-tabs.adoc', extensions: Asciidoctor::Tabs::Extensions.group, safe: :safe
 ----
 
+== How it Works
+
+This extension works by transforming the dlist inside the example block into a tabbed interface.
+The example block enclosure is discarded.
+The tabbed interface is supported by a stylesheet (style) and script (behavior) that are added to the HTML document by this extension.
+(These assets can be found in the [.path]_data_ folder of the gem).
+
+NOTE: The stylesheet and script are only added when producing a standalone document.
+The stylesheet is added to the end of the `<head>` tag and the script added to the end of the `<body>` tag.
+
+The tabbed interface consists of two output elements.
+The first element contains an unordered list of all the tab labels in document order.
+The second element contains all the tab panes.
+The labels and panes are correlated through the use of a unique ID.
+Each tab is assigned an `id` attribute and each pane is assigned an `aria-labelledby` attribute that references the corresponding ID.
+The added stylesheet sets up the appearance of the tabbed interface and the added script supports the interaction (i.e., tab selection).
+
+A tab can be selected when the page loads using a URL fragment.
+Otherwise, the first tab is selected when the page loads.
+
 == Authors
 
 Asciidoctor Tabs was written by Dan Allen of OpenDevise Inc. and contributed to the Asciidoctor project.
