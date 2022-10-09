@@ -12,7 +12,7 @@ endif::[]
 An Asciidoctor extension that adds a tabs block to the AsciiDoc syntax.
 
 NOTE: This extension is intended to be used with HTML backends (e.g., `html5`).
-For all other backends (i.e., the filetype is not html), the custom block enclosure will be taken away and its contents converted normally.
+For all other backends (i.e., the filetype is not html), the custom block enclosure is taken away and its contents (a dlist) is converted normally.
 
 TIP: This extension is also published as an npm package named `@asciidoctor/tabs` for use with Asciidoctor.js (and thus Antora).
 
@@ -21,7 +21,7 @@ TIP: This extension is also published as an npm package named `@asciidoctor/tabs
 Each set of tabs (a "`tabset`") is constructed from a description list (dlist) enclosed in an example block marked with the tabs style (i.e., `[tab]`).
 The tabbed interface that this block produces can help to organize information by code language, operating system, or product variant.
 
-The benefit of organizing information in this way is that it condenses the use of vertical space by only showing what is relevant to the reader (and thus hiding information that's irrelevant or redundant).
+The benefit of organizing information in this way is that it condenses the use of vertical space by only showing what's relevant to the reader (and thus hiding information that's irrelevant or redundant).
 The result is that readers enjoy a better user experience when reading your documentation.
 
 == Install
@@ -45,7 +45,7 @@ gem 'asciidoctor-tabs'
 # gem 'asciidoctor-tabs', github: 'asciidoctor/asciidoctor-tabs'
 ----
 
-Then configure Bundler to install gems locally (optional):
+Then optionally configure Bundler to install gems locally:
 
  $ bundle config --local path .bundle/gems
 
@@ -82,7 +82,7 @@ The tabbed content is modeled as a dlist.
 Each item in the dlist becomes a separate tab.
 The term is used as the tab's label and the description is used as the tab's contents.
 The contents can be defined as primary text, attached blocks, or both.
-If the attached blocks are themselves enclosed in a single open block, the open block enclosure itself will be discarded.
+If the attached blocks are themselves enclosed in a single open block, the open block enclosure itself is discarded upon conversion.
 
 You may decide to extend the block delimiter length instead of using the typical 4 characters to avoid conflicts with any example blocks inside the tab block (or just as a manner of style).
 
@@ -107,10 +107,11 @@ Tab B:: Just text.
  $ asciidoctor -r asciidoctor-tabs document-with-tabs.adoc
 
 You can specify an alternate stylesheet for tabs using the `tabs-stylesheet` document attribute.
-The value of this attribute is handled in the same way as the built-in `stylesheet` document attribute.
-A relative path is resolved starting from the value of the `stylesdir` document attribute, which defaults to the directory of the document.
 
  $ asciidoctor -r asciidoctor-tabs -a tabs-stylesheet=my-tabs.css document-with-tabs.adoc
+
+The value of the `tabs-stylesheet` attribute is handled in the same way as the built-in `stylesheet` document attribute.
+A relative path is resolved starting from the value of the `stylesdir` document attribute, which defaults to the directory of the document.
 
 === API
 
@@ -140,7 +141,7 @@ Asciidoctor::Tabs::Extensions.register registry
 Asciidoctor.convert_file 'document-with-tabs.adoc', extension_registry: registry, safe: :safe
 ----
 
-If you're not using other scoped extensions, you can pass in the extensions group without creating a registry instance:
+If you're not using other scoped extensions, you can pass in the extensions group without first creating a registry instance:
 
 [,js]
 ----
