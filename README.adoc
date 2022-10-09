@@ -10,12 +10,19 @@ ifdef::env-github[]
 endif::[]
 
 An Asciidoctor extension that adds a tabs block to the AsciiDoc syntax.
-Each set of tabs (a "`tabset`") is constructed from a dlist enclosed in an example block marked with the tabs style.
 
-NOTE: This extension is intended to be used with HTML backends (e.g., `html`).
-For other backends (i.e., filetype is not html), the example block enclosure will be taken away and the dlist will be converted normally.
+NOTE: This extension is intended to be used with HTML backends (e.g., `html5`).
+For all other backends (i.e., the filetype is not html), the custom block enclosure will be taken away and its contents converted normally.
 
 TIP: This extension is also published as an npm package named `@asciidoctor/tabs` for use with Asciidoctor.js (and thus Antora).
+
+== Overview
+
+Each set of tabs (a "`tabset`") is constructed from a description list (dlist) enclosed in an example block marked with the tabs style (i.e., `[tab]`).
+The tabbed interface that this block produces can help to organize information by code language, operating system, or product variant.
+
+The benefit of organizing information in this way is that it condenses the use of vertical space by only showing what is relevant to the reader (and thus hiding information that's irrelevant or redundant).
+The result is that readers enjoy a better user experience when reading your documentation.
 
 == Install
 
@@ -48,12 +55,7 @@ Then use Bundler to install the gem:
 
 == Syntax
 
-A tabset is defined using a dlist enclosed in an example block marked with the tabs style.
-Each item in the dlist becomes a separate tab.
-The term in the dlist item is used as the tab's label.
-The description in the dlist item is used for the contents of the tab.
-The contents can be defined as primary text, attached blocks, or blocks enclosed in an attached open block.
-If the blocks are enclosed in an attached open block, the open block enclosure itself will be discarded.
+A tabset is defined using a description list (dlist) enclosed in an example block marked with the tabs style.
 
 .document-with-tabs.adoc
 [,asciidoc]
@@ -74,6 +76,28 @@ Contents of tab C.
 Contains more than one block.
 --
 ====
+----
+
+The tabbed content is modeled as a dlist.
+Each item in the dlist becomes a separate tab.
+The term is used as the tab's label and the description is used as the tab's contents.
+The contents can be defined as primary text, attached blocks, or both.
+If the attached blocks are themselves enclosed in a single open block, the open block enclosure itself will be discarded.
+
+You may decide to extend the block delimiter length instead of using the typical 4 characters to avoid conflicts with any example blocks inside the tab block (or just as a manner of style).
+
+[,asciidoc]
+----
+[tabs]
+======
+Tab A::
++
+====
+Example block in Tab A.
+====
+
+Tab B:: Just text.
+======
 ----
 
 == Usage
