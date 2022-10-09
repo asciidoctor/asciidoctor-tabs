@@ -607,7 +607,7 @@ describe Asciidoctor::Tabs do
     ====
     END
 
-    doc = Asciidoctor.load input, standalone: true
+    doc = Asciidoctor.load input, safe: :safe, standalone: true
     (expect doc.extensions.docinfo_processors?).to be true
     actual = doc.convert
     behavior_idx = actual.index %r/<script>[^<]*\.tabset[^<]*<\/script>/
