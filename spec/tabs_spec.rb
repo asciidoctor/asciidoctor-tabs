@@ -513,17 +513,17 @@ describe Asciidoctor::Tabs do
     (expect actual).to eql expected
   end
 
-  it 'should include styles in head tag of standalone document if tabs-stylesheet attribute is empty' do
-    [{}, 'tabs-stylesheet' => ''].each do |attributes|
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
+  it 'should embed styles in head tag of standalone document if tabs-stylesheet attribute is empty' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
 
+    [{}, 'tabs-stylesheet' => ''].each do |attributes|
       doc = Asciidoctor.load input, attributes: attributes, safe: :safe, standalone: true
       (expect doc.attr? 'tabs-stylesheet').to be true
       (expect doc.extensions.docinfo_processors?).to be true
@@ -535,7 +535,81 @@ describe Asciidoctor::Tabs do
     end
   end
 
-  it 'should not include styles in head tag of standalone document if tabs-stylesheet is unset' do
+  it 'should link to stylesheet in standalone document if linkcss attribute is set' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    [{ safe: :secure }, { attributes: 'linkcss', safe: :safe }].each do |opts|
+      doc = Asciidoctor.load input, (opts.merge standalone: true)
+      (expect doc.attr? 'tabs-stylesheet').to be true
+      (expect doc.extensions.docinfo_processors?).to be true
+      actual = doc.convert
+      styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
+      link_idx = actual.index '<link rel="stylesheet" href="./asciidoctor-tabs.css">'
+      end_head_idx = actual.index '</head>'
+      (expect styles_idx).to be_nil
+      (expect link_idx).not_to be_nil
+      (expect link_idx).to be < end_head_idx
+    end
+  end
+
+  it 'should honor htmlsyntax when creating link for stylesheet' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    actual = Asciidoctor.convert input, backend: :xhtml5, safe: :secure, standalone: true
+    (expect actual).to include '<link rel="stylesheet" href="./asciidoctor-tabs.css"/>'
+  end
+
+  it 'should prepend value of stylesdir attribute to stylesheet href' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    ['', '.', 'css', './css', 'https://cdn.example.org'].each do |stylesdir|
+      actual = Asciidoctor.convert input, safe: :secure, attributes: { 'stylesdir' => stylesdir }, standalone: true
+      if stylesdir.empty?
+        (expect actual).to include '<link rel="stylesheet" href="asciidoctor-tabs.css">'
+      else
+        (expect actual).to include %(<link rel="stylesheet" href="#{stylesdir}/asciidoctor-tabs.css">)
+      end
+    end
+  end
+
+  it 'should not prepend value of stylesdir attribute to stylesheet href if stylesdir is unset' do
+    input = <<~'END'
+    :!stylesdir:
+
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    actual = Asciidoctor.convert input, safe: :secure, standalone: true
+    (expect actual).to include '<link rel="stylesheet" href="asciidoctor-tabs.css">'
+  end
+
+  it 'should not embed styles in head tag of standalone document if tabs-stylesheet is unset' do
     input = <<~'END'
     [tabs]
     ====
@@ -552,7 +626,24 @@ describe Asciidoctor::Tabs do
     (expect styles_idx).to be_nil
   end
 
-  it 'should include custom styles if tabs-stylesheet is set to absolute path' do
+  it 'should not link to stylesheet of standalone document if tabs-stylesheet is unset' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    actual = Asciidoctor.convert input, attributes: { 'tabs-stylesheet' => nil }, safe: :secure, standalone: true
+    styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
+    link_idx = actual.index %r/<link rel="stylesheet" href="[^"]+tabs\.css">/
+    (expect styles_idx).to be_nil
+    (expect link_idx).to be_nil
+  end
+
+  it 'should embed custom styles if tabs-stylesheet is set to absolute path' do
     input = <<~'END'
     [tabs]
     ====
@@ -573,7 +664,7 @@ describe Asciidoctor::Tabs do
     (expect actual).to include expected
   end
 
-  it 'should include custom styles if tabs-stylesheet is set to path relative to stylesdir' do
+  it 'should embed custom styles if tabs-stylesheet is set to path relative to stylesdir' do
     input = <<~'END'
     [tabs]
     ====
@@ -597,7 +688,42 @@ describe Asciidoctor::Tabs do
     (expect actual).to include expected
   end
 
-  it 'should include behavior below footer of standalone document' do
+  it 'should link to stylesheet path specified by tabs-stylesheet in standalone document when linkcss is set' do
+    input = <<~'END'
+    :tabs-stylesheet: tabs.css
+
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    doc = Asciidoctor.load input, safe: :secure, standalone: true
+    (expect doc.attr 'tabs-stylesheet').to eql 'tabs.css'
+    (expect doc.extensions.docinfo_processors?).to be true
+    actual = doc.convert
+    (expect actual).to include '<link rel="stylesheet" href="./tabs.css">'
+  end
+
+  it 'should link to stylesheet URL specified by tabs-stylesheet in standalone document when linkcss is set' do
+    input = <<~'END'
+    :tabs-stylesheet: https://cdn.example.org/asciidoctor-tabs.css
+
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    actual = Asciidoctor.convert input, safe: :secure, standalone: true
+    (expect actual).to include '<link rel="stylesheet" href="https://cdn.example.org/asciidoctor-tabs.css">'
+  end
+
+  it 'should embed behavior below footer of standalone document' do
     input = <<~'END'
     [tabs]
     ====
@@ -610,10 +736,51 @@ describe Asciidoctor::Tabs do
     doc = Asciidoctor.load input, safe: :safe, standalone: true
     (expect doc.extensions.docinfo_processors?).to be true
     actual = doc.convert
-    behavior_idx = actual.index %r/<script>[^<]*\.tabset[^<]*<\/script>/
+    script_idx = actual.index %r/<script>[^<]*\.tabset[^<]*<\/script>/
     footer_idx = actual.index '<div id="footer">'
-    (expect behavior_idx).not_to be_nil
-    (expect behavior_idx).to be > footer_idx
+    (expect script_idx).not_to be_nil
+    (expect script_idx).to be > footer_idx
+  end
+
+  it 'should link to script in standalone document if linkcss attribute is set' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    [{ safe: :secure }, { attributes: 'linkcss', safe: :safe }].each do |opts|
+      doc = Asciidoctor.load input, (opts.merge standalone: true)
+      (expect doc.extensions.docinfo_processors?).to be true
+      actual = doc.convert
+      script_idx = actual.index '<script src="asciidoctor-tabs.js"></script>'
+      footer_idx = actual.index '<div id="footer">'
+      (expect script_idx).not_to be_nil
+      (expect script_idx).to be > footer_idx
+    end
+  end
+
+  it 'should prepend value of scriptsdir attribute to stylesheet href' do
+    input = <<~'END'
+    [tabs]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+
+    ['', '.', 'js', './js', 'https://cdn.example.org'].each do |scriptsdir|
+      actual = Asciidoctor.convert input, safe: :secure, attributes: { 'scriptsdir' => scriptsdir }, standalone: true
+      if scriptsdir.empty?
+        (expect actual).to include '<script src="asciidoctor-tabs.js"></script>'
+      else
+        (expect actual).to include %(<script src="#{scriptsdir}/asciidoctor-tabs.js"></script>)
+      end
+    end
   end
 
   it 'should register extensions on specified global registry' do

@@ -17,10 +17,14 @@ module Asciidoctor
 
         def process doc
           return unless (path = doc.attr 'tabs-stylesheet')
-          return unless (styles = path.empty? ?
-            (doc.read_asset DEFAULT_STYLESHEET_FILE) :
-            (doc.read_contents path, start: (doc.attr 'stylesdir'), warn_on_failure: true, label: 'tabs stylesheet'))
-          %(<style>\n#{styles.chomp}\n</style>)
+          if doc.attr? 'linkcss'
+            href = doc.normalize_web_path (path.empty? ? 'asciidoctor-tabs.css' : path), (doc.attr 'stylesdir')
+            %(<link rel="stylesheet" href="#{href}"#{(doc.attr? 'htmlsyntax', 'xml') ? '/' : ''}>) # rubocop:disable Style/TernaryParentheses
+          elsif (styles = path.empty? ?
+              (doc.read_asset DEFAULT_STYLESHEET_FILE) :
+              (doc.read_contents path, start: (doc.attr 'stylesdir'), warn_on_failure: true, label: 'tabs stylesheet'))
+            %(<style>\n#{styles.chomp}\n</style>)
+          end
         end
       end
 
@@ -31,8 +35,12 @@ module Asciidoctor
         JAVASCRIPT_FILE = ::File.join DATA_DIR, 'js/tabs.js'
 
         def process doc
-          return unless (script = doc.read_asset JAVASCRIPT_FILE)
-          %(<script>\n#{script.chomp}\n</script>)
+          if doc.attr? 'linkcss'
+            src = doc.normalize_web_path 'asciidoctor-tabs.js', (doc.attr 'scriptsdir')
+            %(<script src="#{src}"></script>)
+          elsif (script = doc.read_asset JAVASCRIPT_FILE)
+            %(<script>\n#{script.chomp}\n</script>)
+          end
         end
       end
     end
