@@ -165,7 +165,7 @@ The labels and panes are correlated through the use of a unique ID.
 Each tab is assigned an `id` attribute and each pane is assigned an `aria-labelledby` attribute that references the corresponding ID.
 The added stylesheet sets up the appearance of the tabbed interface and the added script supports the interaction (i.e., tab selection).
 
-A tab can be selected when the page loads using a URL fragment.
+A tab can be selected when the page loads using a URL fragment (e.g., `#id-of-tab-here`).
 Otherwise, the first tab is selected when the page loads.
 
 == Authors
