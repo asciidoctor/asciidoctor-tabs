@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
+case ENV['COVERAGE']
+when 'deep'
+  ENV['DEEP_COVER'] = 'true'
+  require 'deep_cover'
+when 'true'
+  require 'deep_cover/builtin_takeover'
+  require 'simplecov'
+end
+
 require 'asciidoctor'
 require 'asciidoctor/tabs/extensions'
 
