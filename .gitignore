@@ -1,4 +1,6 @@
 /.bundle/
+/coverage/
+/deep_cover/
 /pkg/
 /vendor/
 /.ruby-version
