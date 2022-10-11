@@ -1,0 +1,3 @@
+* text=auto eol=lf
+*.css diff=css
+*.rb diff=ruby
