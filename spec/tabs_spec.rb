@@ -5,6 +5,53 @@ describe Asciidoctor::Tabs do
 
   after { described_class::Extensions.unregister }
 
+  context 'require' do
+    it 'should be able to require asciidoctor/tabs from Ruby process' do
+      script_file = fixture_file 'require.rb'
+      File.write script_file, <<~END
+      require 'asciidoctor'
+      require 'asciidoctor/tabs'
+      puts Asciidoctor::Extensions.groups.keys[0].to_s
+      END
+      output = %x(#{ruby} #{Shellwords.escape script_file}).lines.map(&:chomp)
+      (expect output).to eql ['tabs']
+    ensure
+      File.unlink script_file
+    end
+
+    it 'should be able to require asciidoctor-tabs from Ruby process' do
+      script_file = fixture_file 'require.rb'
+      File.write script_file, <<~END
+      require 'asciidoctor'
+      require 'asciidoctor-tabs'
+      puts Asciidoctor::Extensions.groups.keys[0].to_s
+      END
+      output = %x(#{ruby} #{Shellwords.escape script_file}).lines.map(&:chomp)
+      (expect output).to eql ['tabs']
+    ensure
+      File.unlink script_file
+    end
+  end
+
+  context 'VERSION' do
+    it 'should define VERSION constant that adheres to SemVer (with a RubyGems twist)' do
+      (expect described_class::VERSION).to match %r/^\d+\.\d+\.\d+(\.[a-z]\S*)?$/
+    end
+
+    it 'should be able to require library from Ruby process to access version' do
+      # NOTE asciidoctor/tabs/version will already be required by Bundler when test suite launches
+      script_file = fixture_file 'print_version.rb'
+      File.write script_file, <<~END
+      require 'asciidoctor/tabs/version'
+      puts Asciidoctor::Tabs::VERSION
+      END
+      output = %x(#{ruby} #{Shellwords.escape script_file}).lines.map(&:chomp)
+      (expect output).to eql [described_class::VERSION]
+    ensure
+      File.unlink script_file
+    end
+  end
+
   it 'should leave example block unprocessed if empty' do
     input = <<~'END'
     [tabs]

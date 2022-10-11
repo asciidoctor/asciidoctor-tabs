@@ -11,6 +11,7 @@ end
 
 require 'asciidoctor'
 require 'asciidoctor/tabs/extensions'
+require 'shellwords'
 
 RSpec.configure do
   def fixtures_dir
@@ -19,6 +20,11 @@ RSpec.configure do
 
   def fixture_file path
     File.join fixtures_dir, path
+  end
+
+  def ruby
+    cmd = Shellwords.escape File.join RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name']
+    (defined? DeepCover) && !(DeepCover.const_defined? :TAKEOVER_IS_ON) ? %(#{cmd} -rdeep_cover) : cmd
   end
 
   def with_memory_logger level = nil
