@@ -4,6 +4,13 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Added
+
+* Link to stylesheet (style) and script (behavior) if `linkcss` attribute is set on document (#7)
+* Honor safe mode settings (don't read files if safe mode is secure) (#7)
+
 == 1.0.0-alpha.4 (2022-10-08) - @mojavelinux
 
 === Added
