@@ -21,7 +21,7 @@ module Asciidoctor
               ((doc.options[:attributes] || {}).transform_keys {|it| it.delete '@!' }.key? 'tabs-stylesheet')
             doc.set_attr 'tabs-stylesheet'
           end
-          docinfo_processor Docinfo::Styles
+          docinfo_processor Docinfo::Style
           docinfo_processor Docinfo::Behavior
           nil
         end

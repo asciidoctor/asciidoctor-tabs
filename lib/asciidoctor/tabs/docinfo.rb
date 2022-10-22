@@ -9,7 +9,7 @@ module Asciidoctor
         DATA_DIR = ::File.join (::File.absolute_path '../../..', __dir__), 'data'
       end
 
-      class Styles < ::Asciidoctor::Extensions::DocinfoProcessor
+      class Style < ::Asciidoctor::Extensions::DocinfoProcessor
         use_dsl
         at_location :head
 

@@ -11,6 +11,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 * Link to stylesheet (style) and script (behavior) if `linkcss` attribute is set on document (#7)
 * Honor safe mode settings (don't read files if safe mode is secure) (#7)
 
+=== Changed
+
+* Rename Docinfo::Styles class to Docinfo::Style
+
 == 1.0.0-alpha.4 (2022-10-08) - @mojavelinux
 
 === Added

@@ -69,7 +69,7 @@ Asciidoctor.convertFile('document-with-tabs.adoc', { extension_registry: registr
 ```
 
 You can also require `@asciidoctor/tabs/extensions` to access the `Extensions` class.
-Attached to that object are the `Block`, `Docinfo.Styles`, and `Docinfo.Behavior` extension classes.
+Attached to that object are the `Block`, `Docinfo.Style`, and `Docinfo.Behavior` extension classes.
 You can use these classes to register a bespoke tabs extension.
 
 ## Copyright and License
