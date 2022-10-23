@@ -17,16 +17,15 @@ module Asciidoctor
           return
         end
         tabset_number = doc.counter 'tabset-number'
-        id = attrs['id'] ||
-          %(#{doc.attributes['idprefix'] || '_'}tabset#{doc.attributes['idseparator'] || '_'}#{tabset_number})
-        parent << (create_html_fragment parent, %(<div id="#{id}" class="tabset is-loading">))
+        tabs_id = attrs['id'] || (generate_id %(tabset #{tabset_number}), doc)
+        parent << (create_html_fragment parent, %(<div id="#{tabs_id}" class="tabset is-loading">))
         (tabs = create_list parent, :ulist).add_role 'tabs'
         panes = {}
         set_id_on_tab = (doc.backend == 'html5') || (list_item_supports_id? doc)
         source_tabs.items.each do |labels, content|
           tab_ids = labels.map do |tab|
             tabs << tab
-            tab_id = generate_id tab.text, id, doc
+            tab_id = generate_id tab.text, doc, tabs_id
             set_id_on_tab ? (tab.id = tab_id) : (tab.text = %([[#{tab_id}]]#{tab.instance_variable_get :@text}))
             tab_id
           end
@@ -49,7 +48,7 @@ module Asciidoctor
           parent << (create_html_fragment parent, '</div>')
         end
         parent << (create_html_fragment parent, '</div>')
-        create_html_fragment parent, '</div>', 'id' => id
+        create_html_fragment parent, '</div>', 'id' => tabs_id
       end
 
       private
@@ -58,12 +57,14 @@ module Asciidoctor
         create_block parent, :pass, html, attributes
       end
 
-      def generate_id str, base_id, doc
-        restore_idprefix = (attrs = doc.attributes)['idprefix']
-        attrs['idprefix'] = %(#{base_id}#{attrs['idseparator'] || '_'})
+      def generate_id str, doc, base_id = nil
+        if base_id
+          restore_idprefix = (attrs = doc.attributes)['idprefix']
+          attrs['idprefix'] = %(#{base_id}#{attrs['idseparator'] || '_'})
+        end
         ::Asciidoctor::Section.generate_id str, doc
       ensure
-        restore_idprefix ? (attrs['idprefix'] = restore_idprefix) : (attrs.delete 'idprefix')
+        restore_idprefix ? (attrs['idprefix'] = restore_idprefix) : (attrs.delete 'idprefix') if base_id
       end
 
       def list_item_supports_id? doc
