@@ -1,6 +1,47 @@
 # frozen_string_literal: true
 
 describe Asciidoctor::Tabs do
+  let :attrlist do
+    []
+  end
+
+  let :hello_tabs do
+    <<~'END'
+    [tabs]
+    ====
+    Hello, World!::
+    +
+    You're reading text inside a tab.
+    ====
+    END
+  end
+
+  let :single_tab do
+    <<~END
+    [tabs#{attrlist * ','}]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+    ====
+    END
+  end
+
+  let :two_tabs do
+    <<~END
+    [tabs#{attrlist * ','}]
+    ====
+    Tab A::
+    +
+    Contents of tab A.
+
+    Tab B::
+    +
+    Contents of tab B.
+    ====
+    END
+  end
+
   before { described_class::Extensions.register }
 
   after { described_class::Extensions.unregister }
@@ -8,7 +49,7 @@ describe Asciidoctor::Tabs do
   context 'require' do
     it 'should be able to require asciidoctor/tabs from Ruby process' do
       script_file = fixture_file 'require.rb'
-      File.write script_file, <<~END
+      File.write script_file, <<~'END'
       require 'asciidoctor'
       require 'asciidoctor/tabs'
       puts Asciidoctor::Extensions.groups.keys[0].to_s
@@ -21,7 +62,7 @@ describe Asciidoctor::Tabs do
 
     it 'should be able to require asciidoctor-tabs from Ruby process' do
       script_file = fixture_file 'require.rb'
-      File.write script_file, <<~END
+      File.write script_file, <<~'END'
       require 'asciidoctor'
       require 'asciidoctor-tabs'
       puts Asciidoctor::Extensions.groups.keys[0].to_s
@@ -41,7 +82,7 @@ describe Asciidoctor::Tabs do
     it 'should be able to require library from Ruby process to access version' do
       # NOTE asciidoctor/tabs/version will already be required by Bundler when test suite launches
       script_file = fixture_file 'print_version.rb'
-      File.write script_file, <<~END
+      File.write script_file, <<~'END'
       require 'asciidoctor/tabs/version'
       puts Asciidoctor::Tabs::VERSION
       END
@@ -110,19 +151,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should replace custom tabs block with tabset' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-
-      Tab B::
-      +
-      Contents of tab B.
-      ====
-      END
-
+      input = two_tabs
       expected = <<~'END'.chomp
       <div id="_tabset_1" class="tabset is-loading">
       <div class="ulist tabs">
@@ -155,28 +184,12 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should not register docinfo processors for embedded document' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       (expect (Asciidoctor.load input).extensions.docinfo_processors?).to be false
     end
 
     it 'should not register docinfo processors for non-HTML output' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       (expect (Asciidoctor.load input, backend: 'docbook', standalone: true).extensions.docinfo_processors?).to be false
     end
 
@@ -272,47 +285,33 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should generate IDs using idprefix and idseparator' do
-      input = <<~'END'
+      input = <<~END
       :idprefix:
       :idseparator: -
 
-      [tabs]
-      ====
-      First Tab::
-      +
-      Contents of first tab.
-      ====
+      #{single_tab}
       END
 
       actual = Asciidoctor.convert input
       (expect actual).to include 'id="tabset-1"'
-      (expect actual).to include 'id="tabset-1-first-tab"'
+      (expect actual).to include 'id="tabset-1-tab-a"'
     end
 
-    it 'should increment generate ID for each tabs block' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents.
-      ====
+    it 'should increment generated ID for each tabs block' do
+      input = <<~END
+      #{single_tab}
 
       and
 
-      [tabs]
-      ====
-      Tab 1::
-      +
-      Contents.
-      ====
+      #{two_tabs}
       END
 
       actual = Asciidoctor.convert input
       (expect actual).to include 'id="_tabset_1"'
       (expect actual).to include 'id="_tabset_1_tab_a"'
       (expect actual).to include 'id="_tabset_2"'
-      (expect actual).to include 'id="_tabset_2_tab_1"'
+      (expect actual).to include 'id="_tabset_2_tab_a"'
+      (expect actual).to include 'id="_tabset_2_tab_b"'
     end
 
     it 'should use text of tab item if it has no blocks' do
@@ -515,7 +514,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should support using an include to populate the tab content' do
-      input = <<~END
+      input = <<~'END'
       [tabs]
       ====
       Tab A::
@@ -562,15 +561,8 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should output original dlist if filetype is not html' do
-      input = <<~'END'
-      [tabs#not-tabs,reftext=Not Tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      attrlist.push '#not-tabs', 'reftext=Not Tabs'
+      input = single_tab
       expected = <<~'END'.chomp
       <variablelist xml:id="not-tabs" xreflabel="Not Tabs">
       <varlistentry>
@@ -589,15 +581,7 @@ describe Asciidoctor::Tabs do
 
   context 'docinfo style' do
     it 'should embed styles in head tag of standalone document if tabs-stylesheet attribute is empty' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       [{}, 'tabs-stylesheet' => ''].each do |attributes|
         doc = Asciidoctor.load input, attributes: attributes, safe: :safe, standalone: true
         (expect doc.attr? 'tabs-stylesheet').to be true
@@ -611,15 +595,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should link to stylesheet in standalone document if linkcss attribute is set' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       [{ safe: :secure }, { attributes: 'linkcss', safe: :safe }].each do |opts|
         doc = Asciidoctor.load input, (opts.merge standalone: true)
         (expect doc.attr? 'tabs-stylesheet').to be true
@@ -635,29 +611,13 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should honor htmlsyntax when creating link for stylesheet' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       actual = Asciidoctor.convert input, backend: :xhtml5, safe: :secure, standalone: true
       (expect actual).to include '<link rel="stylesheet" href="./asciidoctor-tabs.css"/>'
     end
 
     it 'should prepend value of stylesdir attribute to stylesheet href' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       ['', '.', 'css', './css', 'https://cdn.example.org'].each do |stylesdir|
         actual = Asciidoctor.convert input, safe: :secure, attributes: { 'stylesdir' => stylesdir }, standalone: true
         if stylesdir.empty?
@@ -669,15 +629,10 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should not prepend value of stylesdir attribute to stylesheet href if stylesdir is unset' do
-      input = <<~'END'
+      input = <<~END
       :!stylesdir:
 
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
+      #{hello_tabs}
       END
 
       actual = Asciidoctor.convert input, safe: :secure, standalone: true
@@ -685,15 +640,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should not embed styles in head tag of standalone document if tabs-stylesheet is unset' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       doc = Asciidoctor.load input, attributes: { 'tabs-stylesheet' => nil }, safe: :safe, standalone: true
       (expect doc.attr? 'tabs-stylesheet').to be false
       actual = doc.convert
@@ -702,15 +649,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should not link to stylesheet of standalone document if tabs-stylesheet is unset' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       actual = Asciidoctor.convert input, attributes: { 'tabs-stylesheet' => nil }, safe: :secure, standalone: true
       styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
       link_idx = actual.index %r/<link rel="stylesheet" href="[^"]+tabs\.css">/
@@ -719,15 +658,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should embed custom styles if tabs-stylesheet is set to absolute path' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       expected = <<~'END'.chomp
       .tabs > ul li.is-active {
         border-color: orange;
@@ -740,15 +671,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should embed custom styles if tabs-stylesheet is set to path relative to stylesdir' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       expected = <<~'END'.chomp
       .tabs > ul li.is-active {
         border-color: orange;
@@ -764,15 +687,10 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should link to stylesheet path specified by tabs-stylesheet in standalone document when linkcss is set' do
-      input = <<~'END'
+      input = <<~END
       :tabs-stylesheet: tabs.css
 
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
+      #{hello_tabs}
       END
 
       doc = Asciidoctor.load input, safe: :secure, standalone: true
@@ -783,15 +701,10 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should link to stylesheet URL specified by tabs-stylesheet in standalone document when linkcss is set' do
-      input = <<~'END'
+      input = <<~END
       :tabs-stylesheet: https://cdn.example.org/asciidoctor-tabs.css
 
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
+      #{hello_tabs}
       END
 
       actual = Asciidoctor.convert input, safe: :secure, standalone: true
@@ -801,15 +714,7 @@ describe Asciidoctor::Tabs do
 
   context 'docinfo behavior' do
     it 'should embed script below footer of standalone document' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       doc = Asciidoctor.load input, safe: :safe, standalone: true
       (expect doc.extensions.docinfo_processors?).to be true
       actual = doc.convert
@@ -820,15 +725,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should link to script in standalone document if linkcss attribute is set' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       [{ safe: :secure }, { attributes: 'linkcss', safe: :safe }].each do |opts|
         doc = Asciidoctor.load input, (opts.merge standalone: true)
         (expect doc.extensions.docinfo_processors?).to be true
@@ -841,15 +738,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should prepend value of scriptsdir attribute to script src' do
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       ['', '.', 'js', './js', 'https://cdn.example.org'].each do |scriptsdir|
         actual = Asciidoctor.convert input, safe: :secure, attributes: { 'scriptsdir' => scriptsdir }, standalone: true
         if scriptsdir.empty?
@@ -865,16 +754,7 @@ describe Asciidoctor::Tabs do
     it 'should register extensions on specified global registry' do
       described_class::Extensions.unregister
       described_class::Extensions.register Asciidoctor::Extensions
-
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       actual = Asciidoctor.convert input
       (expect actual).to include 'class="tabset'
     end
@@ -882,16 +762,7 @@ describe Asciidoctor::Tabs do
     it 'should register extensions on specified local registry' do
       described_class::Extensions.unregister
       described_class::Extensions.register (registry = Asciidoctor::Extensions.create)
-
-      input = <<~'END'
-      [tabs]
-      ====
-      Tab A::
-      +
-      Contents of tab A.
-      ====
-      END
-
+      input = hello_tabs
       actual = Asciidoctor.convert input, extension_registry: registry
       (expect actual).to include 'class="tabset'
     end
