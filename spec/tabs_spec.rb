@@ -625,8 +625,12 @@ describe Asciidoctor::Tabs do
   context 'docinfo style' do
     it 'should embed styles in head tag of standalone document if tabs-stylesheet attribute is empty' do
       input = hello_tabs
-      [{}, 'tabs-stylesheet' => ''].each do |attributes|
-        doc = Asciidoctor.load input, attributes: attributes, safe: :safe, standalone: true
+      [{}, { 'tabs-stylesheet' => '' }, nil].each do |attributes|
+        if attributes.nil?
+          doc = Asciidoctor::Document.new input, safe: :safe, standalone: true
+        else
+          doc = Asciidoctor.load input, attributes: attributes, safe: :safe, standalone: true
+        end
         (expect doc.attr? 'tabs-stylesheet').to be true
         (expect doc.extensions.docinfo_processors?).to be true
         actual = doc.convert
@@ -691,7 +695,7 @@ describe Asciidoctor::Tabs do
       (expect styles_idx).to be_nil
     end
 
-    it 'should not link to stylesheet of standalone document if tabs-stylesheet is unset' do
+    it 'should not embed or link styles in standalone document if tabs-stylesheet is unset and safe mode is secure' do
       input = hello_tabs
       actual = Asciidoctor.convert input, attributes: { 'tabs-stylesheet' => nil }, safe: :secure, standalone: true
       styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
@@ -808,6 +812,13 @@ describe Asciidoctor::Tabs do
       input = hello_tabs
       actual = Asciidoctor.convert input, extension_registry: registry
       (expect actual).to include 'class="tabset'
+    end
+
+    it 'should unregister extensions on specified registry' do
+      described_class::Extensions.register (registry = Asciidoctor::Extensions.create) 
+      (expect registry.groups.keys.map(&:to_s)).to eql ['tabs']
+      described_class::Extensions.unregister registry
+      (expect registry.groups.keys).to be_empty
     end
   end
 end
