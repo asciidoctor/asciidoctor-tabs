@@ -38,6 +38,21 @@ describe Asciidoctor::Tabs do
     END
   end
 
+  let :install_tabs do
+    <<~'END'
+    [tabs#install_commands]
+    ====
+    npm::
+    +
+     $ npm i name
+
+    yarn::
+    +
+     $ yarn add name
+    ====
+    END
+  end
+
   before { described_class::Extensions.register }
 
   after { described_class::Extensions.unregister }
@@ -190,19 +205,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should honor ID specified on block and use value as prefix for tabs' do
-      input = <<~'END'
-      [tabs#install_commands]
-      ====
-      npm::
-      +
-       $ npm i name
-
-      yarn::
-      +
-       $ yarn add name
-      ====
-      END
-
+      input = install_tabs
       actual = Asciidoctor.convert input
       (expect actual).to include 'id="install_commands"'
       (expect actual).to include 'id="install_commands_npm"'
@@ -212,7 +215,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should continue sequence when generating ID for tabset following tabset with custom ID' do
-      input = <<~'END'
+      input = <<~END
       [tabs]
       ====
       Tab A:: A
@@ -220,16 +223,7 @@ describe Asciidoctor::Tabs do
       Tab C:: C
       ====
 
-      [tabs#install_commands]
-      ====
-      npm::
-      +
-       $ npm i name
-
-      yarn::
-      +
-       $ yarn add name
-      ====
+      #{install_tabs}
 
       [tabs]
       ====
