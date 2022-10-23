@@ -11,11 +11,10 @@ module Asciidoctor
         children = (parse_content block, reader).blocks
         return block unless children.size == 1 && (source_tabs = children[0]).context == :dlist && source_tabs.items?
         unless (doc = parent.document).attr? 'filetype', 'html'
-          (doc.catalog[:refs].delete source_tabs.id) || (source_tabs.id = attrs['id'])
-          unless (source_tabs.attr? 'reftext') || !(reftext = attrs['reftext'])
-            source_tabs.set_attr 'reftext', reftext
-          end
-          return source_tabs
+          (id = attrs['id']) && (doc.register :refs, [(source_tabs.id = id), source_tabs]) unless source_tabs.id
+          (reftext = attrs['reftext']) && (source_tabs.set_attr 'reftext', reftext) unless source_tabs.reftext?
+          parent << source_tabs
+          return
         end
         tabset_number = doc.counter 'tabset-number'
         id = attrs['id'] ||
