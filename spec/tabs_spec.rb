@@ -123,6 +123,24 @@ describe Asciidoctor::Tabs do
       (expect actual).to eql expected
     end
 
+    it 'should preserve ID on unprocessed example block' do
+      input = <<~'END'
+      [tabs#idname]
+      ====
+      ====
+      END
+
+      expected = <<~'END'.chomp
+      <div id="idname" class="exampleblock">
+      <div class="content">
+      </div>
+      </div>
+      END
+
+      actual = (Asciidoctor.convert input).tr_s ?\n, ?\n
+      (expect actual).to eql expected
+    end
+
     it 'should leave example block unprocessed if only child is not a dlist' do
       input = <<~'END'
       [tabs]
