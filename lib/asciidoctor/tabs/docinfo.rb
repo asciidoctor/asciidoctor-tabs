@@ -4,7 +4,7 @@ module Asciidoctor
   module Tabs
     module Docinfo
       if RUBY_ENGINE == 'opal'
-        DATA_DIR = ::File.absolute_path '../data', %x(__dirname)
+        DATA_DIR = ::File.absolute_path '../dist', %x(__dirname)
       else
         DATA_DIR = ::File.join (::File.absolute_path '../../..', __dir__), 'data'
       end

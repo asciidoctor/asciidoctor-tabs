@@ -18,6 +18,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Fixed
 
 * Prevent dlist ref from being registered again to avoid warning when filetype is not html
+* Restore missing default style and behavior in JavaScript version by mapping data dir to dist folder in npm package
 
 == 1.0.0-alpha.4 (2022-10-08) - @mojavelinux
 
