@@ -77,6 +77,8 @@ Lint/DuplicateBranch:
   Enabled: true
 Lint/DuplicateElsifCondition:
   Enabled: true
+Lint/DuplicateMagicComment:
+  Enabled: true
 Lint/DuplicateRegexpCharacterClassElement:
   Enabled: true
 Lint/DuplicateRequire:
@@ -422,6 +424,8 @@ Style/ObjectThen:
   Enabled: true
 Style/OpenStructUse:
   Enabled: true
+Style/OperatorMethodCall:
+  Enabled: true
 Style/OptionalBooleanParameter:
   Enabled: false # reason: invasive
 Style/ParallelAssignment:
@@ -459,6 +463,8 @@ Style/RedundantSelfAssignment:
   Enabled: true
 Style/RedundantSelfAssignmentBranch:
   Enabled: false
+Style/RedundantStringEscape:
+  Enabled: false # reason: this rule crashes RuboCop
 Style/RegexpLiteral:
   Enabled: true
   Exclude: [ test/*.rb ]
