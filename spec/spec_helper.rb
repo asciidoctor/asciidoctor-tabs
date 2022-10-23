@@ -14,6 +14,12 @@ require 'asciidoctor/tabs/extensions'
 require 'shellwords'
 
 RSpec.configure do
+  def create_class super_class = Object, &block
+    klass = Class.new super_class, &block
+    Object.const_set %(AnonymousClass#{klass.object_id}).to_sym, klass
+    klass
+  end
+
   def fixtures_dir
     File.join __dir__, 'fixtures'
   end

@@ -332,6 +332,35 @@ describe Asciidoctor::Tabs do
       (expect actual).to include 'id="_tabset_2_tab_b"'
     end
 
+    it 'should use anchor for tab ID if converter does not support id property on list item' do
+      backend = nil
+      create_class (Asciidoctor::Converter.for 'html5') do
+        register_for (backend = %(#{object_id}html5).to_sym)
+        def convert_ulist node
+          super.gsub %r/<li id="[^"]+"/, '<li'
+        end
+      end
+      input = <<~END
+      #{two_tabs}
+
+      #{single_tab}
+      END
+      expected = <<~'END'
+      <div class="ulist tabs">
+      <ul>
+      <li>
+      <p><a id="_tabset_1_tab_a"></a>Tab A</p>
+      </li>
+      <li>
+      <p><a id="_tabset_1_tab_b"></a>Tab B</p>
+      </li>
+      </ul>
+      </div>
+      END
+      actual = Asciidoctor.convert input, backend: backend
+      (expect actual).to include expected
+    end
+
     it 'should use text of tab item if it has no blocks' do
       input = <<~'END'
       [tabs]
