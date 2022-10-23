@@ -4,7 +4,7 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
-== Unreleased
+== 1.0.0-alpha.5 (2022-10-23) - @mojavelinux
 
 === Added
 
@@ -20,6 +20,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 * Prevent dlist ref from being registered again to avoid warning when filetype is not html (#21)
 * Restore missing default style and behavior in JavaScript version by mapping data dir to dist folder in npm package (#18)
+
+=== Details
+
+{url-repo}/releases/tag/v1.0.0-alpha.5[git tag] | {url-repo}/compare/v1.0.0-alpha.4\...v1.0.0-alpha.5[full diff]
 
 == 1.0.0-alpha.4 (2022-10-08) - @mojavelinux
 
