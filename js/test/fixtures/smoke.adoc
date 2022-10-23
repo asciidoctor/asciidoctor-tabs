@@ -1,0 +1,19 @@
+:idprefix:
+:idseparator: -
+:nofooter:
+:reproducible:
+
+[tabs#smoke]
+====
+Tab A::
++
+Contents of tab A.
+
+Tab B:: Contents of tab B.
+
+Tab C::
++
+--
+Contents of tab C.
+--
+====
