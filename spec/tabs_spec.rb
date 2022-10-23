@@ -815,7 +815,7 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should unregister extensions on specified registry' do
-      described_class::Extensions.register (registry = Asciidoctor::Extensions.create) 
+      described_class::Extensions.register (registry = Asciidoctor::Extensions.create)
       (expect registry.groups.keys.map(&:to_s)).to eql ['tabs']
       described_class::Extensions.unregister registry
       (expect registry.groups.keys).to be_empty
