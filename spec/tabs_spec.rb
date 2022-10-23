@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 describe Asciidoctor::Tabs do
-  let :attrlist do
-    []
-  end
-
   let :hello_tabs do
     <<~'END'
     [tabs]
@@ -17,8 +13,8 @@ describe Asciidoctor::Tabs do
   end
 
   let :single_tab do
-    <<~END
-    [tabs#{attrlist * ','}]
+    <<~'END'
+    [tabs]
     ====
     Tab A::
     +
@@ -28,8 +24,8 @@ describe Asciidoctor::Tabs do
   end
 
   let :two_tabs do
-    <<~END
-    [tabs#{attrlist * ','}]
+    <<~'END'
+    [tabs]
     ====
     Tab A::
     +
@@ -561,10 +557,35 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should output original dlist if filetype is not html' do
-      attrlist.push '#not-tabs', 'reftext=Not Tabs'
-      input = single_tab
+      input = <<~END
+      [#not-tabs,reftext=Not Tabs]
+      #{single_tab}
+      END
       expected = <<~'END'.chomp
       <variablelist xml:id="not-tabs" xreflabel="Not Tabs">
+      <varlistentry>
+      <term>Tab A</term>
+      <listitem>
+      <simpara>Contents of tab A.</simpara>
+      </listitem>
+      </varlistentry>
+      </variablelist>
+      END
+
+      actual = Asciidoctor.convert input, backend: 'docbook'
+      (expect actual).to eql expected
+    end
+
+    it 'should prefer ID and reftext on dlist when filetype is not html' do
+      input = <<~'EOS'
+      [tabs#not-tabs,reftext=Not Tabs]
+      ====
+      [[varlist-1,A Variable List]]
+      Tab A:: Contents of tab A.
+      ====
+      EOS
+      expected = <<~'END'.chomp
+      <variablelist xml:id="varlist-1" xreflabel="A Variable List">
       <varlistentry>
       <term>Tab A</term>
       <listitem>

@@ -15,6 +15,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 * Rename Docinfo::Styles class to Docinfo::Style
 
+=== Fixed
+
+* Prevent dlist ref from being registered again to avoid warning when filetype is not html
+
 == 1.0.0-alpha.4 (2022-10-08) - @mojavelinux
 
 === Added
