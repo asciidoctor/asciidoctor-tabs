@@ -746,6 +746,19 @@ describe Asciidoctor::Tabs do
       (expect actual).to include expected
     end
 
+    it 'should not embed custom styles if tabs-stylesheet is set to absolute path that does not exist' do
+      input = hello_tabs
+      attributes = { 'tabs-stylesheet' => (fixture_file 'no-such-file.css') }
+      with_memory_logger do |logger|
+        actual = Asciidoctor.convert input, attributes: attributes, safe: :safe, standalone: true
+        (expect (actual.scan '<style>')).to eql ['<style>']
+        (expect logger.messages.size).to eql 1
+        message = logger.messages[0]
+        (expect message[:severity]).to eql :WARN
+        (expect message[:message]).to include 'tabs stylesheet does not exist or cannot be read'
+      end
+    end
+
     it 'should embed custom styles if tabs-stylesheet is set to path relative to stylesdir' do
       input = hello_tabs
       expected = <<~'END'.chomp
