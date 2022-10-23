@@ -222,6 +222,16 @@ describe Asciidoctor::Tabs do
       (expect (Asciidoctor.load input, backend: 'docbook', standalone: true).extensions.docinfo_processors?).to be false
     end
 
+    it 'should ignore title on tabs block' do
+      input = <<~END
+      .These are tabs
+      #{single_tab}
+      END
+
+      actual = Asciidoctor.convert input
+      (expect actual).not_to include 'These are tabs'
+    end
+
     it 'should honor ID specified on block and use value as prefix for tabs' do
       input = install_tabs
       actual = Asciidoctor.convert input
