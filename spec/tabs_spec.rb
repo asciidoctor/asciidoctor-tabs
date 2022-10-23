@@ -571,13 +571,13 @@ describe Asciidoctor::Tabs do
     end
 
     it 'should prefer ID and reftext on dlist when filetype is not html' do
-      input = <<~'EOS'
+      input = <<~'END'
       [tabs#not-tabs,reftext=Not Tabs]
       ====
       [[varlist-1,A Variable List]]
       Tab A:: Contents of tab A.
       ====
-      EOS
+      END
       expected = <<~'END'.chomp
       <variablelist xml:id="varlist-1" xreflabel="A Variable List">
       <varlistentry>
