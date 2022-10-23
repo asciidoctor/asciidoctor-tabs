@@ -52,13 +52,12 @@ echo -e "//registry.npmjs.org/:_authToken=$RELEASE_NPM_TOKEN" > $HOME/.npmrc
     cd js
     npm version --no-git-tag-version $RELEASE_VERSION
   )
-  git commit -a -m "release $RELEASE_VERSION [skip ci]"
+  git commit -a -m "release $RELEASE_VERSION [no ci]"
   HEAD_COMMIT=$(git rev-parse HEAD)
   (
     cd js
-    npm i --quiet
-    npm run build
-    echo '/node_modules/' > .gitignore
+    npm run ci
+    sed -i '/^\/dist\/$/d' .gitignore
     git add dist
   )
   git commit -a -m 'add dist files for npm package'
@@ -83,6 +82,7 @@ rm -f $HOME/.npmrc
 # nuke gem credentials
 rm -rf $HOME/.gem
 
+# check for any uncommitted files
 git status -s -b
 
 exit $exit_code

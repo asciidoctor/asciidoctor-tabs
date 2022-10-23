@@ -14,6 +14,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Changed
 
 * Rename Docinfo::Styles class to Docinfo::Style
+* Add smoke test for npm package (#19)
 
 === Fixed
 

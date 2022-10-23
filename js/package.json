@@ -12,8 +12,10 @@
     "url": "https://github.com/asciidoctor/asciidoctor-tabs/issues"
   },
   "scripts": {
+    "build": "node npm/transpile.js",
+    "ci": "npm i --quiet && npm run build && npm test",
     "clean": "npx rimraf dist node_modules",
-    "build": "node npm/transpile.js"
+    "test": "_mocha --timeout 30000"
   },
   "main": "lib/index.js",
   "browser": "./dist/js/tabs.js",
@@ -30,6 +32,7 @@
     "lib"
   ],
   "devDependencies": {
+    "mocha": "latest",
     "opal-compiler": "1.0.13"
   },
   "engines": {
