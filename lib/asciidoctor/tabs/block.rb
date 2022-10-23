@@ -30,17 +30,15 @@ module Asciidoctor
             tab_id
           end
           if content
-            text = create_paragraph parent, (content.instance_variable_get :@text), nil if content.text?
+            tab_blocks = content.text? ? [(create_paragraph parent, (content.instance_variable_get :@text), nil)] : []
             if content.blocks?
               if (block0 = (blocks = content.blocks)[0]).context == :open && blocks.size == 1 && block0.blocks?
                 blocks = block0.blocks
               end
-              blocks.unshift text if text
-            elsif text
-              blocks = [text]
+              tab_blocks.push(*blocks)
             end
           end
-          panes[tab_ids] = blocks || []
+          panes[tab_ids] = tab_blocks || []
         end
         parent << tabs
         parent << (create_html_fragment parent, '<div class="content">')
