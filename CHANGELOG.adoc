@@ -4,6 +4,12 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Added
+
+* Honor title on tabs block; apply normal subs to it
+
 == 1.0.0-alpha.5 (2022-10-23) - @mojavelinux
 
 === Added

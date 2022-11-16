@@ -19,6 +19,9 @@ module Asciidoctor
         tabset_number = doc.counter 'tabset-number'
         tabs_id = attrs['id'] || (generate_id %(tabset #{tabset_number}), doc)
         parent << (create_html_fragment parent, %(<div id="#{tabs_id}" class="tabset is-loading">))
+        if (title = attrs['title'])
+          parent << (create_html_fragment parent, %(<div class="title">#{parent.apply_subs title}</div>))
+        end
         (tabs = create_list parent, :ulist).add_role 'tabs'
         panes = {}
         set_id_on_tab = (doc.backend == 'html5') || (list_item_supports_id? doc)

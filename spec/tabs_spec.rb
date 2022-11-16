@@ -222,14 +222,19 @@ describe Asciidoctor::Tabs do
       (expect (Asciidoctor.load input, backend: 'docbook', standalone: true).extensions.docinfo_processors?).to be false
     end
 
-    it 'should ignore title on tabs block' do
+    it 'should honor title on tabs block' do
       input = <<~END
-      .These are tabs
+      .These are *tabs*!
       #{single_tab}
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).not_to include 'These are tabs'
+      expected = <<~'END'.chomp
+      <div id="_tabset_1" class="tabset is-loading">
+      <div class="title">These are <strong>tabs</strong>!</div>
+      <div class="ulist tabs">
+      END
+      (expect actual).to include expected
     end
 
     it 'should honor ID specified on block and use value as prefix for tabs' do
