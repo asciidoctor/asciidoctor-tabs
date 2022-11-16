@@ -292,6 +292,27 @@ describe Asciidoctor::Tabs do
       end
     end
 
+    it 'should register reference for each tab' do
+      input = <<~'END'
+      [tabs]
+      ====
+      CPU:: The brains of your computer.
+      Hard drive:: Where all your files are stored (that aren't in the cloud).
+      ====
+
+      See <<_tabset_1_hard_drive>>.
+      END
+
+      with_memory_logger :info do |logger|
+        doc = Asciidoctor.load input
+        actual = doc.convert
+        (expect actual).to include 'id="_tabset_1_hard_drive"'
+        (expect logger).to be_empty
+        (expect doc.catalog[:refs]).to have_key '_tabset_1_hard_drive'
+        (expect doc.catalog[:refs]['_tabset_1_hard_drive'].xreftext).to eql 'Hard drive'
+      end
+    end
+
     it 'should clean invalid ID chars and condense repeating separator chars' do
       input = <<~'END'
       [tabs]

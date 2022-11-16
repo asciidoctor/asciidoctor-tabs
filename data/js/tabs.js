@@ -2,8 +2,11 @@
 ;(function () {
   'use strict'
 
+  var tabsets = find('.tabset')
+  if (!tabsets.length) return
   var fragment = decodeFragment(window.location.hash)
-  find('.tabset').forEach(function (tabset) {
+
+  tabsets.forEach(function (tabset) {
     var active
     var tabs = tabset.querySelector('.tabs')
     if (tabs) {
@@ -31,6 +34,9 @@
     tabset.classList.remove('is-loading')
   })
 
+  tabsets = undefined
+  window.addEventListener('hashchange', onHashChange)
+
   function activateTab (e) {
     var tab = this.tab
     var pane = this.pane
@@ -38,11 +44,22 @@
       it === tab || it === pane ? it.classList.add('is-active') : it.classList.remove('is-active')
     })
     window.history.replaceState(null, '', '#' + tab.id)
-    e.preventDefault()
+    if (e) e.preventDefault()
   }
 
   function decodeFragment (hash) {
     return hash && (~hash.indexOf('%') ? decodeURIComponent(hash.slice(1)) : hash.slice(1))
+  }
+
+  function onHashChange () {
+    var id = decodeFragment(window.location.hash)
+    if (!id) return
+    var tab = document.getElementById(id)
+    if (!(tab && document.querySelector('.tabset .tabs [id="' + id + '"]'))) return
+    if (tab.tagName === 'A') tab = tab.parentNode
+    var tabset = tab.closest('.tabset')
+    var pane = tabset.querySelector('.tab-pane[aria-labelledby~="' + id + '"]')
+    activateTab.call({ tabset: tabset, tab: tab, pane: pane })
   }
 
   function find (selector, from) {
