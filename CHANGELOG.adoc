@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Added
 
 * Honor title on tabs block; apply normal subs to it
+* Update the location hash (URL fragment) when a tab is activated
 
 === Fixed
 

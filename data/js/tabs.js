@@ -37,6 +37,7 @@
     find('.tabs li, .tab-pane', this.tabset).forEach(function (it) {
       it === tab || it === pane ? it.classList.add('is-active') : it.classList.remove('is-active')
     })
+    window.history.replaceState(null, '', '#' + tab.id)
     e.preventDefault()
   }
 
