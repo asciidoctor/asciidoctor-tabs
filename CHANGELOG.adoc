@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Added
 
 * Honor title on tabs block; apply normal subs to it
+* Decode fragment from URL so it can be matched against tab ID
 
 == 1.0.0-alpha.5 (2022-10-23) - @mojavelinux
 

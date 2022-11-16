@@ -2,7 +2,7 @@
 ;(function () {
   'use strict'
 
-  var hash = window.location.hash
+  var fragment = decodeFragment(window.location.hash)
   find('.tabset').forEach(function (tabset) {
     var active
     var tabs = tabset.querySelector('.tabs')
@@ -14,7 +14,7 @@
         var pane = tabset.querySelector('.tab-pane[aria-labelledby~="' + id + '"]')
         if (!pane) return
         if (!idx) first = { tab: tab, pane: pane }
-        if (!active && hash === '#' + id && (active = true)) {
+        if (!active && fragment === id && (active = true)) {
           tab.classList.add('is-active')
           if (pane) pane.classList.add('is-active')
         } else if (!idx) {
@@ -38,6 +38,10 @@
       it === tab || it === pane ? it.classList.add('is-active') : it.classList.remove('is-active')
     })
     e.preventDefault()
+  }
+
+  function decodeFragment (hash) {
+    return hash && (~hash.indexOf('%') ? decodeURIComponent(hash.slice(1)) : hash.slice(1))
   }
 
   function find (selector, from) {
