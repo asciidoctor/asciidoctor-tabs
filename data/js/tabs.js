@@ -43,8 +43,10 @@
     find('.tabs li, .tab-pane', this.tabset).forEach(function (it) {
       it === tab || it === pane ? it.classList.add('is-active') : it.classList.remove('is-active')
     })
-    window.history.replaceState(null, '', '#' + tab.id)
-    if (e) e.preventDefault()
+    if (!e) return
+    var hashIdx = window.location.hash ? window.location.href.indexOf('#') : -1
+    if (~hashIdx) window.history.replaceState(null, '', window.location.href.slice(0, hashIdx))
+    e.preventDefault()
   }
 
   function decodeFragment (hash) {
