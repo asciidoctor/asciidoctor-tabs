@@ -10,6 +10,8 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 * Honor title on tabs block; apply normal subs to it
 * Update the location hash (URL fragment) when a tab is activated
+* Register ref for each tab so its ID can be used as target of xref (#24)
+* Activate tab when selected from an internal xref (#24)
 
 === Fixed
 

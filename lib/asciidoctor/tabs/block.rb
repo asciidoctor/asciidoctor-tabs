@@ -29,7 +29,9 @@ module Asciidoctor
           tab_ids = labels.map do |tab|
             tabs << tab
             tab_id = generate_id tab.text, doc, tabs_id
-            set_id_on_tab ? (tab.id = tab_id) : (tab.text = %([[#{tab_id}]]#{tab.instance_variable_get :@text}))
+            tab_source_text = tab.instance_variable_get :@text
+            set_id_on_tab ? (tab.id = tab_id) : (tab.text = %([[#{tab_id}]]#{tab_source_text}))
+            (doc.register :refs, [tab_id, tab]).set_attr 'reftext', tab_source_text
             tab_id
           end
           if content
