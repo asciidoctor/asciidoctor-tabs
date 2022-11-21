@@ -12,7 +12,7 @@
     if (tabs) {
       var first
       find('li', tabs).forEach(function (tab, idx) {
-        var id = (tab.querySelector('a[id]') || tab).id
+        var id = tab.id || (tab.querySelector('a[id]') || {}).id
         if (!id) return
         var pane = tabset.querySelector('.tab-pane[aria-labelledby~="' + id + '"]')
         if (!pane) return
