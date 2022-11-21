@@ -24,6 +24,7 @@
     ".": "./lib/index.js",
     "./extensions": "./lib/extensions.js",
     "./dist/*": "./dist/*",
+    "./package.json": "./package.json",
     "./script": "./dist/js/tabs.js",
     "./style": "./dist/css/tabs.css"
   },
