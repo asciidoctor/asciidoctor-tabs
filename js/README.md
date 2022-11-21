@@ -32,6 +32,21 @@ Contains more than one block.
 ====
 ```
 
+You may choose to extend the block delimiter length from the typical 4 characters to 6 in order to avoid conflicts with any example blocks inside the tab block (or just as a matter of style).
+
+```asciidoc
+[tabs]
+======
+Tab A::
++
+====
+Example block in Tab A.
+====
+
+Tab B:: Just text.
+======
+```
+
 ## Usage
 
 ### CLI

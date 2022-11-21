@@ -84,7 +84,7 @@ The term is used as the tab's label and the description is used as the tab's con
 The contents can be defined as primary text, attached blocks, or both.
 If the attached blocks are themselves enclosed in a single open block, the open block enclosure itself is discarded upon conversion.
 
-You may decide to extend the block delimiter length instead of using the typical 4 characters to avoid conflicts with any example blocks inside the tab block (or just as a manner of style).
+You may choose to extend the block delimiter length from the typical 4 characters to 6 in order to avoid conflicts with any example blocks inside the tab block (or just as a matter of style).
 
 [,asciidoc]
 ----
