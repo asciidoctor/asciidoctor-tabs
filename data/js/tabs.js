@@ -12,8 +12,13 @@
     if (tabs) {
       var first
       find('li', tabs).forEach(function (tab, idx) {
-        var id = tab.id || (tab.querySelector('a[id]') || {}).id
-        if (!id) return
+        var id = tab.id
+        if (!id) {
+          var anchor = tab.querySelector('a[id]')
+          if (!anchor) return
+          tab.id = id = anchor.parentNode.removeChild(anchor).id
+        }
+        tab.className = 'tab'
         var pane = tabset.querySelector('.tab-pane[aria-labelledby~="' + id + '"]')
         if (!pane) return
         if (!idx) first = { tab: tab, pane: pane }
@@ -57,8 +62,7 @@
     var id = decodeFragment(window.location.hash)
     if (!id) return
     var tab = document.getElementById(id)
-    if (!(tab && document.querySelector('.tabset .tabs [id="' + id + '"]'))) return
-    if (tab.tagName === 'A') tab = tab.parentNode
+    if (!(tab && tab.classList.contains('tab'))) return
     var tabset = tab.closest('.tabset')
     var pane = tabset.querySelector('.tab-pane[aria-labelledby~="' + id + '"]')
     activateTab.call({ tabset: tabset, tab: tab, pane: pane })

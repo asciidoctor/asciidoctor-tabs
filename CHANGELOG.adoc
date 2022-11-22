@@ -4,6 +4,16 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Added
+
+* In tabs script, add `tab` class to tab element
+
+=== Changed
+
+* When inline anchor is used for tab ID, promote value of id attribute to id attribute on tab and remove anchor
+
 == 1.0.0-alpha.6 (2022-11-16) - @mojavelinux
 
 === Added
