@@ -1,5 +1,4 @@
-/*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
-;(function () {
+;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
   'use strict'
 
   var tabsets = find('.tabset')
