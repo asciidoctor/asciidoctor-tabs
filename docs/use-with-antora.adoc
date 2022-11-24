@@ -35,9 +35,7 @@ Next, define a vendor script at [.path]_src/js/vendor/tabs.bundle.js_ and popula
 
 [,js]
 ----
-;(function () {
-  require('@asciidoctor/tabs')
-})()
+require('@asciidoctor/tabs')
 ----
 
 browserify will know how to find the script based on metadata provided by the npm package.
