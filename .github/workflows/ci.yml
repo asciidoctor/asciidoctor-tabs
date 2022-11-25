@@ -7,14 +7,15 @@ on:
     branches: [main]
     paths-ignore: ['*.adoc', 'docs/**', 'js/*.md']
   schedule:
-  - cron: '0 2 * * MON'
+  - cron: '45 2 * * MON'
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   activate:
-    if: |
-      (github.event_name == 'schedule' && github.repository_owner == 'asciidoctor') || (github.event_name == 'push') ||
+    if: >-
+      github.event_name == 'push' ||
+      (github.event_name == 'schedule' && github.repository_owner == 'asciidoctor') ||
       (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'docs/'))
     runs-on: ubuntu-latest
     steps:
@@ -49,12 +50,7 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: ${{ github.event_name != 'schedule' }}
-    - name: Install Node.js
-      if: matrix.primary
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-    - name: Install dependencies (scheduled build only)
+    - name: Install Ruby dependencies (scheduled build only)
       if: github.event_name == 'schedule'
       run: |
         bundle config --local path vendor/bundle
@@ -64,6 +60,11 @@ jobs:
       run: bundle exec rake lint
     - name: Run tests
       run: bundle exec ruby -w $(bundle exec ruby -e 'print File.join Gem.bindir, %q(rake)') spec
+    - name: Install Node.js
+      if: matrix.primary
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
     - name: Run smoke test for npm package
       if: matrix.primary
       working-directory: js

@@ -7,13 +7,8 @@ on:
         description: Enter version to release (e.g., 1.0.1).
         required: false
 jobs:
-  activate:
-    runs-on: ubuntu-latest
-    if: github.repository_owner == 'asciidoctor' && github.event_name == 'workflow_dispatch'
-    steps:
-    - run: echo ok go
   perform:
-    needs: activate
+    if: github.repository_owner == 'asciidoctor' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment: releases
     steps:
@@ -28,16 +23,15 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '16'
-    - name: Configure Bundler
+    - name: Install Ruby dependencies
       run: |
         bundle config --local path vendor/bundle
-    - name: Install dependencies
-      run: bundle --jobs 3 --retry 3
+        bundle --jobs 3 --retry 3
     - name: Run linter
       run: bundle exec rake lint
     - name: Run tests
       run: bundle exec rake spec
-    - name: Setup release environment
+    - name: Set up release environment
       run: |
         echo RELEASE_VERSION=${{ github.event.inputs.release-version }} >> $GITHUB_ENV
         echo RELEASE_NPM_TOKEN=${{ secrets[format('NPM_TOKEN_{0}', github.actor)] }} >> $GITHUB_ENV
