@@ -35,7 +35,9 @@ module Asciidoctor
             tab_id
           end
           if content
-            tab_blocks = content.text? ? [(create_paragraph parent, (content.instance_variable_get :@text), nil)] : []
+            tab_blocks = content.text? ?
+              [(create_paragraph parent, (content.instance_variable_get :@text), nil, subs: :normal)]
+              : []
             if content.blocks?
               if (block0 = (blocks = content.blocks)[0]).context == :open && blocks.size == 1 && block0.blocks?
                 blocks = block0.blocks

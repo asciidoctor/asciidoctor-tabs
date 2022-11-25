@@ -463,6 +463,55 @@ describe Asciidoctor::Tabs do
       (expect actual).to eql expected
     end
 
+    it 'should apply normal substitutions to principal text of tab item' do
+      input = <<~'END'
+      :url-download: https://example.org
+      :hide-uri-scheme:
+
+      [tabs]
+      ====
+      Download:: Download the *installer* from {url-download}.
+
+      Install::
+      Run the *installer* you downloaded from {url-download}.
+      ====
+      END
+
+      expected = <<~'END'.chomp
+      <div id="_tabset_1" class="tabset is-loading">
+      <div class="ulist tabs">
+      <ul>
+      <li id="_tabset_1_download">
+      <p>Download</p>
+      </li>
+      <li id="_tabset_1_install">
+      <p>Install</p>
+      </li>
+      </ul>
+      </div>
+      <div class="content">
+      <div class="tab-pane" aria-labelledby="_tabset_1_download">
+      <div class="paragraph">
+      <p>Download the <strong>installer</strong> from <a href="https://example.org" class="bare">example.org</a>.</p>
+      </div>
+      </div>
+      <div class="tab-pane" aria-labelledby="_tabset_1_install">
+      <div class="paragraph">
+      <p>Run the <strong>installer</strong> you downloaded from <a href="https://example.org" class="bare">example.org</a>.</p>
+      </div>
+      </div>
+      </div>
+      </div>
+      END
+
+      doc = Asciidoctor.load input
+      (doc.find_by context: :paragraph).each do |para|
+        (expect para.subs).to eql (para.resolve_subs 'normal')
+      end
+      actual = doc.convert
+      (expect actual).to eql expected
+    end
+
     it 'should support multiple tabs for same content pane' do
       input = <<~'END'
       [tabs]
