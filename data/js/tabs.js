@@ -14,25 +14,24 @@
         var id = tab.id
         if (!id) {
           var anchor = tab.querySelector('a[id]')
-          if (!anchor) return
+          if (!anchor) return // invalid state
           tab.id = id = anchor.parentNode.removeChild(anchor).id
         }
         tab.className = 'tab'
         var pane = tabset.querySelector('.tab-pane[aria-labelledby~="' + id + '"]')
-        if (!pane) return
-        if (!idx) first = { tab: tab, pane: pane }
-        if (!active && fragment === id && (active = true)) {
+        if (!pane) return // invalid state
+        var instance = { tabset: tabset, tab: tab, pane: pane }
+        if (!idx) first = instance
+        if (!active && fragment === id) {
+          active = true
           tab.classList.add('is-active')
-          if (pane) pane.classList.add('is-active')
-        } else if (!idx) {
-          tab.classList.remove('is-active')
-          if (pane) pane.classList.remove('is-active')
+          pane.classList.add('is-active')
         }
-        tab.addEventListener('click', activateTab.bind({ tabset: tabset, tab: tab, pane: pane }))
+        tab.addEventListener('click', activateTab.bind(instance))
       })
       if (!active && first) {
         first.tab.classList.add('is-active')
-        if (first.pane) first.pane.classList.add('is-active')
+        first.pane.classList.add('is-active')
       }
     }
     tabset.classList.remove('is-loading')
