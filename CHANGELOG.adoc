@@ -14,6 +14,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 * When inline anchor is used for tab ID, promote value of id attribute to id attribute on tab and remove anchor
 
+=== Fixed
+
+* Apply normal substitutions to principal text (first paragraph) of tab's content (#29)
+
 == 1.0.0-alpha.6 (2022-11-16) - @mojavelinux
 
 === Added
@@ -121,7 +125,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 == 1.0.0-alpha.1 (2022-10-01) - @mojavelinux
 
-_Initial release._
+_Initial prerelease._
 
 === Details
 
