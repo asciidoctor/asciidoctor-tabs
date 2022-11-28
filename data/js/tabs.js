@@ -1,16 +1,16 @@
 ;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
   'use strict'
 
-  init(find.call(document, '.tabset'))
+  init(document.querySelectorAll('.tabset'))
 
   function init (tabsets) {
     if (!tabsets.length) return
     var fragment = getFragment()
-    tabsets.forEach(function (tabset) {
+    Array.prototype.forEach.call(tabsets, function (tabset) {
       var tabs = tabset.querySelector('.tabs')
       if (!tabs) return tabset.classList.remove('is-loading')
       var active, first
-      find.call(tabs, 'li').forEach(function (tab, idx) {
+      Array.prototype.forEach.call(tabs.querySelectorAll('li'), function (tab, idx) {
         var id = tab.id
         if (!id) {
           var anchor = tab.querySelector('a[id]')
@@ -42,7 +42,7 @@
     var tab = this.tab
     var tabset = this.tabset || tab.closest('.tabset')
     var pane = this.pane || tabset.querySelector('.tab-pane[aria-labelledby~="' + tab.id + '"]')
-    find.call(tabset, '.tabs li, .tab-pane').forEach(function (el) {
+    Array.prototype.forEach.call(tabset.querySelectorAll('.tabs li, .tab-pane'), function (el) {
       el === tab || el === pane ? el.classList.add('is-active') : el.classList.remove('is-active')
     })
     if (!e) return
@@ -62,9 +62,5 @@
     if (!id) return
     var tab = document.getElementById(id)
     if (tab && tab.classList.contains('tab')) activateTab.call({ tab: tab })
-  }
-
-  function find (selector) {
-    return Array.prototype.slice.call(this.querySelectorAll(selector))
   }
 })()
