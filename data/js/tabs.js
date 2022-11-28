@@ -1,16 +1,18 @@
 ;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
   'use strict'
 
+  var forEach = Array.prototype.forEach
+
   init(document.querySelectorAll('.tabset'))
 
   function init (tabsets) {
     if (!tabsets.length) return
     var fragment = getFragment()
-    Array.prototype.forEach.call(tabsets, function (tabset) {
+    forEach.call(tabsets, function (tabset) {
       var tabs = tabset.querySelectorAll('.tabs li')
       if (!tabs.length) return tabset.classList.remove('is-loading')
       var active, first
-      Array.prototype.forEach.call(tabs, function (tab, idx) {
+      forEach.call(tabs, function (tab, idx) {
         var id = tab.id
         if (!id) {
           var anchor = tab.querySelector('a[id]')
@@ -42,7 +44,7 @@
     var tab = this.tab
     var tabset = this.tabset || tab.closest('.tabset')
     var pane = this.pane || tabset.querySelector('.tab-pane[aria-labelledby~="' + tab.id + '"]')
-    Array.prototype.forEach.call(tabset.querySelectorAll('.tabs li, .tab-pane'), function (el) {
+    forEach.call(tabset.querySelectorAll('.tabs li, .tab-pane'), function (el) {
       el === tab || el === pane ? el.classList.add('is-active') : el.classList.remove('is-active')
     })
     if (!e) return
