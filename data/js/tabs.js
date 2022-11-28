@@ -37,7 +37,7 @@
     tabset.classList.remove('is-loading')
   })
 
-  tabsets = undefined
+  fragment = tabsets = undefined
   window.addEventListener('hashchange', onHashChange)
 
   function activateTab (e) {
