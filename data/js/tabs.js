@@ -7,10 +7,10 @@
     if (!tabsets.length) return
     var fragment = getFragment()
     Array.prototype.forEach.call(tabsets, function (tabset) {
-      var tabs = tabset.querySelector('.tabs')
-      if (!tabs) return tabset.classList.remove('is-loading')
+      var tabs = tabset.querySelectorAll('.tabs li')
+      if (!tabs.length) return tabset.classList.remove('is-loading')
       var active, first
-      Array.prototype.forEach.call(tabs.querySelectorAll('li'), function (tab, idx) {
+      Array.prototype.forEach.call(tabs, function (tab, idx) {
         var id = tab.id
         if (!id) {
           var anchor = tab.querySelector('a[id]')
