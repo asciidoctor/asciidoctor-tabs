@@ -11,7 +11,8 @@
     forEach.call(tabsets, function (tabset) {
       var tabs = tabset.querySelectorAll('.tabs li')
       if (!tabs.length) return tabset.classList.remove('is-loading')
-      var active, first
+      var active, first, syncId
+      var syncIds = tabset.classList.contains('is-sync') ? {} : undefined
       forEach.call(tabs, function (tab, idx) {
         var id = tab.id
         if (!id) {
@@ -28,7 +29,12 @@
           tab.classList.add('is-active')
           pane.classList.add('is-active')
         }
-        tab.addEventListener('click', activateTab.bind(instance))
+        if (syncIds && !((syncId = tab.textContent.trim()) in syncIds)) {
+          syncIds[(tab.dataset.syncId = syncId)] = true
+          tab.addEventListener('click', activateTabSync.bind(instance))
+        } else {
+          tab.addEventListener('click', activateTab.bind(instance))
+        }
       })
       if (!active && first) {
         first.tab.classList.add('is-active')
@@ -51,6 +57,14 @@
     var hashIdx = loc.hash ? loc.href.indexOf('#') : -1
     if (~hashIdx) window.history.replaceState(null, '', loc.href.slice(0, hashIdx))
     e.preventDefault()
+  }
+
+  function activateTabSync (e) {
+    activateTab.call(this, e)
+    var thisTab = this.tab
+    forEach.call(document.querySelectorAll('.tabs li'), function (tab) {
+      if (tab !== thisTab && tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tab: tab })
+    })
   }
 
   function getFragment (hash) {

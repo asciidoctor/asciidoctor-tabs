@@ -18,7 +18,8 @@ module Asciidoctor
         end
         tabset_number = doc.counter 'tabset-number'
         tabs_id = attrs['id'] || (generate_id %(tabset #{tabset_number}), doc)
-        parent << (create_html_fragment parent, %(<div id="#{tabs_id}" class="tabset is-loading">))
+        sync = !(block.option? 'nosync') && ((block.option? 'sync') || (doc.option? 'tabs-sync')) ? ' is-sync' : nil
+        parent << (create_html_fragment parent, %(<div id="#{tabs_id}" class="tabset#{sync || ''} is-loading">))
         if (title = attrs['title'])
           parent << (create_html_fragment parent, %(<div class="title">#{parent.apply_subs title}</div>))
         end
