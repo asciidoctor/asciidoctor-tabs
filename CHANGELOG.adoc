@@ -9,6 +9,8 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Added
 
 * In tabs script, add `tab` class to tab element
+* Sync tab selection across tabs blocks if `sync` option is set on tabs block or `tabs-sync-option` attribute is set on document (#28)
+* Delist tabs block from sync if `nosync` option is set on block (#28)
 
 === Changed
 

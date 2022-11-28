@@ -724,6 +724,40 @@ describe Asciidoctor::Tabs do
       actual = Asciidoctor.convert input, backend: 'docbook'
       (expect actual).to eql expected
     end
+
+    it 'should add is-sync class to tabs block if tabs-sync-option is set on document' do
+      input = <<~END
+      :tabs-sync-option:
+
+      #{two_tabs}
+      END
+
+      actual = Asciidoctor.convert input
+      (expect actual).to include ' class="tabset is-sync is-loading"'
+    end
+
+    it 'should add is-sync class to tabs block if sync option is set on block' do
+      input = <<~END
+      [%sync]
+      #{two_tabs}
+      END
+
+      actual = Asciidoctor.convert input
+      (expect actual).to include ' class="tabset is-sync is-loading"'
+    end
+
+    it 'should not add is-sync class to tabs block if nosync option is set on block' do
+      input = <<~END
+      :tabs-sync-option:
+
+      [%nosync]
+      #{two_tabs}
+      END
+
+      actual = Asciidoctor.convert input
+      (expect actual).not_to include ' class="tabset is-sync is-loading"'
+      (expect actual).to include ' class="tabset is-loading"'
+    end
   end
 
   context 'docinfo style' do
