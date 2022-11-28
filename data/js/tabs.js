@@ -6,10 +6,9 @@
   var fragment = decodeFragment(window.location.hash)
 
   tabsets.forEach(function (tabset) {
-    var active
     var tabs = tabset.querySelector('.tabs')
     if (tabs) {
-      var first
+      var active, first
       find('li', tabs).forEach(function (tab, idx) {
         var id = tab.id
         if (!id) {
