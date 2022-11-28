@@ -41,8 +41,9 @@
 
   function activateTab (e) {
     var tab = this.tab
-    var pane = this.pane
-    find('.tabs li, .tab-pane', this.tabset).forEach(function (el) {
+    var tabset = this.tabset || tab.closest('.tabset')
+    var pane = this.pane || tabset.querySelector('.tab-pane[aria-labelledby~="' + tab.id + '"]')
+    find('.tabs li, .tab-pane', tabset).forEach(function (el) {
       el === tab || el === pane ? el.classList.add('is-active') : el.classList.remove('is-active')
     })
     if (!e) return
@@ -60,9 +61,7 @@
     if (!id) return
     var tab = document.getElementById(id)
     if (!(tab && tab.classList.contains('tab'))) return
-    var tabset = tab.closest('.tabset')
-    var pane = tabset.querySelector('.tab-pane[aria-labelledby~="' + id + '"]')
-    activateTab.call({ tabset: tabset, tab: tab, pane: pane })
+    activateTab.call({ tab: tab })
   }
 
   function find (selector, from) {
