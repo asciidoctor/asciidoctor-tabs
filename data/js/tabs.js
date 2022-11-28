@@ -42,8 +42,8 @@
   function activateTab (e) {
     var tab = this.tab
     var pane = this.pane
-    find('.tabs li, .tab-pane', this.tabset).forEach(function (it) {
-      it === tab || it === pane ? it.classList.add('is-active') : it.classList.remove('is-active')
+    find('.tabs li, .tab-pane', this.tabset).forEach(function (el) {
+      el === tab || el === pane ? el.classList.add('is-active') : el.classList.remove('is-active')
     })
     if (!e) return
     var hashIdx = window.location.hash ? window.location.href.indexOf('#') : -1
