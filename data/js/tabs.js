@@ -1,16 +1,16 @@
 ;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
   'use strict'
 
-  init(find('.tabset'))
+  init(find.call(document, '.tabset'))
 
   function init (tabsets) {
     if (!tabsets.length) return
-    var fragment = decodeFragment(window.location.hash)
+    var fragment = getFragment()
     tabsets.forEach(function (tabset) {
       var tabs = tabset.querySelector('.tabs')
       if (!tabs) return tabset.classList.remove('is-loading')
       var active, first
-      find('li', tabs).forEach(function (tab, idx) {
+      find.call(tabs, 'li').forEach(function (tab, idx) {
         var id = tab.id
         if (!id) {
           var anchor = tab.querySelector('a[id]')
@@ -42,27 +42,29 @@
     var tab = this.tab
     var tabset = this.tabset || tab.closest('.tabset')
     var pane = this.pane || tabset.querySelector('.tab-pane[aria-labelledby~="' + tab.id + '"]')
-    find('.tabs li, .tab-pane', tabset).forEach(function (el) {
+    find.call(tabset, '.tabs li, .tab-pane').forEach(function (el) {
       el === tab || el === pane ? el.classList.add('is-active') : el.classList.remove('is-active')
     })
     if (!e) return
-    var hashIdx = window.location.hash ? window.location.href.indexOf('#') : -1
-    if (~hashIdx) window.history.replaceState(null, '', window.location.href.slice(0, hashIdx))
+    var loc = window.location
+    var hashIdx = loc.hash ? loc.href.indexOf('#') : -1
+    if (~hashIdx) window.history.replaceState(null, '', loc.href.slice(0, hashIdx))
     e.preventDefault()
   }
 
-  function decodeFragment (hash) {
+  function getFragment () {
+    var hash = window.location.hash
     return hash && (~hash.indexOf('%') ? decodeURIComponent(hash.slice(1)) : hash.slice(1))
   }
 
   function onHashChange () {
-    var id = decodeFragment(window.location.hash)
+    var id = getFragment()
     if (!id) return
     var tab = document.getElementById(id)
     if (tab && tab.classList.contains('tab')) activateTab.call({ tab: tab })
   }
 
-  function find (selector, from) {
-    return Array.prototype.slice.call((from || document).querySelectorAll(selector))
+  function find (selector) {
+    return Array.prototype.slice.call(this.querySelectorAll(selector))
   }
 })()
