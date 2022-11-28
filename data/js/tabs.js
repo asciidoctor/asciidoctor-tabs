@@ -24,8 +24,7 @@
         if (!pane) return // invalid state
         var instance = { tabset: tabset, tab: tab, pane: pane }
         if (!idx) first = instance
-        if (!active && fragment === id) {
-          active = true
+        if (!active && fragment === id && (active = true)) {
           tab.classList.add('is-active')
           pane.classList.add('is-active')
         }
@@ -54,9 +53,8 @@
     e.preventDefault()
   }
 
-  function getFragment () {
-    var hash = window.location.hash
-    return hash && (~hash.indexOf('%') ? decodeURIComponent(hash.slice(1)) : hash.slice(1))
+  function getFragment (hash) {
+    return (hash = window.location.hash) && (~hash.indexOf('%') ? decodeURIComponent(hash.slice(1)) : hash.slice(1))
   }
 
   function onHashChange () {
