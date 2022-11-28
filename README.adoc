@@ -1,6 +1,6 @@
 = Asciidoctor Tabs
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
-v1.0.0-alpha.6, 2022-11-16
+v1.0.0-alpha.7, 2022-11-28
 :idprefix:
 :idseparator: -
 ifndef::env-github[:icons: font]

@@ -4,7 +4,7 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
-== Unreleased
+== 1.0.0-alpha.7 (2022-11-28) - @mojavelinux
 
 === Added
 
@@ -19,6 +19,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Fixed
 
 * Apply normal substitutions to principal text (first paragraph) of tab's content (#29)
+
+=== Details
+
+{url-repo}/releases/tag/v1.0.0-alpha.7[git tag] | {url-repo}/compare/v1.0.0-alpha.6\...v1.0.0-alpha.7[full diff]
 
 == 1.0.0-alpha.6 (2022-11-16) - @mojavelinux
 
