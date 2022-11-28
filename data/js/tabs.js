@@ -1,13 +1,14 @@
 ;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
   'use strict'
 
-  var tabsets = find('.tabset')
-  if (!tabsets.length) return
-  var fragment = decodeFragment(window.location.hash)
+  init(find('.tabset'))
 
-  tabsets.forEach(function (tabset) {
-    var tabs = tabset.querySelector('.tabs')
-    if (tabs) {
+  function init (tabsets) {
+    if (!tabsets.length) return
+    var fragment = decodeFragment(window.location.hash)
+    tabsets.forEach(function (tabset) {
+      var tabs = tabset.querySelector('.tabs')
+      if (!tabs) return tabset.classList.remove('is-loading')
       var active, first
       find('li', tabs).forEach(function (tab, idx) {
         var id = tab.id
@@ -32,12 +33,10 @@
         first.tab.classList.add('is-active')
         first.pane.classList.add('is-active')
       }
-    }
-    tabset.classList.remove('is-loading')
-  })
-
-  fragment = tabsets = undefined
-  window.addEventListener('hashchange', onHashChange)
+      tabset.classList.remove('is-loading')
+    })
+    window.addEventListener('hashchange', onHashChange)
+  }
 
   function activateTab (e) {
     var tab = this.tab
@@ -60,8 +59,7 @@
     var id = decodeFragment(window.location.hash)
     if (!id) return
     var tab = document.getElementById(id)
-    if (!(tab && tab.classList.contains('tab'))) return
-    activateTab.call({ tab: tab })
+    if (tab && tab.classList.contains('tab')) activateTab.call({ tab: tab })
   }
 
   function find (selector, from) {
