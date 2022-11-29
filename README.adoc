@@ -100,6 +100,33 @@ Tab B:: Just text.
 ======
 ----
 
+== Tabs Sync
+
+If you want to synchronize the tab selection across tabsets, set the `tabs-sync-option` on the document.
+
+.document-with-tabs-sync.adoc
+[,asciidoc]
+----
+:tabs-sync-option:
+
+[tabs]
+====
+Tab A:: Contents of tab A in first tabset.
+Tab B:: Contents of tab B in first tabset.
+====
+
+...
+
+[tabs]
+====
+Tab A:: Contents of tab A in second tabset.
+Tab B:: Contents of tab B in second tabset.
+====
+----
+
+Alternately, you can set the `sync` option on each tabs block.
+If you want to delist a tabs block from sync, set the `nosync` option on that block.
+
 == Usage
 
 === CLI
