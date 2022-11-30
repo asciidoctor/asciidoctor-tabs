@@ -4,6 +4,12 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Fixed
+
+* Remove bottom margin from last block in tab pane for the most common cases
+
 == 1.0.0-alpha.7 (2022-11-28) - @mojavelinux
 
 === Added

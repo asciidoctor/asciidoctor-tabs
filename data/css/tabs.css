@@ -65,6 +65,8 @@
   margin-top: 0;
 }
 
-.tab-pane > :last-child > :last-child {
+#content .tab-pane > :last-child,
+#content .tab-pane > :last-child > :last-child,
+#content .tab-pane > :last-child > :last-child > li:last-child > :last-child {
   margin-bottom: 0;
 }
