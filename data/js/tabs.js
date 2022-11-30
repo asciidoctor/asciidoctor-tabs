@@ -64,6 +64,7 @@
     var id = window.location.hash.slice(1)
     if (!id) return
     var tab = document.getElementById(~id.indexOf('%') ? decodeURIComponent(id) : id)
-    if (tab && tab.classList.contains('tab')) activateTab.call({ tab: tab })
+    if (!(tab && tab.classList.contains('tab'))) return
+    tab.dataset.syncId ? activateTabSync.call({ tab: tab }) : activateTab.call({ tab: tab })
   }
 })()
