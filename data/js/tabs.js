@@ -7,11 +7,8 @@
 
   function init (tabsets) {
     if (!tabsets.length) return
-    var fragment = getFragment()
     forEach.call(tabsets, function (tabset) {
       var tabs = tabset.querySelectorAll('.tabs li')
-      if (!tabs.length) return tabset.classList.remove('is-loading')
-      var active, first, syncId
       var syncIds = tabset.classList.contains('is-sync') ? {} : undefined
       forEach.call(tabs, function (tab, idx) {
         var id = tab.id
@@ -20,26 +17,22 @@
           if (!anchor) return // invalid state
           tab.id = id = anchor.parentNode.removeChild(anchor).id
         }
-        tab.className = 'tab'
+        tab.className = idx ? 'tab' : 'tab is-active'
         var pane = tabset.querySelector('.tab-pane[aria-labelledby~="' + id + '"]')
         if (!pane) return // invalid state
+        if (!idx) pane.classList.add('is-active')
+        var onClick = activateTab
         var instance = { tabset: tabset, tab: tab, pane: pane }
-        if (!idx) first = instance
-        if (!active && fragment === id && (active = true)) {
-          tab.classList.add('is-active')
-          pane.classList.add('is-active')
-        }
+        var syncId
         if (syncIds && !((syncId = tab.textContent.trim()) in syncIds)) {
           syncIds[(tab.dataset.syncId = syncId)] = true
-          tab.addEventListener('click', activateTabSync.bind(instance))
-        } else {
-          tab.addEventListener('click', activateTab.bind(instance))
+          onClick = activateTabSync
         }
+        tab.addEventListener('click', onClick.bind(instance))
       })
-      if (!active && first) {
-        first.tab.classList.add('is-active')
-        first.pane.classList.add('is-active')
-      }
+    })
+    onHashChange()
+    forEach.call(tabsets, function (tabset) {
       tabset.classList.remove('is-loading')
     })
     window.addEventListener('hashchange', onHashChange)
@@ -67,14 +60,10 @@
     })
   }
 
-  function getFragment (hash) {
-    return (hash = window.location.hash) && (~hash.indexOf('%') ? decodeURIComponent(hash.slice(1)) : hash.slice(1))
-  }
-
   function onHashChange () {
-    var id = getFragment()
+    var id = window.location.hash.slice(1)
     if (!id) return
-    var tab = document.getElementById(id)
+    var tab = document.getElementById(~id.indexOf('%') ? decodeURIComponent(id) : id)
     if (tab && tab.classList.contains('tab')) activateTab.call({ tab: tab })
   }
 })()
