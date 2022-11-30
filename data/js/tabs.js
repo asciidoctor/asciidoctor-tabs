@@ -40,7 +40,7 @@
 
   function activateTab (e) {
     var tab = this.tab
-    var tabset = this.tabset || tab.closest('.tabset')
+    var tabset = this.tabset || (this.tabset = tab.closest('.tabset'))
     var pane = this.pane || tabset.querySelector('.tab-pane[aria-labelledby~="' + tab.id + '"]')
     forEach.call(tabset.querySelectorAll('.tabs li, .tab-pane'), function (el) {
       el === tab || el === pane ? el.classList.add('is-active') : el.classList.remove('is-active')
@@ -54,10 +54,14 @@
 
   function activateTabSync (e) {
     activateTab.call(this, e)
+    var tabset = this.tabset
     var thisTab = this.tab
+    var initialY = tabset.getBoundingClientRect().y
     forEach.call(document.querySelectorAll('.tabs li'), function (tab) {
       if (tab !== thisTab && tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tab: tab })
     })
+    var shiftedBy = tabset.getBoundingClientRect().y - initialY
+    if (shiftedBy && (shiftedBy = Math.round(shiftedBy))) window.scrollBy({ top: shiftedBy, behavior: 'instant' })
   }
 
   function onHashChange () {
