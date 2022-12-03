@@ -23,7 +23,8 @@ module Asciidoctor
         if (title = attrs['title'])
           parent << (create_html_fragment parent, %(<div class="title">#{parent.apply_subs title}</div>))
         end
-        (tabs = create_list parent, :ulist).add_role 'tabs'
+        tabs = create_list parent, :ulist
+        tabs.add_role 'tabs'
         panes = {}
         set_id_on_tab = (doc.backend == 'html5') || (list_item_supports_id? doc)
         source_tabs.items.each do |labels, content|
@@ -32,6 +33,7 @@ module Asciidoctor
             tab_id = generate_id tab.text, doc, tabs_id
             tab_source_text = tab.instance_variable_get :@text
             set_id_on_tab ? (tab.id = tab_id) : (tab.text = %([[#{tab_id}]]#{tab_source_text}))
+            tab.add_role 'tab'
             (doc.register :refs, [tab_id, tab]).set_attr 'reftext', tab_source_text
             tab_id
           end

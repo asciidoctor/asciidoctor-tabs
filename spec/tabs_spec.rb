@@ -185,10 +185,10 @@ describe Asciidoctor::Tabs do
       <div id="_tabset_1" class="tabset is-loading">
       <div class="ulist tabs">
       <ul>
-      <li id="_tabset_1_tab_a">
+      <li id="_tabset_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
-      <li id="_tabset_1_tab_b">
+      <li id="_tabset_1_tab_b" class="tab">
       <p>Tab B</p>
       </li>
       </ul>
@@ -374,10 +374,10 @@ describe Asciidoctor::Tabs do
       expected = <<~'END'
       <div class="ulist tabs">
       <ul>
-      <li>
+      <li class="tab">
       <p><a id="_tabset_1_tab_a"></a>Tab A</p>
       </li>
-      <li>
+      <li class="tab">
       <p><a id="_tabset_1_tab_b"></a>Tab B</p>
       </li>
       </ul>
@@ -400,10 +400,10 @@ describe Asciidoctor::Tabs do
       <div id="_tabset_1" class="tabset is-loading">
       <div class="ulist tabs">
       <ul>
-      <li id="_tabset_1_tab_a">
+      <li id="_tabset_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
-      <li id="_tabset_1_tab_b">
+      <li id="_tabset_1_tab_b" class="tab">
       <p>Tab B</p>
       </li>
       </ul>
@@ -441,7 +441,7 @@ describe Asciidoctor::Tabs do
       <div id="_tabset_1" class="tabset is-loading">
       <div class="ulist tabs">
       <ul>
-      <li id="_tabset_1_tab_a">
+      <li id="_tabset_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
       </ul>
@@ -481,10 +481,10 @@ describe Asciidoctor::Tabs do
       <div id="_tabset_1" class="tabset is-loading">
       <div class="ulist tabs">
       <ul>
-      <li id="_tabset_1_download">
+      <li id="_tabset_1_download" class="tab">
       <p>Download</p>
       </li>
-      <li id="_tabset_1_install">
+      <li id="_tabset_1_install" class="tab">
       <p>Install</p>
       </li>
       </ul>
@@ -528,13 +528,13 @@ describe Asciidoctor::Tabs do
       <div id="_tabset_1" class="tabset is-loading">
       <div class="ulist tabs">
       <ul>
-      <li id="_tabset_1_tab_a">
+      <li id="_tabset_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
-      <li id="_tabset_1_tab_b">
+      <li id="_tabset_1_tab_b" class="tab">
       <p>Tab B</p>
       </li>
-      <li id="_tabset_1_tab_c">
+      <li id="_tabset_1_tab_c" class="tab">
       <p>Tab C</p>
       </li>
       </ul>
@@ -571,10 +571,10 @@ describe Asciidoctor::Tabs do
       <div id="_tabset_1" class="tabset is-loading">
       <div class="ulist tabs">
       <ul>
-      <li id="_tabset_1_tab_a">
+      <li id="_tabset_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
-      <li id="_tabset_1_tab_b">
+      <li id="_tabset_1_tab_b" class="tab">
       <p>Tab B</p>
       </li>
       </ul>
@@ -613,7 +613,7 @@ describe Asciidoctor::Tabs do
       <div id="_tabset_1" class="tabset is-loading">
       <div class="ulist tabs">
       <ul>
-      <li id="_tabset_1_tab_a">
+      <li id="_tabset_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
       </ul>
@@ -651,7 +651,7 @@ describe Asciidoctor::Tabs do
       <div id="_tabset_1" class="tabset is-loading">
       <div class="ulist tabs">
       <ul>
-      <li id="_tabset_1_tab_a">
+      <li id="_tabset_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
       </ul>
