@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Changed
 
 * Assign `tab` role to each item in tab list
+* Apply border and padding to tab pane element instead of its parent
 
 === Fixed
 

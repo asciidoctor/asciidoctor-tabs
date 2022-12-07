@@ -54,7 +54,7 @@
   right: 0;
 }
 
-.tabset > .tabs + .content {
+.tabset .tab-pane {
   border: 1px solid gray;
   display: flex;
   overflow-x: auto;
