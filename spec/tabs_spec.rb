@@ -176,30 +176,30 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).not_to include 'tabset'
+      (expect actual).not_to include ' class="tabs"'
     end
 
-    it 'should replace custom tabs block with tabset' do
+    it 'should convert custom tabs block containing valid content' do
       input = two_tabs
       expected = <<~'END'.chomp
-      <div id="_tabset_1" class="tabset is-loading">
-      <div class="ulist tabs">
+      <div id="_tabs_1" class="tabs is-loading">
+      <div class="ulist tablist">
       <ul>
-      <li id="_tabset_1_tab_a" class="tab">
+      <li id="_tabs_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
-      <li id="_tabset_1_tab_b" class="tab">
+      <li id="_tabs_1_tab_b" class="tab">
       <p>Tab B</p>
       </li>
       </ul>
       </div>
       <div class="content">
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
+      <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="paragraph">
       <p>Contents of tab A.</p>
       </div>
       </div>
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_b">
+      <div id="_tabs_1_tab_b--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_b">
       <div class="paragraph">
       <p>Contents of tab B.</p>
       </div>
@@ -230,9 +230,9 @@ describe Asciidoctor::Tabs do
 
       actual = Asciidoctor.convert input
       expected = <<~'END'.chomp
-      <div id="_tabset_1" class="tabset is-loading">
+      <div id="_tabs_1" class="tabs is-loading">
       <div class="title">These are <strong>tabs</strong>!</div>
-      <div class="ulist tabs">
+      <div class="ulist tablist">
       END
       (expect actual).to include expected
     end
@@ -247,7 +247,7 @@ describe Asciidoctor::Tabs do
       (expect actual).to include 'aria-labelledby="install_commands_yarn"'
     end
 
-    it 'should continue sequence when generating ID for tabset following tabset with custom ID' do
+    it 'should continue sequence when generating ID for tabs following tabs with custom ID' do
       input = <<~END
       [tabs]
       ====
@@ -267,12 +267,12 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).to include 'id="_tabset_1"'
+      (expect actual).to include 'id="_tabs_1"'
       (expect actual).to include 'id="install_commands"'
-      (expect actual).to include 'id="_tabset_3"'
+      (expect actual).to include 'id="_tabs_3"'
     end
 
-    it 'should register reference for tabset if it defines an ID' do
+    it 'should register reference for tabs if it defines an ID' do
       input = <<~'END'
       [tabs#parts]
       ====
@@ -300,16 +300,16 @@ describe Asciidoctor::Tabs do
       Hard drive:: Where all your files are stored (that aren't in the cloud).
       ====
 
-      See <<_tabset_1_hard_drive>>.
+      See <<_tabs_1_hard_drive>>.
       END
 
       with_memory_logger :info do |logger|
         doc = Asciidoctor.load input
         actual = doc.convert
-        (expect actual).to include 'id="_tabset_1_hard_drive"'
+        (expect actual).to include 'id="_tabs_1_hard_drive"'
         (expect logger).to be_empty
-        (expect doc.catalog[:refs]).to have_key '_tabset_1_hard_drive'
-        (expect doc.catalog[:refs]['_tabset_1_hard_drive'].xreftext).to eql 'Hard drive'
+        (expect doc.catalog[:refs]).to have_key '_tabs_1_hard_drive'
+        (expect doc.catalog[:refs]['_tabs_1_hard_drive'].xreftext).to eql 'Hard drive'
       end
     end
 
@@ -324,8 +324,8 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).to include 'id="_tabset_1_curl_command_output_v2"'
-      (expect actual).to include 'aria-labelledby="_tabset_1_curl_command_output_v2"'
+      (expect actual).to include 'id="_tabs_1_curl_command_output_v2"'
+      (expect actual).to include 'aria-labelledby="_tabs_1_curl_command_output_v2"'
     end
 
     it 'should generate IDs using idprefix and idseparator' do
@@ -337,8 +337,8 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).to include 'id="tabset-1"'
-      (expect actual).to include 'id="tabset-1-tab-a"'
+      (expect actual).to include 'id="tabs-1"'
+      (expect actual).to include 'id="tabs-1-tab-a"'
     end
 
     it 'should increment generated ID for each tabs block' do
@@ -351,11 +351,11 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).to include 'id="_tabset_1"'
-      (expect actual).to include 'id="_tabset_1_tab_a"'
-      (expect actual).to include 'id="_tabset_2"'
-      (expect actual).to include 'id="_tabset_2_tab_a"'
-      (expect actual).to include 'id="_tabset_2_tab_b"'
+      (expect actual).to include 'id="_tabs_1"'
+      (expect actual).to include 'id="_tabs_1_tab_a"'
+      (expect actual).to include 'id="_tabs_2"'
+      (expect actual).to include 'id="_tabs_2_tab_a"'
+      (expect actual).to include 'id="_tabs_2_tab_b"'
     end
 
     it 'should use anchor for tab ID if converter does not support id property on list item' do
@@ -372,13 +372,13 @@ describe Asciidoctor::Tabs do
       #{single_tab}
       END
       expected = <<~'END'
-      <div class="ulist tabs">
+      <div class="ulist tablist">
       <ul>
       <li class="tab">
-      <p><a id="_tabset_1_tab_a"></a>Tab A</p>
+      <p><a id="_tabs_1_tab_a"></a>Tab A</p>
       </li>
       <li class="tab">
-      <p><a id="_tabset_1_tab_b"></a>Tab B</p>
+      <p><a id="_tabs_1_tab_b"></a>Tab B</p>
       </li>
       </ul>
       </div>
@@ -397,24 +397,24 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabset_1" class="tabset is-loading">
-      <div class="ulist tabs">
+      <div id="_tabs_1" class="tabs is-loading">
+      <div class="ulist tablist">
       <ul>
-      <li id="_tabset_1_tab_a" class="tab">
+      <li id="_tabs_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
-      <li id="_tabset_1_tab_b" class="tab">
+      <li id="_tabs_1_tab_b" class="tab">
       <p>Tab B</p>
       </li>
       </ul>
       </div>
       <div class="content">
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
+      <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="paragraph">
       <p>Contents of tab A.</p>
       </div>
       </div>
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_b">
+      <div id="_tabs_1_tab_b--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_b">
       <div class="paragraph">
       <p>Contents of tab B.</p>
       </div>
@@ -438,16 +438,16 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabset_1" class="tabset is-loading">
-      <div class="ulist tabs">
+      <div id="_tabs_1" class="tabs is-loading">
+      <div class="ulist tablist">
       <ul>
-      <li id="_tabset_1_tab_a" class="tab">
+      <li id="_tabs_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
       </ul>
       </div>
       <div class="content">
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
+      <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="paragraph">
       <p>Text</p>
       </div>
@@ -478,24 +478,24 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabset_1" class="tabset is-loading">
-      <div class="ulist tabs">
+      <div id="_tabs_1" class="tabs is-loading">
+      <div class="ulist tablist">
       <ul>
-      <li id="_tabset_1_download" class="tab">
+      <li id="_tabs_1_download" class="tab">
       <p>Download</p>
       </li>
-      <li id="_tabset_1_install" class="tab">
+      <li id="_tabs_1_install" class="tab">
       <p>Install</p>
       </li>
       </ul>
       </div>
       <div class="content">
-      <div class="tab-pane" aria-labelledby="_tabset_1_download">
+      <div id="_tabs_1_download--panel" class="tabpanel" aria-labelledby="_tabs_1_download">
       <div class="paragraph">
       <p>Download the <strong>installer</strong> from <a href="https://example.org" class="bare">example.org</a>.</p>
       </div>
       </div>
-      <div class="tab-pane" aria-labelledby="_tabset_1_install">
+      <div id="_tabs_1_install--panel" class="tabpanel" aria-labelledby="_tabs_1_install">
       <div class="paragraph">
       <p>Run the <strong>installer</strong> you downloaded from <a href="https://example.org" class="bare">example.org</a>.</p>
       </div>
@@ -525,27 +525,27 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabset_1" class="tabset is-loading">
-      <div class="ulist tabs">
+      <div id="_tabs_1" class="tabs is-loading">
+      <div class="ulist tablist">
       <ul>
-      <li id="_tabset_1_tab_a" class="tab">
+      <li id="_tabs_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
-      <li id="_tabset_1_tab_b" class="tab">
+      <li id="_tabs_1_tab_b" class="tab">
       <p>Tab B</p>
       </li>
-      <li id="_tabset_1_tab_c" class="tab">
+      <li id="_tabs_1_tab_c" class="tab">
       <p>Tab C</p>
       </li>
       </ul>
       </div>
       <div class="content">
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_a _tabset_1_tab_b">
+      <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a _tabs_1_tab_b">
       <div class="paragraph">
       <p>Shared contents for tab A and B.</p>
       </div>
       </div>
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_c">
+      <div id="_tabs_1_tab_c--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_c">
       <div class="paragraph">
       <p>Contents only for tab C.</p>
       </div>
@@ -568,24 +568,24 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabset_1" class="tabset is-loading">
-      <div class="ulist tabs">
+      <div id="_tabs_1" class="tabs is-loading">
+      <div class="ulist tablist">
       <ul>
-      <li id="_tabset_1_tab_a" class="tab">
+      <li id="_tabs_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
-      <li id="_tabset_1_tab_b" class="tab">
+      <li id="_tabs_1_tab_b" class="tab">
       <p>Tab B</p>
       </li>
       </ul>
       </div>
       <div class="content">
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
+      <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="paragraph">
       <p>Contents of tab A.</p>
       </div>
       </div>
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_b">
+      <div id="_tabs_1_tab_b--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_b">
       </div>
       </div>
       </div>
@@ -610,16 +610,16 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabset_1" class="tabset is-loading">
-      <div class="ulist tabs">
+      <div id="_tabs_1" class="tabs is-loading">
+      <div class="ulist tablist">
       <ul>
-      <li id="_tabset_1_tab_a" class="tab">
+      <li id="_tabs_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
       </ul>
       </div>
       <div class="content">
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
+      <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="paragraph">
       <p>Contents of tab A.</p>
       </div>
@@ -648,16 +648,16 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabset_1" class="tabset is-loading">
-      <div class="ulist tabs">
+      <div id="_tabs_1" class="tabs is-loading">
+      <div class="ulist tablist">
       <ul>
-      <li id="_tabset_1_tab_a" class="tab">
+      <li id="_tabs_1_tab_a" class="tab">
       <p>Tab A</p>
       </li>
       </ul>
       </div>
       <div class="content">
-      <div class="tab-pane" aria-labelledby="_tabset_1_tab_a">
+      <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="literalblock">
       <div class="content">
       <pre>$ command</pre>
@@ -733,7 +733,7 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).to include ' class="tabset is-sync is-loading"'
+      (expect actual).to include ' class="tabs is-sync is-loading"'
     end
 
     it 'should add is-sync class to tabs block if sync option is set on block' do
@@ -743,7 +743,7 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).to include ' class="tabset is-sync is-loading"'
+      (expect actual).to include ' class="tabs is-sync is-loading"'
     end
 
     it 'should not add is-sync class to tabs block if nosync option is set on block' do
@@ -755,8 +755,8 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).not_to include ' class="tabset is-sync is-loading"'
-      (expect actual).to include ' class="tabset is-loading"'
+      (expect actual).not_to include ' class="tabs is-sync is-loading"'
+      (expect actual).to include ' class="tabs is-loading"'
     end
   end
 
@@ -772,7 +772,7 @@ describe Asciidoctor::Tabs do
         (expect doc.attr? 'tabs-stylesheet').to be true
         (expect doc.extensions.docinfo_processors?).to be true
         actual = doc.convert
-        styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
+        styles_idx = actual.index %r/<style>[^<]*\.tabs\.is-loading [^<]*<\/style>/
         end_head_idx = actual.index '</head>'
         (expect styles_idx).not_to be_nil
         (expect styles_idx).to be < end_head_idx
@@ -786,7 +786,7 @@ describe Asciidoctor::Tabs do
         (expect doc.attr? 'tabs-stylesheet').to be true
         (expect doc.extensions.docinfo_processors?).to be true
         actual = doc.convert
-        styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
+        styles_idx = actual.index %r/<style>[^<]*\.tabs\.is-loading [^<]*<\/style>/
         link_idx = actual.index '<link rel="stylesheet" href="./asciidoctor-tabs.css">'
         end_head_idx = actual.index '</head>'
         (expect styles_idx).to be_nil
@@ -829,14 +829,14 @@ describe Asciidoctor::Tabs do
       doc = Asciidoctor.load input, attributes: { 'tabs-stylesheet' => nil }, safe: :safe, standalone: true
       (expect doc.attr? 'tabs-stylesheet').to be false
       actual = doc.convert
-      styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
+      styles_idx = actual.index %r/<style>[^<]*\.tabs\.is-loading [^<]*<\/style>/
       (expect styles_idx).to be_nil
     end
 
     it 'should not embed or link styles in standalone document if tabs-stylesheet is unset and safe mode is secure' do
       input = hello_tabs
       actual = Asciidoctor.convert input, attributes: { 'tabs-stylesheet' => nil }, safe: :secure, standalone: true
-      styles_idx = actual.index %r/<style>[^<]*\.tabset\.is-loading [^<]*<\/style>/
+      styles_idx = actual.index %r/<style>[^<]*\.tabs\.is-loading [^<]*<\/style>/
       link_idx = actual.index %r/<link rel="stylesheet" href="[^"]+tabs\.css">/
       (expect styles_idx).to be_nil
       (expect link_idx).to be_nil
@@ -916,7 +916,7 @@ describe Asciidoctor::Tabs do
       doc = Asciidoctor.load input, safe: :safe, standalone: true
       (expect doc.extensions.docinfo_processors?).to be true
       actual = doc.convert
-      script_idx = actual.index %r/<script>[^<]*\.tabset[^<]*<\/script>/
+      script_idx = actual.index %r/<script>[^<]*\.tabs[^<]*<\/script>/
       footer_idx = actual.index '<div id="footer">'
       (expect script_idx).not_to be_nil
       (expect script_idx).to be > footer_idx
@@ -954,7 +954,7 @@ describe Asciidoctor::Tabs do
       described_class::Extensions.register Asciidoctor::Extensions
       input = hello_tabs
       actual = Asciidoctor.convert input
-      (expect actual).to include 'class="tabset'
+      (expect actual).to include 'class="tabs'
     end
 
     it 'should register extensions on specified local registry' do
@@ -962,7 +962,7 @@ describe Asciidoctor::Tabs do
       described_class::Extensions.register (registry = Asciidoctor::Extensions.create)
       input = hello_tabs
       actual = Asciidoctor.convert input, extension_registry: registry
-      (expect actual).to include 'class="tabset'
+      (expect actual).to include 'class="tabs'
     end
 
     it 'should unregister extensions on specified registry' do
