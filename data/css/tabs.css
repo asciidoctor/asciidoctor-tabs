@@ -1,4 +1,8 @@
 /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
+.tabset {
+  margin-bottom: 1.25em;
+}
+
 .tabs > ul {
   display: flex;
   flex-wrap: wrap;
@@ -27,10 +31,6 @@
 
 .tabs > ul li + li[id] {
   margin-top: 0;
-}
-
-.tabset {
-  margin-bottom: 1.25em;
 }
 
 .tabset.is-loading .tabs li:not(:first-child),
