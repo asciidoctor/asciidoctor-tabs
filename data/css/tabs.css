@@ -13,6 +13,7 @@
 
 .tabs > ul li {
   align-items: center;
+  background-color: #fff;
   border: 1px solid black;
   border-bottom: 0;
   cursor: pointer;
@@ -38,13 +39,13 @@
 
 .tabset.is-loading .tabs li:not(:first-child),
 .tabset:not(.is-loading) .tabs li:not(.is-active) {
-  background-color: black;
-  color: white;
+  background-color: #000;
+  color: #fff;
 }
 
 .tabset.is-loading .tabs li:first-child::after,
 .tabset:not(.is-loading) .tabs li.is-active::after {
-  background-color: white;
+  background-color: inherit;
   content: "";
   display: block;
   height: 3px; /* Chrome doesn't always paint the line accurately, so add a little extra */
@@ -55,6 +56,7 @@
 }
 
 .tabset .tab-pane {
+  background-color: #fff;
   border: 1px solid gray;
   display: flex;
   overflow-x: auto;
