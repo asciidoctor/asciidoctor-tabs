@@ -19,9 +19,8 @@
   cursor: pointer;
   display: flex;
   font-weight: bold;
-  height: 2em;
-  line-height: 1;
-  padding: 0 1em;
+  line-height: 1.5;
+  padding: 0.25em 1em;
   position: relative;
 }
 
@@ -30,6 +29,7 @@
 }
 
 .tabs > ul p {
+  line-height: inherit;
   margin-bottom: 0;
 }
 
