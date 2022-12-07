@@ -57,7 +57,7 @@
 
 .tabset .tab-pane {
   background-color: #fff;
-  border: 1px solid gray;
+  border: 1px solid #000;
   display: flex;
   overflow-x: auto;
   padding: 1.25em;
