@@ -11,6 +11,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 * Assign `tab` role to each item in tab list
 * Apply border and padding to tab pane element instead of its parent
 * Remove fixed height on tab element; using padding instead
+* Use more subtle color scheme for border and background colors on tabs
 
 === Fixed
 
