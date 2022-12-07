@@ -20,17 +20,20 @@
   font-weight: bold;
   height: 2em;
   line-height: 1;
-  margin-right: 0.25em;
   padding: 0 1em;
   position: relative;
 }
 
-.tabs > ul li, .tabs > ul p {
+.tabs.ulist > ul li {
+  margin: 0;
+}
+
+.tabs > ul p {
   margin-bottom: 0;
 }
 
-.tabs > ul li + li[id] {
-  margin-top: 0;
+.tabs.ulist > ul li + li {
+  margin-left: 0.25em;
 }
 
 .tabset.is-loading .tabs li:not(:first-child),
@@ -40,7 +43,7 @@
 }
 
 .tabset.is-loading .tabs li:first-child::after,
-.tabs li.is-active::after {
+.tabset:not(.is-loading) .tabs li.is-active::after {
   background-color: white;
   content: "";
   display: block;
