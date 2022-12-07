@@ -54,7 +54,7 @@
   right: 0;
 }
 
-.tabset > .content {
+.tabset > .tabs + .content {
   border: 1px solid gray;
   padding: 1.25em;
 }
