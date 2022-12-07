@@ -56,6 +56,8 @@
 
 .tabset > .tabs + .content {
   border: 1px solid gray;
+  display: flex;
+  overflow-x: auto;
   padding: 1.25em;
 }
 
