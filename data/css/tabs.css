@@ -1,4 +1,6 @@
 /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
+/*! https://github.com/asciidoctor/asciidoctor-tabs */
+/* Some adoptions have been made which are commented */
 .tabset {
   margin-bottom: 1.25em;
 }
@@ -12,6 +14,7 @@
 }
 
 .tabs > ul li {
+  background-color: #f0f0f0; /* set the bg color to light gray to make the active tab better visible */
   align-items: center;
   border: 1px solid black;
   border-bottom: 0;
@@ -38,13 +41,13 @@
 
 .tabset.is-loading .tabs li:not(:first-child),
 .tabset:not(.is-loading) .tabs li:not(.is-active) {
-  background-color: black;
-  color: white;
+  background-color: white;  /* set the bg color of inactive tabs to white and text color to black */
+  color: black;
 }
 
 .tabset.is-loading .tabs li:first-child::after,
 .tabset:not(.is-loading) .tabs li.is-active::after {
-  background-color: white;
+  background-color: #f0f0f0; /* set the bg color to light gray to make the active tab better visible */
   content: "";
   display: block;
   height: 3px; /* Chrome doesn't always paint the line accurately, so add a little extra */
@@ -57,6 +60,12 @@
 .tabset > .tabs + .content {
   border: 1px solid gray;
   padding: 1.25em;
+  /* make it an inline block + right margin. this fits the border to the content */
+  /* plus some space to the right to have the border line visible in the browser */
+  /* if not set, the right borderline will possibly go thru long content e.g. when using tables */
+  /* with this setting, the border not only extends but also shrinks to fit around content */
+  display: inline-block;
+  margin-right: 50px;
 }
 
 .tabset.is-loading .tab-pane:not(:first-child),
