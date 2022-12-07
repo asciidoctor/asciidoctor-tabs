@@ -14,7 +14,7 @@
 .tabs > ul li {
   align-items: center;
   background-color: #fff;
-  border: 1px solid black;
+  border: 1px solid #000;
   border-bottom: 0;
   cursor: pointer;
   display: flex;
