@@ -182,7 +182,8 @@ describe Asciidoctor::Tabs do
     it 'should convert custom tabs block containing valid content' do
       input = two_tabs
       expected = <<~'END'.chomp
-      <div id="_tabs_1" class="tabs is-loading">
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
       <div class="ulist tablist">
       <ul>
       <li id="_tabs_1_tab_a" class="tab">
@@ -193,7 +194,6 @@ describe Asciidoctor::Tabs do
       </li>
       </ul>
       </div>
-      <div class="content">
       <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="paragraph">
       <p>Contents of tab A.</p>
@@ -230,8 +230,9 @@ describe Asciidoctor::Tabs do
 
       actual = Asciidoctor.convert input
       expected = <<~'END'.chomp
-      <div id="_tabs_1" class="tabs is-loading">
+      <div id="_tabs_1" class="openblock tabs is-loading">
       <div class="title">These are <strong>tabs</strong>!</div>
+      <div class="content">
       <div class="ulist tablist">
       END
       (expect actual).to include expected
@@ -397,7 +398,8 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabs_1" class="tabs is-loading">
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
       <div class="ulist tablist">
       <ul>
       <li id="_tabs_1_tab_a" class="tab">
@@ -408,7 +410,6 @@ describe Asciidoctor::Tabs do
       </li>
       </ul>
       </div>
-      <div class="content">
       <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="paragraph">
       <p>Contents of tab A.</p>
@@ -438,7 +439,8 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabs_1" class="tabs is-loading">
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
       <div class="ulist tablist">
       <ul>
       <li id="_tabs_1_tab_a" class="tab">
@@ -446,7 +448,6 @@ describe Asciidoctor::Tabs do
       </li>
       </ul>
       </div>
-      <div class="content">
       <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="paragraph">
       <p>Text</p>
@@ -478,7 +479,8 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabs_1" class="tabs is-loading">
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
       <div class="ulist tablist">
       <ul>
       <li id="_tabs_1_download" class="tab">
@@ -489,7 +491,6 @@ describe Asciidoctor::Tabs do
       </li>
       </ul>
       </div>
-      <div class="content">
       <div id="_tabs_1_download--panel" class="tabpanel" aria-labelledby="_tabs_1_download">
       <div class="paragraph">
       <p>Download the <strong>installer</strong> from <a href="https://example.org" class="bare">example.org</a>.</p>
@@ -525,7 +526,8 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabs_1" class="tabs is-loading">
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
       <div class="ulist tablist">
       <ul>
       <li id="_tabs_1_tab_a" class="tab">
@@ -539,7 +541,6 @@ describe Asciidoctor::Tabs do
       </li>
       </ul>
       </div>
-      <div class="content">
       <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a _tabs_1_tab_b">
       <div class="paragraph">
       <p>Shared contents for tab A and B.</p>
@@ -568,7 +569,8 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabs_1" class="tabs is-loading">
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
       <div class="ulist tablist">
       <ul>
       <li id="_tabs_1_tab_a" class="tab">
@@ -579,7 +581,6 @@ describe Asciidoctor::Tabs do
       </li>
       </ul>
       </div>
-      <div class="content">
       <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="paragraph">
       <p>Contents of tab A.</p>
@@ -610,7 +611,8 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabs_1" class="tabs is-loading">
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
       <div class="ulist tablist">
       <ul>
       <li id="_tabs_1_tab_a" class="tab">
@@ -618,7 +620,6 @@ describe Asciidoctor::Tabs do
       </li>
       </ul>
       </div>
-      <div class="content">
       <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="paragraph">
       <p>Contents of tab A.</p>
@@ -648,7 +649,8 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabs_1" class="tabs is-loading">
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
       <div class="ulist tablist">
       <ul>
       <li id="_tabs_1_tab_a" class="tab">
@@ -656,7 +658,6 @@ describe Asciidoctor::Tabs do
       </li>
       </ul>
       </div>
-      <div class="content">
       <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="literalblock">
       <div class="content">
@@ -733,7 +734,7 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).to include ' class="tabs is-sync is-loading"'
+      (expect actual).to include ' class="openblock tabs is-sync is-loading"'
     end
 
     it 'should add is-sync class to tabs block if sync option is set on block' do
@@ -743,7 +744,7 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).to include ' class="tabs is-sync is-loading"'
+      (expect actual).to include ' class="openblock tabs is-sync is-loading"'
     end
 
     it 'should not add is-sync class to tabs block if nosync option is set on block' do
@@ -755,8 +756,8 @@ describe Asciidoctor::Tabs do
       END
 
       actual = Asciidoctor.convert input
-      (expect actual).not_to include ' class="tabs is-sync is-loading"'
-      (expect actual).to include ' class="tabs is-loading"'
+      (expect actual).not_to include ' class="openblock tabs is-sync is-loading"'
+      (expect actual).to include ' class="openblock tabs is-loading"'
     end
   end
 
@@ -954,7 +955,7 @@ describe Asciidoctor::Tabs do
       described_class::Extensions.register Asciidoctor::Extensions
       input = hello_tabs
       actual = Asciidoctor.convert input
-      (expect actual).to include 'class="tabs'
+      (expect actual).to include ' class="openblock tabs is-loading"'
     end
 
     it 'should register extensions on specified local registry' do
@@ -962,7 +963,7 @@ describe Asciidoctor::Tabs do
       described_class::Extensions.register (registry = Asciidoctor::Extensions.create)
       input = hello_tabs
       actual = Asciidoctor.convert input, extension_registry: registry
-      (expect actual).to include 'class="tabs'
+      (expect actual).to include ' class="openblock tabs is-loading"'
     end
 
     it 'should unregister extensions on specified registry' do
