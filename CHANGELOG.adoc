@@ -15,7 +15,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
  ** `.is-active` for selected tab becomes `.is-selected`
  ** `.is-active` for visible panel becomes `:not(.is-hidden)`
 * Assign ARIA attributes in JavaScript (i.e., role, aria-controls, aria-selected, hidden) where recommended (#38)
-* *BREAKING CHANGE:* Convert tabs block to openblock instead of passthrough block
+* *BREAKING CHANGE:* Convert tabs block to openblock instead of passthrough block (#15)
  ** `openblock` class added to `.tabs`
  ** `.tablist` becomes child of `.content`
  ** `.tabpanel` elements become siblings of `.tablist`
