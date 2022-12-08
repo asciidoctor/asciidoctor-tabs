@@ -3,11 +3,15 @@
   margin-bottom: 1.25em;
 }
 
+.tablist.ulist {
+  margin: 0 -0.25em 0 0;
+}
+
 .tablist > ul {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  margin: 0 -0.25em 0 0;
+  margin: 0;
   padding: 0;
 }
 
@@ -23,11 +27,6 @@
 }
 
 .tablist.ulist > ul li {
-  margin: 0;
-}
-
-.tablist > ul p {
-  line-height: inherit;
   margin: 0;
 }
 
@@ -50,6 +49,11 @@
   bottom: -1.5px;
   left: 0;
   right: 0;
+}
+
+.tablist > ul p {
+  line-height: inherit;
+  margin: 0;
 }
 
 .tabpanel {
