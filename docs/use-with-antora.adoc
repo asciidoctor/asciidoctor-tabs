@@ -7,7 +7,7 @@ This document explains how to integrate Asciidoctor Tabs into your Antora-based 
 === UI
 
 The first step is to incorporate the behavior and style into your UI.
-These instructions assume that your UI was created using the Antora default UI template.
+These instructions assume your UI was created based on the Antora default UI project template.
 
 First, declare a dependency on this package in [.path]_package.json_ for your Antora UI project:
 
@@ -20,7 +20,7 @@ Next, define a vendor stylesheet at [.path]_src/css/vendor/tabs.css_ and populat
 @import "@asciidoctor/tabs"
 ----
 
-postCSS will know how to find the stylesheet based on metadata provided by the npm package.
+postCSS will know how to resolve the stylesheet from the npm package name based on metadata provided by the package.
 
 Next, add the following line to the bottom of the [.path]_src/partials/head-styles.hbs_ to link to the stylesheet from the HTML pages.
 
@@ -40,7 +40,7 @@ Next, define a vendor script at [.path]_src/js/vendor/tabs.bundle.js_ and popula
 require('@asciidoctor/tabs')
 ----
 
-browserify will know how to find the script based on metadata provided by the npm package.
+browserify will know how to resolve the script from the npm package name based on metadata provided by the package.
 
 Next, add the following line to the bottom of the [.path]_src/partials/footer-scripts.hbs_ to link to the script from the HTML pages.
 
