@@ -52,15 +52,19 @@
   right: 0;
 }
 
-.tabset .tab-pane {
+.tab-pane {
   background-color: #fff;
-  display: flex;
-  overflow-x: auto;
   padding: 1.25em;
 }
 
+.tab-pane > table.tableblock {
+  border-width: 0;
+  display: block;
+  overflow-x: auto;
+}
+
 .tabs > ul li,
-.tabset .tab-pane {
+.tab-pane {
   border: 1px solid #dcdcdc;
 }
 
@@ -71,11 +75,6 @@
 .tabset.is-loading .tab-pane:not(:first-child),
 .tabset:not(.is-loading) .tab-pane:not(.is-active) {
   display: none;
-}
-
-.tabset .tab-pane > * {
-  flex: auto;
-  max-width: 100%;
 }
 
 .tab-pane > :first-child {

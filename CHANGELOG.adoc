@@ -8,7 +8,8 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 === Fixed
 
-* Apply flex auto to direct descendant of tab panel; restrict descendant to available width
+* Remove overflow styles on tab pane as it's not universal
+* Make a best effort to constrain the width of an overflowing table
 
 == 1.0.0-alpha.9 (2022-12-07) - @mojavelinux
 
