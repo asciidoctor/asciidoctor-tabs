@@ -1,8 +1,10 @@
-= How to use with Antora
+= How to Use with Antora
 
 This document explains how to integrate Asciidoctor Tabs into your Antora-based documentation site.
 
-== UI
+== Using a Dedicated UI Project
+
+=== UI
 
 The first step is to incorporate the behavior and style into your UI.
 These instructions assume that your UI was created using the Antora default UI template.
@@ -63,7 +65,7 @@ asciidoc:
 The UI preview builder will require each entry and invoke the `register` function on the object it exports.
 ====
 
-== Generator
+=== Generator
 
 Now that your UI is set up to support tabs, you need to enable the extension when generating your site.
 To do so, you once again need to declare a dependency on this package in [.path]_package.json_ for your Antora playbook project:
@@ -79,6 +81,54 @@ asciidoc:
   - '@asciidoctor/tabs'
 ----
 
-NOTE: If the `asciidoc` key or `asciidoc.extensions` keys already exists, merge this entry with the existing key.
+NOTE: If the `asciidoc` key or `asciidoc.extensions` keys already exist, merge this entry with the existing key.
+
+You can now use Asciidoctor Tabs in your Antora-based documentation!
+
+== Using the Supplemental UI
+
+Instead of maintaining a separate UI project, you can integrate Asciidoctor Tabs directly into your playbook project using Antora's https://docs.antora.org/antora/latest/playbook/ui-supplemental-files/[supplemental UI] feature.
+
+First, declare a dependency on this package in [.path]_package.json_ for your Antora playbook project:
+
+ $ npm i @asciidoctor/tabs
+
+Next, configure Antora to require the package after initializing Asciidoctor by adding the following to your playbook file:
+
+[,yaml]
+----
+asciidoc:
+  extensions:
+  - '@asciidoctor/tabs'
+----
+
+NOTE: If the `asciidoc` key or `asciidoc.extensions` keys already exist, merge this entry with the existing key.
+
+Next, define the assets exported by Asciidoctor Tabs as supplemental UI files and reconfigure the template partials to reference them.
+You can either define the files directly in the playbook, as shown below, or you can put them in a supplemental UI folder and specify the path to that folder using the `supplemental_files` key.
+
+[,yaml]
+----
+ui:
+  supplemental_files:
+  - path: css/vendor/tabs.css
+    contents: ./node_modules/@asciidoctor/tabs/dist/css/tabs.css
+  - path: js/vendor/tabs.js
+    contents: ./node_modules/@asciidoctor/tabs/dist/js/tabs.js
+  - path: partials/footer-scripts.hbs
+    contents: |
+      <script id="site-script" src="{{{uiRootPath}}}/js/site.js" data-ui-root-path="{{{uiRootPath}}}"></script>
+      <script async src="{{{uiRootPath}}}/js/vendor/highlight.js"></script>
+      <script async src="{{{uiRootPath}}}/js/vendor/tabs.js"></script>
+      {{#if env.SITE_SEARCH_PROVIDER}}
+      {{> search-scripts}}
+      {{/if}}
+  - path: partials/head-styles.hbs
+    contents: |
+      <link rel="stylesheet" href="{{{uiRootPath}}}/css/site.css">
+      <link rel="stylesheet" href="{{{uiRootPath}}}/css/vendor/tabs.css">
+----
+
+NOTE: If the `ui` key or `ui.supplemental_files` keys already exist, merge this entry with the existing key.
 
 You can now use Asciidoctor Tabs in your Antora-based documentation!
