@@ -16,6 +16,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
  ** `.is-active` for visible panel becomes `:not(.is-hidden)`
 * Assign ARIA attributes in JavaScript (i.e., role, aria-controls, aria-hidden) where recommended (#38)
 
+=== Fixed
+
+* Clear margin on .tablist.ulist and child ul
+
 == 1.0.0-alpha.10 (2022-12-08) - @mojavelinux
 
 === Fixed

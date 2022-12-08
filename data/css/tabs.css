@@ -3,10 +3,6 @@
   margin-bottom: 1.25em;
 }
 
-.tablist.ulist {
-  margin: 0 -0.25em 0 0;
-}
-
 .tablist > ul {
   display: flex;
   flex-wrap: wrap;
@@ -26,6 +22,7 @@
   position: relative;
 }
 
+.tablist.ulist,
 .tablist.ulist > ul li {
   margin: 0;
 }
