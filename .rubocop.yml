@@ -214,6 +214,10 @@ RSpec/BeNil:
   Enabled: true
 RSpec/BeforeAfterAll:
   Enabled: true
+RSpec/Capybara/NegationMatcher:
+  Enabled: false
+RSpec/Capybara/SpecificActions:
+  Enabled: false
 RSpec/Capybara/SpecificFinders:
   Enabled: true
 RSpec/Capybara/SpecificMatcher:
@@ -236,6 +240,8 @@ RSpec/ExcessiveDocstringSpacing:
   Enabled: true
 RSpec/ExpectInHook:
   Enabled: true
+RSpec/FactoryBot/ConsistentParenthesesStyle:
+  Enabled: false
 RSpec/FactoryBot/SyntaxMethods:
   Enabled: true
 RSpec/FilePath:
@@ -254,6 +260,10 @@ RSpec/Pending:
 RSpec/Rails/AvoidSetupHook:
   Enabled: false
 RSpec/Rails/HaveHttpStatus:
+  Enabled: true
+RSpec/Rails/InferredSpecType:
+  Enabled: false
+RSpec/SortMetadata:
   Enabled: true
 RSpec/SubjectDeclaration:
   Enabled: true
@@ -277,6 +287,8 @@ Style/ArgumentsForwarding:
   Enabled: true
 Style/ArrayCoercion:
   Enabled: false # reason: using [*values] is faster
+Style/ArrayIntersect:
+  Enabled: true
 Style/AsciiComments:
   Enabled: false # reason: this is just nitpicky
 Style/Attr:
@@ -446,6 +458,10 @@ Style/RedundantArgument:
 Style/RedundantAssignment:
   Enabled: true
 Style/RedundantBegin:
+  Enabled: true
+Style/RedundantConstantBase:
+  Enabled: true
+Style/RedundantEach:
   Enabled: true
 Style/RedundantFetchBlock:
   Enabled: true
