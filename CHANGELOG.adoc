@@ -4,7 +4,7 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
-== Unreleased
+== 1.0.0-alpha.11 (2022-12-08) - @mojavelinux
 
 === Changed
 
@@ -23,6 +23,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Fixed
 
 * Clear margin on .tablist.ulist and child ul
+
+=== Details
+
+{url-repo}/releases/tag/v1.0.0-alpha.11[git tag] | {url-repo}/compare/v1.0.0-alpha.10\...v1.0.0-alpha.11[full diff]
 
 == 1.0.0-alpha.10 (2022-12-08) - @mojavelinux
 
