@@ -19,12 +19,9 @@ module Asciidoctor
         tabs_number = doc.counter 'tabs-number'
         tabs_id = attrs['id'] || (generate_id %(tabs #{tabs_number}), doc)
         sync = !(block.option? 'nosync') && ((block.option? 'sync') || (doc.option? 'tabs-sync')) ? ' is-sync' : nil
-        parent << (create_html_fragment parent, %(<div id="#{tabs_id}" class="tabs#{sync || ''} is-loading">))
-        if (title = attrs['title'])
-          parent << (create_html_fragment parent, %(<div class="title">#{parent.apply_subs title}</div>))
-        end
-        tablist = create_list parent, :ulist
-        tablist.role = 'tablist'
+        tabs = create_open_block parent, nil, { 'id' => tabs_id, 'role' => %(tabs#{sync || ''} is-loading) }
+        tabs.title = attrs['title']
+        tablist = create_list parent, :ulist, { 'role' => 'tablist' }
         panes = {}
         set_id_on_tab = (doc.backend == 'html5') || (list_item_supports_id? doc)
         seed_tabs.items.each do |labels, content|
@@ -49,16 +46,14 @@ module Asciidoctor
           end
           panes[tab_ids] = tab_blocks || []
         end
-        parent << tablist
-        parent << (create_html_fragment parent, '<div class="content">')
+        tabs << tablist
         panes.each do |tab_ids, blocks|
           attrs = %( id="#{tab_ids[0]}--panel" class="tabpanel" aria-labelledby="#{tab_ids.join ' '}")
-          parent << (create_html_fragment parent, %(<div#{attrs}>))
-          blocks.each {|it| parent << it }
-          parent << (create_html_fragment parent, '</div>')
+          tabs << (create_html_fragment parent, %(<div#{attrs}>))
+          blocks.each {|it| tabs << it }
+          tabs << (create_html_fragment parent, '</div>')
         end
-        parent << (create_html_fragment parent, '</div>')
-        create_html_fragment parent, '</div>', 'id' => tabs_id
+        tabs
       end
 
       private
