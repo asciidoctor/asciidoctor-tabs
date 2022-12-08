@@ -1,4 +1,11 @@
 = How to Use with Antora
+:idprefix:
+:idseparator: -
+ifndef::env-github[:icons: font]
+ifdef::env-github[]
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+endif::[]
 
 This document explains how to integrate Asciidoctor Tabs into your Antora-based documentation site.
 

@@ -90,7 +90,7 @@ You can use these classes to register a bespoke tabs extension.
 ifndef::env-npm[]
 === Antora Integration
 
-See the xref:../docs/use-with-antora.adoc[Antora guide] to learn how to integrate this extension into an Antora site.
+See the xref:../docs/use-with-antora.adoc[Antora integration guide] to learn how to integrate this extension into an Antora site.
 
 endif::[]
 == Copyright and License
