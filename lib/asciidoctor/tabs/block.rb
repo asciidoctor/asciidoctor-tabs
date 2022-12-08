@@ -9,38 +9,37 @@ module Asciidoctor
       def process parent, reader, attrs
         block = create_block parent, attrs['cloaked-context'], nil, attrs, content_model: :compound
         children = (parse_content block, reader).blocks
-        return block unless children.size == 1 && (source_tabs = children[0]).context == :dlist && source_tabs.items?
+        return block unless children.size == 1 && (seed_tabs = children[0]).context == :dlist && seed_tabs.items?
         unless (doc = parent.document).attr? 'filetype', 'html'
-          (id = attrs['id']) && (doc.register :refs, [(source_tabs.id = id), source_tabs]) unless source_tabs.id
-          (reftext = attrs['reftext']) && (source_tabs.set_attr 'reftext', reftext) unless source_tabs.reftext?
-          parent << source_tabs
+          (id = attrs['id']) && (doc.register :refs, [(seed_tabs.id = id), seed_tabs]) unless seed_tabs.id
+          (reftext = attrs['reftext']) && (seed_tabs.set_attr 'reftext', reftext) unless seed_tabs.reftext?
+          parent << seed_tabs
           return
         end
-        tabset_number = doc.counter 'tabset-number'
-        tabs_id = attrs['id'] || (generate_id %(tabset #{tabset_number}), doc)
+        tabs_number = doc.counter 'tabs-number'
+        tabs_id = attrs['id'] || (generate_id %(tabs #{tabs_number}), doc)
         sync = !(block.option? 'nosync') && ((block.option? 'sync') || (doc.option? 'tabs-sync')) ? ' is-sync' : nil
-        parent << (create_html_fragment parent, %(<div id="#{tabs_id}" class="tabset#{sync || ''} is-loading">))
+        parent << (create_html_fragment parent, %(<div id="#{tabs_id}" class="tabs#{sync || ''} is-loading">))
         if (title = attrs['title'])
           parent << (create_html_fragment parent, %(<div class="title">#{parent.apply_subs title}</div>))
         end
-        tabs = create_list parent, :ulist
-        tabs.add_role 'tabs'
+        tablist = create_list parent, :ulist
+        tablist.role = 'tablist'
         panes = {}
         set_id_on_tab = (doc.backend == 'html5') || (list_item_supports_id? doc)
-        source_tabs.items.each do |labels, content|
+        seed_tabs.items.each do |labels, content|
           tab_ids = labels.map do |tab|
-            tabs << tab
+            tablist << tab
             tab_id = generate_id tab.text, doc, tabs_id
-            tab_source_text = tab.instance_variable_get :@text
-            set_id_on_tab ? (tab.id = tab_id) : (tab.text = %([[#{tab_id}]]#{tab_source_text}))
-            tab.add_role 'tab'
-            (doc.register :refs, [tab_id, tab]).set_attr 'reftext', tab_source_text
+            tab_text_source = tab.instance_variable_get :@text
+            set_id_on_tab ? (tab.id = tab_id) : (tab.text = %([[#{tab_id}]]#{tab_text_source}))
+            tab.role = 'tab'
+            (doc.register :refs, [tab_id, tab]).set_attr 'reftext', tab_text_source
             tab_id
           end
           if content
             tab_blocks = content.text? ?
-              [(create_paragraph parent, (content.instance_variable_get :@text), nil, subs: :normal)]
-              : []
+              [(create_paragraph parent, (content.instance_variable_get :@text), nil, subs: :normal)] : []
             if content.blocks?
               if (block0 = (blocks = content.blocks)[0]).context == :open && blocks.size == 1 && block0.blocks?
                 blocks = block0.blocks
@@ -50,10 +49,11 @@ module Asciidoctor
           end
           panes[tab_ids] = tab_blocks || []
         end
-        parent << tabs
+        parent << tablist
         parent << (create_html_fragment parent, '<div class="content">')
         panes.each do |tab_ids, blocks|
-          parent << (create_html_fragment parent, %(<div class="tab-pane" aria-labelledby="#{tab_ids.join ' '}">))
+          attrs = %( id="#{tab_ids[0]}--panel" class="tabpanel" aria-labelledby="#{tab_ids.join ' '}")
+          parent << (create_html_fragment parent, %(<div#{attrs}>))
           blocks.each {|it| parent << it }
           parent << (create_html_fragment parent, '</div>')
         end
