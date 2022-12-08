@@ -4,6 +4,18 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Changed
+
+* *BREAKING CHANGE:* Align terminology with ARIA / Open UI recommendations for a tabs component; requires change to custom CSS (#38)
+ ** `.tabset` becomes `.tabs`
+ ** `.tabs` becomes `.tablist`
+ ** `.tab-panel` becomes `.tabpanel`
+ ** `.is-active` for selected tab becomes `.is-selected`
+ ** `.is-active` for visible panel becomes `:not(.is-hidden)`
+* Assign ARIA attributes in JavaScript (i.e., role, aria-controls, aria-hidden) where recommended (#38)
+
 == 1.0.0-alpha.10 (2022-12-08) - @mojavelinux
 
 === Fixed
@@ -19,13 +31,6 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 === Changed
 
-* *BREAKING CHANGE:* Align terminology with ARIA / Open UI recommendations for a tabs component; requires change to custom CSS (#38)
- ** `.tabset` becomes `.tabs`
- ** `.tabs` becomes `.tablist`
- ** `.tab-panel` becomes `.tabpanel`
- ** `.is-active` for selected tab becomes `.is-selected`
- ** `.is-active` for visible panel becomes `:not(.is-hidden)`
-* Assign ARIA attributes in JavaScript (i.e., role, aria-controls, aria-hidden) where recommended (#38)
 * Assign `tab` role to each item in tab list
 * Apply border and padding to tab pane element instead of its parent
 * Remove fixed height on tab element; using padding instead
