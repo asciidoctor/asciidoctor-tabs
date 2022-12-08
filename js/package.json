@@ -15,6 +15,8 @@
     "build": "node npm/transpile.js",
     "ci": "npm i --quiet && npm run build && npm test",
     "clean": "npx rimraf dist node_modules",
+    "postpublish": "npx -y downdoc --postpublish",
+    "prepublishOnly": "npx -y downdoc --prepublish",
     "test": "_mocha --timeout 30000"
   },
   "main": "lib/index.js",
