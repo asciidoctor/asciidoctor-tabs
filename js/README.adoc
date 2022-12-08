@@ -87,6 +87,12 @@ You can also require `@asciidoctor/tabs/extensions` to access the `Extensions` c
 Attached to that object are the `Block`, `Docinfo.Style`, and `Docinfo.Behavior` extension classes.
 You can use these classes to register a bespoke tabs extension.
 
+ifndef::env-npm[]
+=== Antora Integration
+
+See the xref:../docs/use-with-antora.adoc[Antora guide] to learn how to integrate this extension into an Antora site.
+
+endif::[]
 == Copyright and License
 
 Copyright (C) 2018-present Dan Allen (OpenDevise Inc.) and the individual contributors to this project.

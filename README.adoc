@@ -14,7 +14,8 @@ An Asciidoctor extension that adds a tabs block to the AsciiDoc syntax.
 NOTE: This extension is intended to be used with HTML backends (e.g., `html5`).
 For all other backends (i.e., the filetype is not html), the custom block enclosure is taken away and its contents (a dlist) is converted normally.
 
-TIP: This extension is also published as an npm package named `@asciidoctor/tabs` for use with Asciidoctor.js (and thus Antora).
+TIP: This extension is also published as an npm package named `@asciidoctor/tabs` for use with Asciidoctor.js.
+See the xref:js/README.adoc[README in the js folder] for details.
 
 == Overview
 
