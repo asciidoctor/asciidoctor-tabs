@@ -4,12 +4,16 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
-== Unreleased
+== 1.0.0-alpha.10 (2022-12-08) - @mojavelinux
 
 === Fixed
 
 * Remove overflow styles on tab pane as it's not universal
 * Make a best effort to constrain the width of an overflowing table
+
+=== Details
+
+{url-repo}/releases/tag/v1.0.0-alpha.10[git tag] | {url-repo}/compare/v1.0.0-alpha.9\...v1.0.0-alpha.10[full diff]
 
 == 1.0.0-alpha.9 (2022-12-07) - @mojavelinux
 
