@@ -28,7 +28,7 @@
 
 .tabs > ul p {
   line-height: inherit;
-  margin-bottom: 0;
+  margin: 0;
 }
 
 .tabs.ulist > ul li + li {
@@ -71,6 +71,11 @@
 .tabset.is-loading .tab-pane:not(:first-child),
 .tabset:not(.is-loading) .tab-pane:not(.is-active) {
   display: none;
+}
+
+.tabset .tab-pane > * {
+  flex: auto;
+  max-width: 100%;
 }
 
 .tab-pane > :first-child {
