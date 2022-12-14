@@ -24,6 +24,10 @@
         tab.setAttribute('aria-controls', panel.id)
         panel.setAttribute('role', 'tabpanel')
         idx ? toggleHidden(panel, true) : toggleSelected(tab, true)
+        forEach.call(panel.querySelectorAll('table.tableblock'), function (table) {
+          var container = Object.assign(document.createElement('div'), { className: 'tablecontainer' })
+          table.parentNode.insertBefore(container, table).appendChild(table)
+        })
         var onClick = activateTab
         var instance = { tabs: tabs, tab: tab, panel: panel }
         var syncId
