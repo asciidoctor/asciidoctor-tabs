@@ -214,14 +214,8 @@ RSpec/BeNil:
   Enabled: true
 RSpec/BeforeAfterAll:
   Enabled: true
-RSpec/Capybara/NegationMatcher:
+RSpec/Capybara:
   Enabled: false
-RSpec/Capybara/SpecificActions:
-  Enabled: false
-RSpec/Capybara/SpecificFinders:
-  Enabled: true
-RSpec/Capybara/SpecificMatcher:
-  Enabled: true
 RSpec/ChangeByZero:
   Enabled: true
 RSpec/ClassCheck:
@@ -230,6 +224,8 @@ RSpec/ContextWording:
   Enabled: false
 RSpec/DescribeClass:
   Enabled: false
+RSpec/DuplicatedMetadata:
+  Enabled: true
 RSpec/EmptyExampleGroup:
   Enabled: true
 RSpec/ExampleLength:
@@ -240,10 +236,8 @@ RSpec/ExcessiveDocstringSpacing:
   Enabled: true
 RSpec/ExpectInHook:
   Enabled: true
-RSpec/FactoryBot/ConsistentParenthesesStyle:
+RSpec/FactoryBot:
   Enabled: false
-RSpec/FactoryBot/SyntaxMethods:
-  Enabled: true
 RSpec/FilePath:
   Enabled: false
 RSpec/IdenticalEqualityAssertion:
@@ -257,11 +251,9 @@ RSpec/NoExpectationExample:
   Enabled: false
 RSpec/Pending:
   Enabled: true
-RSpec/Rails/AvoidSetupHook:
-  Enabled: false
-RSpec/Rails/HaveHttpStatus:
+RSpec/PendingWithoutReason:
   Enabled: true
-RSpec/Rails/InferredSpecType:
+RSpec/Rails:
   Enabled: false
 RSpec/SortMetadata:
   Enabled: true
@@ -324,6 +316,8 @@ Style/CommentAnnotation:
   - NOTE
   - QUESTION
   RequireColon: false
+Style/ConcatArrayLiterals:
+  Enabled: true
 Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
   IncludeTernaryExpressions: false
@@ -460,6 +454,8 @@ Style/RedundantAssignment:
 Style/RedundantBegin:
   Enabled: true
 Style/RedundantConstantBase:
+  Enabled: true
+Style/RedundantDoubleSplatHashBraces:
   Enabled: true
 Style/RedundantEach:
   Enabled: true
