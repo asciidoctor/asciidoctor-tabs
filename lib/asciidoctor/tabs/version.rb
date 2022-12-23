@@ -2,6 +2,6 @@
 
 module Asciidoctor
   module Tabs
-    VERSION = '1.0.0.alpha.11'
+    VERSION = '1.0.0.alpha.12'
   end
 end

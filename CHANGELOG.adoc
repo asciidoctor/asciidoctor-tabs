@@ -4,11 +4,15 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
-== Unreleased
+== 1.0.0-alpha.12 (2022-12-23) - @mojavelinux
 
 === Fixed
 
 * Wrap div with class `tablecontainer` around tables inside tabpanel to prevent tables from overflowing bounds while honoring width (#41)
+
+=== Details
+
+{url-repo}/releases/tag/v1.0.0-alpha.12[git tag] | {url-repo}/compare/v1.0.0-alpha.11\...v1.0.0-alpha.12[full diff]
 
 == 1.0.0-alpha.11 (2022-12-08) - @mojavelinux
 
