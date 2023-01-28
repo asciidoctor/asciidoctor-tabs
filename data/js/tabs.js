@@ -21,6 +21,8 @@
         var panel = tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
         if (!panel) return // invalid state
         tab.tabIndex = -1
+        var syncId = syncIds && tab.textContent.trim()
+        if (syncIds) syncId in syncIds ? (syncId = undefined) : (syncIds[(tab.dataset.syncId = syncId)] = true)
         tab.setAttribute('aria-controls', panel.id)
         panel.setAttribute('role', 'tabpanel')
         idx ? toggleHidden(panel, true) : toggleSelected(tab, true)
@@ -28,14 +30,8 @@
           var container = Object.assign(document.createElement('div'), { className: 'tablecontainer' })
           table.parentNode.insertBefore(container, table).appendChild(table)
         })
-        var onClick = activateTab
-        var instance = { tabs: tabs, tab: tab, panel: panel }
-        var syncId
-        if (syncIds && !((syncId = tab.textContent.trim()) in syncIds)) {
-          syncIds[(tab.dataset.syncId = syncId)] = true
-          onClick = activateTabSync
-        }
-        tab.addEventListener('click', onClick.bind(instance))
+        var onClick = syncId === undefined ? activateTab : activateTabSync
+        tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
       })
     })
     onHashChange()
