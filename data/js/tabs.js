@@ -79,7 +79,7 @@
   }
 
   function toggleSelected (el, state) {
-    el.setAttribute('aria-selected', state)
+    el.setAttribute('aria-selected', '' + state)
     el.classList.toggle('is-selected', state)
     el.tabIndex = state ? 0 : -1
   }
