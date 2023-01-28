@@ -26,13 +26,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        ruby: ['2.7', '3.1']
+        ruby: ['2.7', '3.2']
         exclude:
         - os: ubuntu-latest
-          ruby: '3.1'
+          ruby: '3.2'
         include:
         - os: ubuntu-latest
-          ruby: '3.1'
+          ruby: '3.2'
           primary: primary
     runs-on: ${{ matrix.os }}
     env:
