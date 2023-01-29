@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Added
 
 * Pass through role attribute on tabs block (#43)
+* Add configuration option to save sync selection (i.e., sync ID) in local or session storage (#44)
 
 == 1.0.0-alpha.12 (2022-12-23) - @mojavelinux
 

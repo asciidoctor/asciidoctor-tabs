@@ -128,6 +128,10 @@ Tab B:: Contents of tab B in second tabset.
 Alternately, you can set the `sync` option on each tabs block.
 If you want to delist a tabs block from sync, set the `nosync` option on that block.
 
+If you want to persist the sync selection, assign a value to the `data-sync-storage-key` attribute on the `<script>` tag.
+By default, the sync selection will be assigned to the specified key in local storage.
+You can set the `data-sync-storage-scope` attribute on the `<script>` tag to `session` to use session storage instead.
+
 == Usage
 
 === CLI
