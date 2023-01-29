@@ -67,7 +67,7 @@
   border-bottom: 0;
 }
 
-.tabs.is-loading .tabpanel:not(:first-child),
+.tabs.is-loading .tabpanel + .tabpanel,
 .tabs:not(.is-loading) .tabpanel.is-hidden {
   display: none;
 }
