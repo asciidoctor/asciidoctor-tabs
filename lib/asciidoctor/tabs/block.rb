@@ -18,8 +18,9 @@ module Asciidoctor
         end
         tabs_number = doc.counter 'tabs-number'
         tabs_id = attrs['id'] || (generate_id %(tabs #{tabs_number}), doc)
-        sync = !(block.option? 'nosync') && ((block.option? 'sync') || (doc.option? 'tabs-sync')) ? ' is-sync' : nil
-        tabs = create_open_block parent, nil, { 'id' => tabs_id, 'role' => %(tabs#{sync || ''} is-loading) }
+        tabs_sync = !(block.option? 'nosync') && ((block.option? 'sync') || (doc.option? 'tabs-sync')) ? ' is-sync' : ''
+        tabs_role = (tabs_role = attrs['role']) ? %( #{tabs_role}) : ''
+        tabs = create_open_block parent, nil, { 'id' => tabs_id, 'role' => %(tabs#{tabs_sync}#{tabs_role} is-loading) }
         tabs.title = attrs['title']
         tablist = create_list parent, :ulist, { 'role' => 'tablist' }
         panes = {}

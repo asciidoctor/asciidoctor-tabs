@@ -141,6 +141,24 @@ describe Asciidoctor::Tabs do
       (expect actual).to eql expected
     end
 
+    it 'should preserve role on unprocessed example block' do
+      input = <<~'END'
+      [tabs.rolename]
+      ====
+      ====
+      END
+
+      expected = <<~'END'.chomp
+      <div class="exampleblock rolename">
+      <div class="content">
+      </div>
+      </div>
+      END
+
+      actual = (Asciidoctor.convert input).tr_s ?\n, ?\n
+      (expect actual).to eql expected
+    end
+
     it 'should leave example block unprocessed if only child is not a dlist' do
       input = <<~'END'
       [tabs]
@@ -220,6 +238,21 @@ describe Asciidoctor::Tabs do
     it 'should not register docinfo processors for non-HTML output' do
       input = hello_tabs
       (expect (Asciidoctor.load input, backend: 'docbook', standalone: true).extensions.docinfo_processors?).to be false
+    end
+
+    it 'should preserve roles on tabs block' do
+      input = <<~END
+      [.role1.role2]
+      #{single_tab}
+      END
+
+      actual = Asciidoctor.convert input
+      expected = <<~'END'.chomp
+      <div id="_tabs_1" class="openblock tabs role1 role2 is-loading">
+      <div class="content">
+      <div class="ulist tablist">
+      END
+      (expect actual).to include expected
     end
 
     it 'should honor title on tabs block' do

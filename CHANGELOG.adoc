@@ -4,6 +4,12 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Added
+
+* Pass through role attribute on tabs block (#43)
+
 == 1.0.0-alpha.12 (2022-12-23) - @mojavelinux
 
 === Fixed
