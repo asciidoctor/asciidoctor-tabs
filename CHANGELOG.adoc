@@ -11,12 +11,15 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 * Pass through role attribute on tabs block (#43)
 * Add configuration option to save sync selection (i.e., sync ID) in local or session storage (#44)
 
+=== Fixed
+
+* Use correct selector to unhide panel of first tab while tabs are loading
+
 == 1.0.0-alpha.12 (2022-12-23) - @mojavelinux
 
 === Fixed
 
 * Wrap div with class `tablecontainer` around tables inside tabpanel to prevent tables from overflowing bounds while honoring width (#41)
-* Use correct selector to unhide panel of first tab while tabs are loading
 
 === Details
 
