@@ -85,7 +85,7 @@ The term is used as the tab's label and the description is used as the tab's con
 The contents can be defined as primary text, attached blocks, or both.
 If the attached blocks are themselves enclosed in a single open block, the open block enclosure itself is discarded upon conversion.
 
-You may choose to extend the block delimiter length from the typical 4 characters to 6 in order to avoid conflicts with any example blocks inside the tab block (or just as a matter of style).
+You may choose to extend the block delimiter length from the typical 4 characters to 6 in order to avoid conflicts with any example blocks inside the tabs block (or just as a matter of style).
 
 [,asciidoc]
 ----
@@ -124,6 +124,9 @@ Tab A:: Contents of tab A in second tabset.
 Tab B:: Contents of tab B in second tabset.
 ====
 ----
+
+Note that only tabs blocks with congruent tablists are synchronized.
+Each unique combination of tabs implicitly creates a new sync group.
 
 Alternately, you can set the `sync` option on each tabs block.
 If you want to delist a tabs block from sync, set the `nosync` option on that block.

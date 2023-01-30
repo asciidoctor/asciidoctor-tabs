@@ -8,14 +8,11 @@
 
   function init (tabsBlocks) {
     if (!tabsBlocks.length) return
-    var preferredSyncId = 'syncStorageKey' in config
-      ? window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey)
-      : undefined
     forEach.call(tabsBlocks, function (tabs) {
       var syncIds = tabs.classList.contains('is-sync') ? {} : undefined
       var tablist = tabs.querySelector('.tablist ul')
       tablist.setAttribute('role', 'tablist')
-      var first, selectedTab
+      var initial
       forEach.call(tablist.querySelectorAll('li'), function (tab, idx) {
         tab.setAttribute('role', (tab.className = 'tab')) // NOTE converter may not have set class on li
         var id, anchor, syncId
@@ -25,11 +22,10 @@
         }
         var panel = tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
         if (!panel) return // invalid state
-        if (!idx) first = { tab: tab, panel: panel }
         tab.tabIndex = -1
-        syncIds && !((syncId = tab.textContent.trim()) in syncIds) && (syncIds[(tab.dataset.syncId = syncId)] = true)
-          ? syncId === preferredSyncId ? toggleSelected((selectedTab = tab), true) : toggleHidden(panel, true)
-          : (syncId = toggleHidden(panel, true))
+        syncIds && (((syncId = tab.textContent.toLowerCase().trim()) in syncIds) ? (syncId = undefined) : true) &&
+          (syncIds[(tab.dataset.syncId = syncId)] = tab)
+        idx || (initial = { tab: tab, panel: panel }) && syncIds ? toggleHidden(panel, true) : toggleSelected(tab, true)
         tab.setAttribute('aria-controls', panel.id)
         panel.setAttribute('role', 'tabpanel')
         forEach.call(panel.querySelectorAll('table.tableblock'), function (table) {
@@ -39,7 +35,14 @@
         var onClick = syncId === undefined ? activateTab : activateTabSync
         tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
       })
-      if (!selectedTab && first) toggleSelected(first.tab, true) || toggleHidden(first.panel, false)
+      if (syncIds && initial) {
+        var syncGroup = tabs.dataset.syncGroup = Object.keys(syncIds).sort().join('|')
+        var preferredSyncId = 'syncStorageKey' in config &&
+          window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroup)
+        var tab = preferredSyncId && syncIds[preferredSyncId]
+        tab && Object.assign(initial, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
+        toggleSelected(initial.tab, true) || toggleHidden(initial.panel, false)
+      }
     })
     onHashChange()
     forEach.call(tabsBlocks, function (tabs) {
@@ -58,8 +61,9 @@
     forEach.call(tabs.querySelectorAll('.tabpanel'), function (el) {
       toggleHidden(el, el !== panel)
     })
-    if (!this.isSync && 'syncStorageKey' in config && tab.dataset.syncId !== undefined) {
-      window[(config.syncStorageScope || 'local') + 'Storage'].setItem(config.syncStorageKey, tab.dataset.syncId)
+    if (!this.isSync && 'syncStorageKey' in config && 'syncGroup' in tabs.dataset) {
+      var storageKey = config.syncStorageKey + '-' + tabs.dataset.syncGroup
+      window[(config.syncStorageScope || 'local') + 'Storage'].setItem(storageKey, tab.dataset.syncId)
     }
     if (!e) return
     var loc = window.location
@@ -70,13 +74,17 @@
 
   function activateTabSync (e) {
     activateTab.call(this, e)
-    var tabs = this.tabs
+    var thisTabs = this.tabs
     var thisTab = this.tab
-    var initialY = tabs.getBoundingClientRect().y
-    forEach.call(document.querySelectorAll('.tabs .tablist .tab'), function (tab) {
-      if (tab !== thisTab && tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tab: tab, isSync: true })
+    var initialY = thisTabs.getBoundingClientRect().y
+    forEach.call(document.querySelectorAll('.tabs'), function (tabs) {
+      if (tabs !== thisTabs && tabs.dataset.syncGroup === thisTabs.dataset.syncGroup) {
+        forEach.call(tabs.querySelectorAll('.tablist .tab'), function (tab) {
+          if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
+        })
+      }
     })
-    var shiftedBy = tabs.getBoundingClientRect().y - initialY
+    var shiftedBy = thisTabs.getBoundingClientRect().y - initialY
     if (shiftedBy && (shiftedBy = Math.round(shiftedBy))) window.scrollBy({ top: shiftedBy, behavior: 'instant' })
   }
 
@@ -95,6 +103,6 @@
     if (!id) return
     var tab = document.getElementById(~id.indexOf('%') ? decodeURIComponent(id) : id)
     if (!(tab && tab.classList.contains('tab'))) return
-    tab.dataset.syncId === undefined ? activateTab.call({ tab: tab }) : activateTabSync.call({ tab: tab })
+    'syncId' in tab.dataset ? activateTabSync.call({ tab: tab }) : activateTab.call({ tab: tab })
   }
 })()
