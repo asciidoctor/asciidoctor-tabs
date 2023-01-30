@@ -1,6 +1,6 @@
 {
   "name": "@asciidoctor/tabs",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "An Asciidoctor.js extension that adds a tabs block to the AsciiDoc syntax.",
   "license": "MIT",
   "author": "Dan Allen",
