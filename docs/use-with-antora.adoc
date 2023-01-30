@@ -28,6 +28,7 @@ Next, define a vendor stylesheet at [.path]_src/css/vendor/tabs.css_ and populat
 ----
 
 postCSS will know how to resolve the stylesheet from the npm package name based on metadata provided by the package.
+This assumes the build task in your UI project is set up to process vendor files (i.e., [.path]_src/css/vendor/*.css_).
 
 Next, add the following line to the bottom of the [.path]_src/partials/head-styles.hbs_ to link to the stylesheet from the HTML pages.
 
@@ -38,7 +39,7 @@ Next, add the following line to the bottom of the [.path]_src/partials/head-styl
 
 TIP: You can add the `@import` line to the bottom of the existing [.path]_src/css/site.css_ file.
 In that case, you _don't_ have to add a link to the vendor stylesheet in your template.
-You could also choose to develop your own CSS.
+You could also forgo the use of the provided CSS and develop your own CSS instead.
 
 Next, define a vendor script at [.path]_src/js/vendor/tabs.bundle.js_ and populate it with the following content:
 
@@ -48,6 +49,7 @@ require('@asciidoctor/tabs')
 ----
 
 browserify will know how to resolve the script from the npm package name based on metadata provided by the package.
+This assumes the build task in your UI project is set up to process vendor files (i.e., [.path]_src/js/vendor/*.bundle.js_).
 
 Next, add the following line to the bottom of the [.path]_src/partials/footer-scripts.hbs_ to link to the script from the HTML pages.
 
@@ -55,6 +57,9 @@ Next, add the following line to the bottom of the [.path]_src/partials/footer-sc
 ----
 <script async src="{{{uiRootPath}}}/js/vendor/tabs.js"></script>
 ----
+
+TIP: You can move [.path]_src/js/vendor/tabs.bundle.js_ to [.path]_src/js/10-tabs.js_ so it gets bundled into site.js.
+In this case, you _don't_ need to add the additional `<script>` tag.
 
 The next time you bundle your UI, it will be ready to be used with the Asciidoctor Tabs extension!
 
