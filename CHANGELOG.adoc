@@ -11,6 +11,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 * Only sync congruent tabs blocks (i.e., tabs blocks that have the same tablist) (#47)
 * Store sync tab selection by sync group (e.g., `preferred-tab-a|b|c`) (#47)
 
+=== Fixed
+
+* Turn off :focus-visible outline on tab selected by URL fragment
+
 == 1.0.0-beta.1 (2023-01-30) - @mojavelinux
 
 === Added

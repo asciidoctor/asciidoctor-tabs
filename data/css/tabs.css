@@ -22,6 +22,10 @@
   position: relative;
 }
 
+.tablist > ul li:focus-visible {
+  outline: none;
+}
+
 .tablist.ulist,
 .tablist.ulist > ul li {
   margin: 0;
