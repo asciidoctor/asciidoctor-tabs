@@ -58,6 +58,16 @@ Next, add the following line to the bottom of the [.path]_src/partials/footer-sc
 
 The next time you bundle your UI, it will be ready to be used with the Asciidoctor Tabs extension!
 
+If you're using tabs sync, and you want the selected tab to persist across pages, you can enable this behavior by specifying a configuration option in the form of a data attribute on the script tag.
+
+[,hbs]
+----
+<script async src="{{{uiRootPath}}}/js/vendor/tabs.js" data-sync-storage-key="preferred-tab"></script>
+----
+
+By default, the selected tab is saved in local storage.
+To use session storage instead, add the attribute `data-sync-storage-scope="session"` to the script tag.
+
 [TIP]
 ====
 In order to use tabs in the UI preview, you need to add the following key to the top of [.path]_preview-src/ui-model.yml_:
