@@ -4,6 +4,13 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Changed
+
+* Only sync congruent tabs blocks (i.e., tabs blocks that have the same tablist) (#47)
+* Store sync tab selection by sync group (e.g., `preferred-tab-a|b|c`) (#47)
+
 == 1.0.0-beta.1 (2023-01-30) - @mojavelinux
 
 === Added
