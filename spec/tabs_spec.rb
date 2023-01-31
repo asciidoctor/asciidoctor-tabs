@@ -792,6 +792,28 @@ describe Asciidoctor::Tabs do
       (expect actual).not_to include ' class="openblock tabs is-sync is-loading"'
       (expect actual).to include ' class="openblock tabs is-loading"'
     end
+
+    it 'should add data-sync-group-id class to tabs block with sync option if sync-group-id attribute is set' do
+      input = <<~END
+      :tabs-sync-option:
+
+      [sync-group-id="Tab A|Tab B"]
+      #{two_tabs}
+      END
+
+      actual = Asciidoctor.convert input
+      (expect actual).to include %( class="openblock tabs is-sync data-sync-group-id=Tab\u00a0A|Tab\u00a0B is-loading")
+    end
+
+    it 'should not add data-sync-group-id class to tabs block without sync option if sync-group-id attribute is set' do
+      input = <<~END
+      [sync-group-id=dual]
+      #{two_tabs}
+      END
+
+      actual = Asciidoctor.convert input
+      (expect actual).to include ' class="openblock tabs is-loading"'
+    end
   end
 
   context 'docinfo style' do
