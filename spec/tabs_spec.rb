@@ -956,6 +956,22 @@ describe Asciidoctor::Tabs do
       (expect script_idx).to be > footer_idx
     end
 
+    it 'should allow sync-storage-key config option to be set using tabs-sync-storage-key document attribute' do
+      input = hello_tabs
+      attributes = { 'tabs-sync-storage-key' => 'preferred-tab' }
+      doc = Asciidoctor.load input, safe: :safe, standalone: true, attributes: attributes
+      actual = doc.convert
+      (expect actual).to include '<script data-sync-storage-key="preferred-tab">'
+    end
+
+    it 'should allow sync-storage-scope config option to be set using tabs-sync-storage-key document attribute' do
+      input = hello_tabs
+      attributes = { 'tabs-sync-storage-key' => 'preferred-tab', 'tabs-sync-storage-scope' => 'session' }
+      doc = Asciidoctor.load input, safe: :safe, standalone: true, attributes: attributes
+      actual = doc.convert
+      (expect actual).to include '<script data-sync-storage-key="preferred-tab" data-sync-storage-scope="session">'
+    end
+
     it 'should link to script in standalone document if linkcss attribute is set' do
       input = hello_tabs
       [{ safe: :secure }, { attributes: 'linkcss', safe: :safe }].each do |opts|
