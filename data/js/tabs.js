@@ -23,7 +23,7 @@
         var panel = tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
         if (!panel) return // invalid state
         tab.tabIndex = -1
-        syncIds && (((syncId = tab.textContent.toLowerCase().trim()) in syncIds) ? (syncId = undefined) : true) &&
+        syncIds && (((syncId = tab.textContent.trim()) in syncIds) ? (syncId = undefined) : true) &&
           (syncIds[(tab.dataset.syncId = syncId)] = tab)
         idx || (initial = { tab: tab, panel: panel }) && syncIds ? toggleHidden(panel, true) : toggleSelected(tab, true)
         tab.setAttribute('aria-controls', panel.id)
@@ -36,9 +36,9 @@
         tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
       })
       if (syncIds && initial) {
-        var syncGroup = tabs.dataset.syncGroup = Object.keys(syncIds).sort().join('|')
+        var syncGroupId = tabs.dataset.syncGroupId = Object.keys(syncIds).sort().join('|')
         var preferredSyncId = 'syncStorageKey' in config &&
-          window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroup)
+          window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroupId)
         var tab = preferredSyncId && syncIds[preferredSyncId]
         tab && Object.assign(initial, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
         toggleSelected(initial.tab, true) || toggleHidden(initial.panel, false)
@@ -61,8 +61,8 @@
     forEach.call(tabs.querySelectorAll('.tabpanel'), function (el) {
       toggleHidden(el, el !== panel)
     })
-    if (!this.isSync && 'syncStorageKey' in config && 'syncGroup' in tabs.dataset) {
-      var storageKey = config.syncStorageKey + '-' + tabs.dataset.syncGroup
+    if (!this.isSync && 'syncStorageKey' in config && 'syncGroupId' in tabs.dataset) {
+      var storageKey = config.syncStorageKey + '-' + tabs.dataset.syncGroupId
       window[(config.syncStorageScope || 'local') + 'Storage'].setItem(storageKey, tab.dataset.syncId)
     }
     if (!e) return
@@ -78,7 +78,7 @@
     var thisTab = this.tab
     var initialY = thisTabs.getBoundingClientRect().y
     forEach.call(document.querySelectorAll('.tabs'), function (tabs) {
-      if (tabs !== thisTabs && tabs.dataset.syncGroup === thisTabs.dataset.syncGroup) {
+      if (tabs !== thisTabs && tabs.dataset.syncGroupId === thisTabs.dataset.syncGroupId) {
         forEach.call(tabs.querySelectorAll('.tablist .tab'), function (tab) {
           if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
         })

@@ -10,6 +10,11 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 * Allow storage of sync tab selection to be configured using `tabs-sync-storage-key` and `tabs-sync-storage-scope` document attributes
 
+=== Changed
+
+* Rename data-sync-group attribute to data-sync-group-id
+* Don't lowercase sync group ID
+
 == 1.0.0-beta.2 (2023-01-30) - @mojavelinux
 
 === Changed
