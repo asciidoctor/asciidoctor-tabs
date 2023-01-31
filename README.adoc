@@ -134,6 +134,7 @@ If you want to delist a tabs block from sync, set the `nosync` option on that bl
 If you want to persist the sync selection, assign a value to the `data-sync-storage-key` attribute on the `<script>` tag.
 By default, the sync selection will be assigned to the specified key in local storage.
 You can set the `data-sync-storage-scope` attribute on the `<script>` tag to `session` to use session storage instead.
+When using the extension on a standalone document, you can configure these options using the `tabs-sync-storage-key` and `tabs-sync-storage-scope` document attributes, respectively.
 
 == Usage
 

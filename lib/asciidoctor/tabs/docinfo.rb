@@ -35,11 +35,19 @@ module Asciidoctor
         JAVASCRIPT_FILE = ::File.join DATA_DIR, 'js/tabs.js'
 
         def process doc
+          if doc.attr? 'tabs-sync-storage-key'
+            config_attrs = %( data-sync-storage-key="#{doc.attr 'tabs-sync-storage-key'}")
+            if doc.attr? 'tabs-sync-storage-scope'
+              config_attrs += %( data-sync-storage-scope="#{doc.attr 'tabs-sync-storage-scope'}")
+            end
+          else
+            config_attrs = ''
+          end
           if doc.attr? 'linkcss'
             src = doc.normalize_web_path 'asciidoctor-tabs.js', (doc.attr 'scriptsdir')
-            %(<script src="#{src}"></script>)
+            %(<script src="#{src}"#{config_attrs}></script>)
           elsif (script = doc.read_asset JAVASCRIPT_FILE)
-            %(<script>\n#{script.chomp}\n</script>)
+            %(<script#{config_attrs}>\n#{script.chomp}\n</script>)
           end
         end
       end
