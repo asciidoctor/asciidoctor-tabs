@@ -45,9 +45,8 @@
       }
     })
     onHashChange()
-    forEach.call(tabsBlocks, function (tabs) {
-      tabs.classList.remove('is-loading')
-    })
+    toggleClassOnEach(tabsBlocks, 'is-loading', 'remove')
+    window.setTimeout(toggleClassOnEach.bind(null, tabsBlocks, 'is-loaded', 'add'), 0)
     window.addEventListener('hashchange', onHashChange)
   }
 
@@ -78,14 +77,19 @@
     var thisTab = this.tab
     var initialY = thisTabs.getBoundingClientRect().y
     forEach.call(document.querySelectorAll('.tabs'), function (tabs) {
-      if (tabs !== thisTabs && tabs.dataset.syncGroupId === thisTabs.dataset.syncGroupId) {
-        forEach.call(tabs.querySelectorAll('.tablist .tab'), function (tab) {
-          if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
-        })
-      }
+      if (tabs === thisTabs || tabs.dataset.syncGroupId !== thisTabs.dataset.syncGroupId) return
+      forEach.call(tabs.querySelectorAll('.tablist .tab'), function (tab) {
+        if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
+      })
     })
     var shiftedBy = thisTabs.getBoundingClientRect().y - initialY
     if (shiftedBy && (shiftedBy = Math.round(shiftedBy))) window.scrollBy({ top: shiftedBy, behavior: 'instant' })
+  }
+
+  function toggleClassOnEach (elements, className, method) {
+    forEach.call(elements, function (el) {
+      el.classList[method](className)
+    })
   }
 
   function toggleHidden (el, state) {
