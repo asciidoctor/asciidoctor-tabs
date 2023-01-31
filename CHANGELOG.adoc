@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Added
 
 * Allow storage of sync tab selection to be configured using `tabs-sync-storage-key` and `tabs-sync-storage-scope` document attributes
+* Add `is-loaded` class to tabs blocks on next tick after initialization for binding transitions (#50)
 
 === Changed
 
