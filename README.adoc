@@ -125,9 +125,10 @@ Tab B:: Contents of tab B in second tabset.
 ====
 ----
 
-Note that only tabs blocks with congruent tablists are synchronized by default.
+Only tabs blocks with congruent tablists are synchronized by default.
 Each unique combination of tabs implicitly creates a new sync group.
-You can override the sync group ID using the `sync-group-id` attribute on the tabs block to force a non-congruent tabs block to participate in a sync group.
+You can override the sync group ID using the `sync-group-id` attribute on a tabs block to force it to participate in a sync group.
+By default, the sync group ID is derived from the text of each tab, sorted, then joined on `|` (e.g., `A|B`).
 
 Alternately, you can set the `sync` option on each tabs block.
 If you want to delist a tabs block from sync, set the `nosync` option on that block.
