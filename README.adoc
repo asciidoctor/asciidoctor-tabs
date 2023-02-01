@@ -19,9 +19,10 @@ See the xref:js/README.adoc[README in the js folder] for details.
 
 == Overview
 
-Each set of tabs (a "`tabset`") is constructed from a description list (dlist) enclosed in an example block marked with the tabs style (i.e., `[tab]`).
-The tabbed interface that this block produces can help to organize information by code language, operating system, or product variant.
+Each set of tabs (aka a "`tabset`" or tabs block) is constructed from a description list (dlist) enclosed in an example block marked with the tabs style (i.e., `[tab]`).
+That nested combination of blocks gets translated by this extension into a single tabs block that is a specialization of an open block.
 
+The tabbed interface produced from this block can help organize information by code language, operating system, or product variant.
 The benefit of organizing information in this way is that it condenses the use of vertical space by only showing what's relevant to the reader (and thus hiding information that's irrelevant or redundant).
 The result is that readers enjoy a better user experience when reading your documentation.
 
