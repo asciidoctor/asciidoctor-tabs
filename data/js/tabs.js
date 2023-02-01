@@ -36,7 +36,13 @@
         tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
       })
       if (syncIds && initial) {
-        var syncGroupId = tabs.dataset.syncGroupId = Object.keys(syncIds).sort().join('|')
+        var syncGroupId
+        for (var i = 0, lst = tabs.classList, len = lst.length, className; i !== len; i++) {
+          if (!(className = lst.item(i)).startsWith('data-sync-group-id=')) continue
+          tabs.dataset.syncGroupId = syncGroupId = lst.remove(className) || className.slice(19).replace(/\u00a0/g, ' ')
+          break
+        }
+        if (syncGroupId === undefined) tabs.dataset.syncGroupId = syncGroupId = Object.keys(syncIds).sort().join('|')
         var preferredSyncId = 'syncStorageKey' in config &&
           window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroupId)
         var tab = preferredSyncId && syncIds[preferredSyncId]
