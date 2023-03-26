@@ -151,6 +151,13 @@ ui:
       <link rel="stylesheet" href="{{{uiRootPath}}}/css/vendor/tabs.css">
 ----
 
-NOTE: If the `ui` key or `ui.supplemental_files` keys already exist, merge this entry with the existing key.
+If the `ui` key or `ui.supplemental_files` keys already exist, merge this entry with the existing key.
+
+On the other hand, if you already have a supplemental UI that's being loaded from a directory (e.g., [.path]_supplemental-ui_), you won't be able to define the supplemental files that support Asciidoctor Tabs directly in your playbook.
+Instead, you'll need to create these files in your supplemental UI folder instead.
+For the two files that are sourced from [.path]_node_modules_, you'll need to create symlinks to them.
+
+ $ ln -s node_modules/@asciidoctor/tabs/dist/css/tabs.css supplemental-ui/css/vendor/tabs.css
+ $ ln -s node_modules/@asciidoctor/tabs/dist/js/tabs.js supplemental-ui/js/vendor/tabs.js
 
 You can now use Asciidoctor Tabs in your Antora-based documentation!
