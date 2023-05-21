@@ -28,13 +28,15 @@
         idx || (initial = { tab: tab, panel: panel }) && syncIds ? toggleHidden(panel, true) : toggleSelected(tab, true)
         tab.setAttribute('aria-controls', panel.id)
         panel.setAttribute('role', 'tabpanel')
-        forEach.call(panel.querySelectorAll('table.tableblock'), function (table) {
-          var container = Object.assign(document.createElement('div'), { className: 'tablecontainer' })
-          table.parentNode.insertBefore(container, table).appendChild(table)
-        })
         var onClick = syncId === undefined ? activateTab : activateTabSync
         tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
       })
+      if (!tabs.closest('.tabpanel')) {
+        forEach.call(tabs.querySelectorAll('.tabpanel table.tableblock'), function (table) {
+          var container = Object.assign(document.createElement('div'), { className: 'tablecontainer' })
+          table.parentNode.insertBefore(container, table).appendChild(table)
+        })
+      }
       if (syncIds && initial) {
         var syncGroupId
         for (var i = 0, lst = tabs.classList, len = lst.length, className; i !== len; i++) {
@@ -60,10 +62,10 @@
     var tab = this.tab
     var tabs = this.tabs || (this.tabs = tab.closest('.tabs'))
     var panel = this.panel || (this.panel = document.getElementById(tab.getAttribute('aria-controls')))
-    forEach.call(tabs.querySelectorAll('.tablist .tab'), function (el) {
+    querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (el) {
       toggleSelected(el, el === tab)
     })
-    forEach.call(tabs.querySelectorAll('.tabpanel'), function (el) {
+    querySelectorWithSiblings(tabs, '.tabpanel', 'tabpanel').forEach(function (el) {
       toggleHidden(el, el !== panel)
     })
     if (!this.isSync && 'syncStorageKey' in config && 'syncGroupId' in tabs.dataset) {
@@ -84,12 +86,20 @@
     var initialY = thisTabs.getBoundingClientRect().y
     forEach.call(document.querySelectorAll('.tabs'), function (tabs) {
       if (tabs === thisTabs || tabs.dataset.syncGroupId !== thisTabs.dataset.syncGroupId) return
-      forEach.call(tabs.querySelectorAll('.tablist .tab'), function (tab) {
+      querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (tab) {
         if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
       })
     })
     var shiftedBy = thisTabs.getBoundingClientRect().y - initialY
     if (shiftedBy && (shiftedBy = Math.round(shiftedBy))) window.scrollBy({ top: shiftedBy, behavior: 'instant' })
+  }
+
+  function querySelectorWithSiblings (scope, selector, siblingClass) {
+    var el = scope.querySelector(selector)
+    if (!el) return []
+    var result = [el]
+    while ((el = el.nextElementSibling) && el.classList.contains(siblingClass)) result.push(el)
+    return result
   }
 
   function toggleClassOnEach (elements, className, method) {
