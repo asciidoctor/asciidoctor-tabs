@@ -17,7 +17,7 @@
     "clean": "npx rimraf dist node_modules",
     "postpublish": "npx -y downdoc --postpublish",
     "prepublishOnly": "npx -y downdoc --prepublish",
-    "test": "node --test test/*_test.js"
+    "test": "node --test test/*-test.js"
   },
   "main": "lib/index.js",
   "browser": "./dist/js/tabs.js",
