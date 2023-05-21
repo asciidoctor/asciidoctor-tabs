@@ -1,6 +1,7 @@
 'use strict'
 
-const assert = require('node:assert')
+const assert = require('node:assert/strict')
+const { describe, before, after, it } = require('node:test')
 const execFile = require('node:util').promisify(require('node:child_process').execFile)
 const { promises: fsp } = require('node:fs')
 const os = require('node:os')
@@ -16,9 +17,7 @@ describe('tabs smoke test', () => {
     tmpdir = await fsp.mkdtemp(ospath.join(os.tmpdir(), 'asciidoctor-tabs-'))
   })
 
-  after(async () => {
-    await fsp.rm(tmpdir, { recursive: true, force: true })
-  })
+  after(() => fsp.rm(tmpdir, { recursive: true, force: true }))
 
   it('should generate same output as Ruby extension', async () => {
     const inputPath = ospath.join(FIXTURES_DIR, 'smoke.adoc')

@@ -13,11 +13,11 @@
   },
   "scripts": {
     "build": "npx -y --package opal-compiler@1.0.13 node npm/transpile.js",
-    "ci": "npm i --quiet && npm run build && npm test",
+    "ci": "npm run build && npm test",
     "clean": "npx rimraf dist node_modules",
     "postpublish": "npx -y downdoc --postpublish",
     "prepublishOnly": "npx -y downdoc --prepublish",
-    "test": "_mocha --timeout 30000"
+    "test": "node --test test/*_test.js"
   },
   "main": "lib/index.js",
   "browser": "./dist/js/tabs.js",
@@ -34,9 +34,6 @@
     "dist",
     "lib"
   ],
-  "devDependencies": {
-    "mocha": "latest"
-  },
   "engines": {
     "node": ">=16.0.0"
   },
