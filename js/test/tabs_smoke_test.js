@@ -1,10 +1,10 @@
 'use strict'
 
-const assert = require('assert')
-const execFile = require('util').promisify(require('child_process').execFile)
-const { promises: fsp } = require('fs')
-const os = require('os')
-const ospath = require('path')
+const assert = require('node:assert')
+const execFile = require('node:util').promisify(require('node:child_process').execFile)
+const { promises: fsp } = require('node:fs')
+const os = require('node:os')
+const ospath = require('node:path')
 
 const FIXTURES_DIR = ospath.join(__dirname, 'fixtures')
 const PACKAGE_DIR = ospath.resolve(__dirname, '..')

@@ -1,7 +1,7 @@
 'use strict'
 
 const { Builder } = require('opal-compiler')
-const fs = require('fs')
+const fs = require('node:fs')
 
 const transpiled = Builder
   .create()
