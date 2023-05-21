@@ -12,7 +12,7 @@
     "url": "https://github.com/asciidoctor/asciidoctor-tabs/issues"
   },
   "scripts": {
-    "build": "node npm/transpile.js",
+    "build": "npx -y --package opal-compiler@1.0.13 node npm/transpile.js",
     "ci": "npm i --quiet && npm run build && npm test",
     "clean": "npx rimraf dist node_modules",
     "postpublish": "npx -y downdoc --postpublish",
@@ -35,8 +35,7 @@
     "lib"
   ],
   "devDependencies": {
-    "mocha": "latest",
-    "opal-compiler": "1.0.13"
+    "mocha": "latest"
   },
   "engines": {
     "node": ">=16.0.0"
