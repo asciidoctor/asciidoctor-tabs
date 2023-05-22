@@ -14,15 +14,14 @@
       tablist.setAttribute('role', 'tablist')
       var start
       forEach.call(tablist.querySelectorAll('li'), function (tab, idx) {
+        tab.tabIndex = -1
         tab.setAttribute('role', (tab.className = 'tab')) // NOTE converter may not have set class on li
         var id, anchor, syncId
-        if (!(id = tab.id)) {
-          if (!(anchor = tab.querySelector('a[id]'))) return // invalid state
-          tab.id = id = anchor.parentNode.removeChild(anchor).id
+        if (!(id = tab.id) && (anchor = tab.querySelector('a[id]'))) {
+          id = tab.id = anchor.parentNode.removeChild(anchor).id
         }
-        var panel = tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
-        if (!panel) return // invalid state
-        tab.tabIndex = -1
+        var panel = id && tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
+        if (!panel) return idx ? undefined : toggleSelected(tab, true) // invalid state
         syncIds && (((syncId = tab.textContent.trim()) in syncIds) ? (syncId = undefined) : true) &&
           (syncIds[(tab.dataset.syncId = syncId)] = tab)
         idx || (syncIds && (start = { tab: tab, panel: panel })) ? toggleHidden(panel, true) : toggleSelected(tab, true)
