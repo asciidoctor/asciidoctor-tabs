@@ -6,6 +6,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 == Unreleased
 
+=== Changed
+
+* Rework styles for tab to make them compatible with a transition effect; stub in effect in built-in stylesheet
+
 === Fixed
 
 * Don't alter state of nested tabs when tab is selected (#55)
