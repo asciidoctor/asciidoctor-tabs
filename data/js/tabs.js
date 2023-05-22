@@ -12,7 +12,7 @@
       var syncIds = tabs.classList.contains('is-sync') ? {} : undefined
       var tablist = tabs.querySelector('.tablist ul')
       tablist.setAttribute('role', 'tablist')
-      var initial
+      var start
       forEach.call(tablist.querySelectorAll('li'), function (tab, idx) {
         tab.setAttribute('role', (tab.className = 'tab')) // NOTE converter may not have set class on li
         var id, anchor, syncId
@@ -25,7 +25,7 @@
         tab.tabIndex = -1
         syncIds && (((syncId = tab.textContent.trim()) in syncIds) ? (syncId = undefined) : true) &&
           (syncIds[(tab.dataset.syncId = syncId)] = tab)
-        idx || (initial = { tab: tab, panel: panel }) && syncIds ? toggleHidden(panel, true) : toggleSelected(tab, true)
+        idx || (syncIds && (start = { tab: tab, panel: panel })) ? toggleHidden(panel, true) : toggleSelected(tab, true)
         tab.setAttribute('aria-controls', panel.id)
         panel.setAttribute('role', 'tabpanel')
         var onClick = syncId === undefined ? activateTab : activateTabSync
@@ -37,7 +37,7 @@
           table.parentNode.insertBefore(container, table).appendChild(table)
         })
       }
-      if (syncIds && initial) {
+      if (start) {
         var syncGroupId
         for (var i = 0, lst = tabs.classList, len = lst.length, className; i !== len; i++) {
           if (!(className = lst.item(i)).startsWith('data-sync-group-id=')) continue
@@ -48,8 +48,8 @@
         var preferredSyncId = 'syncStorageKey' in config &&
           window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroupId)
         var tab = preferredSyncId && syncIds[preferredSyncId]
-        tab && Object.assign(initial, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
-        toggleSelected(initial.tab, true) || toggleHidden(initial.panel, false)
+        tab && Object.assign(start, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
+        toggleSelected(start.tab, true) || toggleHidden(start.panel, false)
       }
     })
     onHashChange()
