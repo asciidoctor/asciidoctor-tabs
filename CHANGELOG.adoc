@@ -4,7 +4,7 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
-== Unreleased
+== 1.0.0-beta.4 (2023-05-22) - @mojavelinux
 
 === Changed
 
@@ -16,6 +16,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 * Don't alter state of nested tabs when tab is selected (#55)
 * Don't wrap tables inside nested tabs with tablecontainer div multiple times (#55)
 * Fix fallback logic in behavior script when tab is missing ID or does not match a panel
+
+=== Details
+
+{url-repo}/releases/tag/v1.0.0-beta.4[git tag] | {url-repo}/compare/v1.0.0-beta.3\...v1.0.0-beta.4[full diff]
 
 == 1.0.0-beta.3 (2023-02-01) - @mojavelinux
 
