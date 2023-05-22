@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 === Changed
 
 * Rework styles for tab to make them compatible with a transition effect; stub in effect in built-in stylesheet
+* Add tab class to tab element (if missing) rather than overwriting className property to preserve existing class names
 
 === Fixed
 

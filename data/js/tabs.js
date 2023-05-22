@@ -15,7 +15,7 @@
       var start
       forEach.call(tablist.querySelectorAll('li'), function (tab, idx) {
         tab.tabIndex = -1
-        tab.setAttribute('role', (tab.className = 'tab')) // NOTE converter may not have set class on li
+        tab.setAttribute('role', tab.classList.add('tab') || 'tab')
         var id, anchor, syncId
         if (!(id = tab.id) && (anchor = tab.querySelector('a[id]'))) {
           id = tab.id = anchor.parentNode.removeChild(anchor).id
