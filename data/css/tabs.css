@@ -45,9 +45,9 @@
   background-color: inherit;
   content: "";
   display: block;
-  height: 3px; /* Chrome doesn't always paint the line accurately, so add a little extra */
+  height: 1px;
   position: absolute;
-  bottom: -1.5px;
+  bottom: -1px;
   left: 0;
   right: 0;
 }
