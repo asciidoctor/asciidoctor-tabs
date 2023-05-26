@@ -669,6 +669,101 @@ describe Asciidoctor::Tabs do
       (expect actual).to eql expected
     end
 
+    it 'should not unwrap open block if it has metadata' do
+      input = <<~'END'
+      [tabs]
+      ====
+      Tab A::
+      +
+      [.keep-me]
+      --
+      Contents of tab A.
+
+      Contains more than one block.
+      --
+      ====
+      END
+
+      expected = <<~'END'.chomp
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
+      <div class="ulist tablist">
+      <ul>
+      <li id="_tabs_1_tab_a" class="tab">
+      <p>Tab A</p>
+      </li>
+      </ul>
+      </div>
+      <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
+      <div class="openblock keep-me">
+      <div class="content">
+      <div class="paragraph">
+      <p>Contents of tab A.</p>
+      </div>
+      <div class="paragraph">
+      <p>Contains more than one block.</p>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      END
+
+      actual = Asciidoctor.convert input
+      (expect actual).to eql expected
+    end
+
+    it 'should process nested tabs block' do
+      input = <<~'END'
+      [tabs]
+      ====
+      Tab A::
+      +
+      [tabs]
+      ======
+      Nested Tab A::
+      Contents of nested tab A.
+      ======
+      ====
+      END
+
+      expected = <<~'END'.chomp
+      <div id="_tabs_2" class="openblock tabs is-loading">
+      <div class="content">
+      <div class="ulist tablist">
+      <ul>
+      <li id="_tabs_2_tab_a" class="tab">
+      <p>Tab A</p>
+      </li>
+      </ul>
+      </div>
+      <div id="_tabs_2_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_2_tab_a">
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
+      <div class="ulist tablist">
+      <ul>
+      <li id="_tabs_1_nested_tab_a" class="tab">
+      <p>Nested Tab A</p>
+      </li>
+      </ul>
+      </div>
+      <div id="_tabs_1_nested_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_nested_tab_a">
+      <div class="paragraph">
+      <p>Contents of nested tab A.</p>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      END
+
+      actual = Asciidoctor.convert input
+      (expect actual).to eql expected
+    end
+
     it 'should support using an include to populate the tab content' do
       input = <<~'END'
       [tabs]

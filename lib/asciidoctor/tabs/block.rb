@@ -39,7 +39,8 @@ module Asciidoctor
             tab_blocks = content.text? ?
               [(create_paragraph parent, (content.instance_variable_get :@text), nil, subs: :normal)] : []
             if content.blocks?
-              if (block0 = (blocks = content.blocks)[0]).context == :open && blocks.size == 1 && block0.blocks?
+              if (block0 = (blocks = content.blocks)[0]).context == :open && block0.style == 'open' &&
+                  blocks.size == 1 && !(block0.id || block0.title? || block0.attributes.keys.any? {|k| k != 'style' })
                 blocks = block0.blocks
               end
               tab_blocks.push(*blocks)

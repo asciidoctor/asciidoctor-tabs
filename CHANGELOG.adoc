@@ -4,6 +4,12 @@
 This document provides a curated view of the changes to Asciidoctor Tabs per release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/main[commit history] on GitHub.
 
+== Unreleased
+
+=== Fixed
+
+* Only remove open block enclosure around tab content if it is anonymous; preserve nested tabs block (#59)
+
 == 1.0.0-beta.4 (2023-05-22) - @mojavelinux
 
 === Changed
