@@ -7,16 +7,18 @@ module Asciidoctor
       on_context :example
 
       def process parent, reader, attrs
+        tabs_number = (doc = parent.document).counter 'tabs-number'
         block = create_block parent, attrs['cloaked-context'], nil, attrs, content_model: :compound
         children = (parse_content block, reader).blocks
-        return block unless children.size == 1 && (seed_tabs = children[0]).context == :dlist && seed_tabs.items?
-        unless (doc = parent.document).attr? 'filetype', 'html'
+        unless children.size == 1 && (seed_tabs = children[0]).context == :dlist && seed_tabs.items?
+          return (reset_counter doc, 'tabs-number', (tabs_number - 1)) || block
+        end
+        unless doc.attr? 'filetype', 'html'
           (id = attrs['id']) && (doc.register :refs, [(seed_tabs.id = id), seed_tabs]) unless seed_tabs.id
           (reftext = attrs['reftext']) && (seed_tabs.set_attr 'reftext', reftext) unless seed_tabs.reftext?
           parent << seed_tabs
-          return
+          return reset_counter doc, 'tabs-number', (tabs_number - 1)
         end
-        tabs_number = doc.counter 'tabs-number'
         tabs_id = attrs['id'] || (generate_id %(tabs #{tabs_number}), doc)
         tabs_role = 'tabs' + (!(block.option? 'nosync') && ((block.option? 'sync') || (doc.option? 'tabs-sync')) ?
           ((gid = attrs['sync-group-id']) ? %( is-sync data-sync-group-id=#{gid.gsub ' ', ?\u00a0}) : ' is-sync') : '')
@@ -81,6 +83,12 @@ module Asciidoctor
           output = (create_list doc, :ulist).tap {|ul| ul << (create_list_item ul).tap {|li| li.id = 'name' } }.convert
           converter.instance_variable_set :@list_item_supports_id, (output.include? ' id="name"')
         end
+      end
+
+      def reset_counter doc, name, val
+        doc.counters[name] = val
+        doc.set_attr name, val unless doc.attribute_locked? name
+        nil
       end
     end
   end
