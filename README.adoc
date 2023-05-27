@@ -12,14 +12,14 @@ endif::[]
 An Asciidoctor extension that adds a tabs block to the AsciiDoc syntax.
 
 NOTE: This extension is intended to be used with HTML backends (e.g., `html5`).
-For all other backends (i.e., the filetype is not html), the custom block enclosure is taken away and its contents (a dlist) is converted normally.
+For all other backends (i.e., the filetype is not html), the custom block enclosure is discarded and its contents (a dlist) is converted normally.
 
 TIP: This extension is also published as an npm package named `@asciidoctor/tabs` for use with Asciidoctor.js.
 See the xref:js/README.adoc[README in the js folder] for details.
 
 == Overview
 
-Each set of tabs (aka a "`tabset`" or tabs block) is constructed from a description list (dlist) enclosed in an example block marked with the tabs style (i.e., `[tab]`).
+Each set of tabs (i.e., a "`tabset`" or tabs block) is constructed from a description list (dlist) enclosed in an example block annotated with the tabs style (i.e., `[tab]`).
 That nested combination of blocks gets translated by this extension into a single tabs block that is a specialization of an open block.
 
 The tabbed interface produced from this block can help organize information by code language, operating system, or product variant.
@@ -57,9 +57,9 @@ Then use Bundler to install the gem:
 
 == Syntax
 
-A tabset is defined using a description list (dlist) enclosed in an example block marked with the tabs style.
+A tabset is defined using a description list (dlist) enclosed in an example block annotated with the tabs style.
 
-.document-with-tabs.adoc
+.tabs.adoc
 [,asciidoc]
 ----
 [tabs]
@@ -88,6 +88,7 @@ If the tab has a single attached block, and that block is an open block with no 
 
 You may choose to extend the block delimiter length from the typical 4 characters to 6 in order to avoid conflicts with any example blocks inside the tabs block (or just as a matter of style).
 
+.tab-with-example-block.adoc
 [,asciidoc]
 ----
 [tabs]
@@ -104,6 +105,7 @@ Tab B:: Just text.
 
 Using this technique, you can also create nested tabsets.
 
+.tab-with-nested-tabs.adoc
 [,asciidoc]
 ----
 [tabs]
@@ -124,50 +126,149 @@ Tab B:: Just text.
 
 == Tabs Sync
 
-If you want to synchronize the tab selection across tabsets, set the `tabs-sync-option` on the document.
+If you want to synchronize (i.e., sync) the tab selection across tabsets, set the `tabs-sync-option` on the document.
 
-.document-with-tabs-sync.adoc
+.tabs-sync.adoc
 [,asciidoc]
 ----
 :tabs-sync-option:
 
 [tabs]
 ====
-Tab A:: Contents of Tab A in first tabset.
-Tab B:: Contents of Tab B in first tabset.
+Tab A:: Triggers selection of Tab A in other congruent tabsets.
+Tab B:: Triggers selection of Tab B in other congruent tabsets.
 ====
 
 ...
 
 [tabs]
 ====
-Tab A:: Contents of Tab A in second tabset.
-Tab B:: Contents of Tab B in second tabset.
+Tab A:: Triggers selection of Tab A in other congruent tabsets.
+Tab B:: Triggers selection of Tab B in other congruent tabsets.
 ====
 ----
 
-Only tabs blocks with congruent tablists are synchronized by default.
-Each unique combination of tabs implicitly creates a new sync group.
-You can override the sync group ID using the `sync-group-id` attribute on a tabs block to force it to participate in a sync group.
-By default, the sync group ID is derived from the text of each tab, sorted, then joined on `|` (e.g., `A|B`).
+Only tabsets that have the same sync group ID are synchronized.
+By default, the sync group ID is computed by taking the text of each tab, sorting that list, and joining it on `|` (e.g., `A|B`).
+Each unique combination of tabs--or congruent tablist--implicitly creates a new sync group.
 
-Alternately, you can set the `sync` option on each tabs block.
-If you want to delist a tabs block from sync, set the `nosync` option on that block.
+You can override the sync group ID of a tabset using the `sync-group-id` attribute on the block.
+This allows you to control the scope of the sync or to force a tabset to participate in a sync group even if its not congruent.
+
+.tabs-with-custom-sync-groups.adoc
+[,asciidoc]
+----
+:tabs-sync-option:
+
+[tabs,sync-group-id=group-1]
+====
+Tab A:: Triggers selection of Tab A in second tabset.
+Tab B:: Triggers selection of Tab B in second tabset.
+====
+
+[tabs,sync-group-id=group-1]
+====
+Tab A:: Triggers selection of Tab A in first tabset.
+Tab B:: Triggers selection of Tab B in first tabset.
+====
+
+[tabs,sync-group-id=group-2]
+====
+Tab A:: Triggers selection of Tab A in fourth tabset.
+Tab B:: Triggers selection of Tab B in fourth tabset.
+====
+
+[tabs,sync-group-id=group-2]
+====
+Tab A:: Triggers selection of Tab A in third tabset.
+Tab B:: Triggers selection of Tab B in third tabset.
+====
+----
+
+Instead of enabling tabs sync globally, you can set the `sync` option on individual tabs blocks.
+
+.tabs-with-sync-option.adoc
+[,asciidoc]
+----
+[tabs%sync]
+====
+Tab A:: Triggers selection of Tab A in third tabset.
+Tab B:: Triggers selection of Tab B in third tabset.
+====
+
+[tabs]
+====
+Tab A:: Does not trigger selection of Tab A in other tabsets.
+Tab B:: Does not trigger selection of Tab B in other tabsets.
+====
+
+[tabs%sync]
+====
+Tab A:: Triggers selection of Tab A in first tabset.
+Tab B:: Triggers selection of Tab B in first tabset.
+====
+----
+
+Conversely, if you want to delist a tabs block from the global sync, set the `nosync` option on that block.
+
+.tabs-with-nosync-option.adoc
+[,asciidoc]
+----
+:tabs-sync-option:
+
+[tabs]
+====
+Tab A:: Triggers selection of Tab A in third tabset.
+Tab B:: Triggers selection of Tab B in third tabset.
+====
+
+[tabs%nosync]
+====
+Tab A:: Does not trigger selection of Tab A in other tabsets.
+Tab B:: Does not trigger selection of Tab B in other tabsets.
+====
+
+[tabs]
+====
+Tab A:: Triggers selection of Tab A in first tabset.
+Tab B:: Triggers selection of Tab B in first tabset.
+====
+----
 
 If you want to persist the sync selection, assign a value to the `data-sync-storage-key` attribute on the `<script>` tag.
-By default, the sync selection will be assigned to the specified key in local storage.
-You can set the `data-sync-storage-scope` attribute on the `<script>` tag to `session` to use session storage instead.
-When using the extension on a standalone document, you can configure these options using the `tabs-sync-storage-key` and `tabs-sync-storage-scope` document attributes, respectively.
+
+[,js]
+----
+<script data-sync-storage-key="preferred-tab">
+----
+
+By default, the sync selection (per group) will be persisted to local storage (i.e., `data-sync-storage-scope="local"`) using the specified key.
+You can set the `data-sync-storage-scope` attribute on the `<script>` tag to `session` to use session storage instead of local storage.
+
+[,js]
+----
+<script data-sync-storage-key="preferred-tab" data-sync-storage-scope="session">
+----
+
+When using the extension on a standalone document (which will automatically embed the supporting script), you can configure these options using the `tabs-sync-storage-key` and `tabs-sync-storage-scope` document attributes, respectively.
+
+[,asciidoc]
+----
+:tabs-sync-storage-key: tabs
+:tabs-sync-storage-scope: session
+----
+
+In this case, the converter will set the corresponding attributes on the `<script>` tag automatically.
 
 == Usage
 
 === CLI
 
- $ asciidoctor -r asciidoctor-tabs document-with-tabs.adoc
+ $ asciidoctor -r asciidoctor-tabs tabs.adoc
 
 You can specify an alternate stylesheet for tabs using the `tabs-stylesheet` document attribute.
 
- $ asciidoctor -r asciidoctor-tabs -a tabs-stylesheet=my-tabs.css document-with-tabs.adoc
+ $ asciidoctor -r asciidoctor-tabs -a tabs-stylesheet=my-tabs.css tabs.adoc
 
 The value of the `tabs-stylesheet` attribute is handled in the same way as the built-in `stylesheet` document attribute.
 A relative path is resolved starting from the value of the `stylesdir` document attribute, which defaults to the directory of the document.
@@ -184,7 +285,7 @@ You can require `asciidoctor/tabs` to register the extension as a global extensi
 require 'asciidoctor'
 require 'asciidoctor/tabs'
 
-Asciidoctor.convert_file 'document-with-tabs.adoc', safe: :safe
+Asciidoctor.convert_file 'tabs.adoc', safe: :safe
 ----
 
 Or you can pass a registry instance to the `Extensions.register` method to register the extension with a scoped registry.
@@ -197,14 +298,14 @@ require 'asciidoctor/tabs/extensions'
 registry = Asciidoctor::Extensions.create
 Asciidoctor::Tabs::Extensions.register registry
 
-Asciidoctor.convert_file 'document-with-tabs.adoc', extension_registry: registry, safe: :safe
+Asciidoctor.convert_file 'tabs.adoc', extension_registry: registry, safe: :safe
 ----
 
 If you're not using other scoped extensions, you can pass in the extensions group without first creating a registry instance:
 
 [,js]
 ----
-Asciidoctor.convert_file 'document-with-tabs.adoc', extensions: Asciidoctor::Tabs::Extensions.group, safe: :safe
+Asciidoctor.convert_file 'tabs.adoc', extensions: Asciidoctor::Tabs::Extensions.group, safe: :safe
 ----
 
 == How it Works

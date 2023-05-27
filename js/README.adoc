@@ -11,6 +11,8 @@ Therefore, you must install that package when installing this one.
 
 == Syntax
 
+A tabset is defined using a description list (dlist) enclosed in an example block annotated with the tabs style.
+
 [,asciidoc]
 ----
 [tabs]
@@ -71,7 +73,7 @@ Tab B:: Just text.
 
 === CLI
 
- $ npx asciidoctor -r @asciidoctor/tabs document-with-tabs.adoc
+ $ npx asciidoctor -r @asciidoctor/tabs tabs.adoc
 
 The `asciidoctor` command automatically registers the tabs extension when the package is required.
 
@@ -88,7 +90,7 @@ const Asciidoctor = require('asciidoctor')()
 
 require('@asciidoctor/tabs').register()
 
-Asciidoctor.convertFile('document-with-tabs.adoc', { safe: 'safe' })
+Asciidoctor.convertFile('tabs.adoc', { safe: 'safe' })
 ----
 
 Or you can pass a registry instance to the `register` method to register the extension with a scoped registry.
@@ -100,7 +102,7 @@ const Asciidoctor = require('asciidoctor')()
 const registry = Asciidoctor.Extensions.create()
 require('@asciidoctor/tabs').register(registry)
 
-Asciidoctor.convertFile('document-with-tabs.adoc', { extension_registry: registry, safe: 'safe' })
+Asciidoctor.convertFile('tabs.adoc', { extension_registry: registry, safe: 'safe' })
 ----
 
 You can also require `@asciidoctor/tabs/extensions` to access the `Extensions` class.
