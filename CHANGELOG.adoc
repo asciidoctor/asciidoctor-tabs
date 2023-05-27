@@ -6,6 +6,10 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/main[co
 
 == Unreleased
 
+=== Changed
+
+* Ensure tab number sequence follows document order when tabs blocks are nested (#61)
+
 === Fixed
 
 * Only remove open block enclosure around tab content if it is anonymous; preserve nested tabs block (#59)

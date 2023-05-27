@@ -281,7 +281,7 @@ describe Asciidoctor::Tabs do
       (expect actual).to include 'aria-labelledby="install_commands_yarn"'
     end
 
-    it 'should continue sequence when generating ID for tabs following tabs with custom ID' do
+    it 'should continue tabs number sequence when generating ID for tabs following tabs with custom ID' do
       input = <<~END
       [tabs]
       ====
@@ -304,6 +304,52 @@ describe Asciidoctor::Tabs do
       (expect actual).to include 'id="_tabs_1"'
       (expect actual).to include 'id="install_commands"'
       (expect actual).to include 'id="_tabs_3"'
+    end
+
+    it 'should use tabs number sequence when generating ID when tabs-number attribute is locked' do
+      input = <<~END
+      [tabs]
+      ====
+      Tab A:: A
+      Tab B:: B
+      Tab C:: C
+      ====
+
+      [tabs]
+      ====
+      Tab X:: X
+      Tab Y:: Y
+      Tab Z:: Z
+      ====
+      END
+
+      actual = Asciidoctor.convert input, attributes: { 'tabs-number' => 0 }
+      (expect actual).to include 'id="_tabs_1"'
+      (expect actual).to include 'id="_tabs_2"'
+    end
+
+    it 'should be able to switch tabs number sequence for generated IDs to letters using tabs-number attribute' do
+      input = <<~END
+      :tabs-number: @
+
+      [tabs]
+      ====
+      Tab A:: A
+      Tab B:: B
+      Tab C:: C
+      ====
+
+      [tabs]
+      ====
+      Tab X:: X
+      Tab Y:: Y
+      Tab Z:: Z
+      ====
+      END
+
+      actual = Asciidoctor.convert input
+      (expect actual).to include 'id="_tabs_a"'
+      (expect actual).to include 'id="_tabs_b"'
     end
 
     it 'should register reference for tabs if it defines an ID' do
@@ -729,26 +775,26 @@ describe Asciidoctor::Tabs do
       END
 
       expected = <<~'END'.chomp
-      <div id="_tabs_2" class="openblock tabs is-loading">
-      <div class="content">
-      <div class="ulist tablist">
-      <ul>
-      <li id="_tabs_2_tab_a" class="tab">
-      <p>Tab A</p>
-      </li>
-      </ul>
-      </div>
-      <div id="_tabs_2_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_2_tab_a">
       <div id="_tabs_1" class="openblock tabs is-loading">
       <div class="content">
       <div class="ulist tablist">
       <ul>
-      <li id="_tabs_1_nested_tab_a" class="tab">
+      <li id="_tabs_1_tab_a" class="tab">
+      <p>Tab A</p>
+      </li>
+      </ul>
+      </div>
+      <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
+      <div id="_tabs_2" class="openblock tabs is-loading">
+      <div class="content">
+      <div class="ulist tablist">
+      <ul>
+      <li id="_tabs_2_nested_tab_a" class="tab">
       <p>Nested Tab A</p>
       </li>
       </ul>
       </div>
-      <div id="_tabs_1_nested_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_nested_tab_a">
+      <div id="_tabs_2_nested_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_2_nested_tab_a">
       <div class="paragraph">
       <p>Contents of nested tab A.</p>
       </div>
