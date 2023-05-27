@@ -64,16 +64,16 @@ A tabset is defined using a description list (dlist) enclosed in an example bloc
 ----
 [tabs]
 ====
-Tab A:: Contents of tab A.
+Tab A:: Contents of Tab A.
 
 Tab B::
 +
-Contents of tab B.
+Contents of Tab B.
 
 Tab C::
 +
 --
-Contents of tab C.
+Contents of Tab C.
 
 Contains more than one block.
 --
@@ -113,16 +113,16 @@ If you want to synchronize the tab selection across tabsets, set the `tabs-sync-
 
 [tabs]
 ====
-Tab A:: Contents of tab A in first tabset.
-Tab B:: Contents of tab B in first tabset.
+Tab A:: Contents of Tab A in first tabset.
+Tab B:: Contents of Tab B in first tabset.
 ====
 
 ...
 
 [tabs]
 ====
-Tab A:: Contents of tab A in second tabset.
-Tab B:: Contents of tab B in second tabset.
+Tab A:: Contents of Tab A in second tabset.
+Tab B:: Contents of Tab B in second tabset.
 ====
 ----
 

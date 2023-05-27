@@ -15,16 +15,16 @@ Therefore, you must install that package when installing this one.
 ----
 [tabs]
 ====
-Tab A:: Contents of tab A.
+Tab A:: Contents of Tab A.
 
 Tab B::
 +
-Contents of tab B.
+Contents of Tab B.
 
 Tab C::
 +
 --
-Contents of tab C.
+Contents of Tab C.
 
 Contains more than one block.
 --
