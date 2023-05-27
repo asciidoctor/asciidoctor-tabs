@@ -3,7 +3,13 @@ require:
 - rubocop-rspec
 AllCops:
   TargetRubyVersion: 2.7
+Capybara:
+  Enabled: false
+FactoryBot:
+  Enabled: false
 Gemspec/DeprecatedAttributeAssignment:
+  Enabled: true
+Gemspec/DevelopmentDependencies:
   Enabled: true
 Gemspec/RequireMFA:
   Enabled: false
@@ -78,6 +84,8 @@ Lint/DuplicateBranch:
 Lint/DuplicateElsifCondition:
   Enabled: true
 Lint/DuplicateMagicComment:
+  Enabled: true
+Lint/DuplicateMatchPattern:
   Enabled: true
 Lint/DuplicateRegexpCharacterClassElement:
   Enabled: true
@@ -157,6 +165,8 @@ Lint/UnusedMethodArgument:
   Enabled: true
 Lint/UselessMethodDefinition:
   Enabled: true
+Lint/UselessRescue:
+  Enabled: true
 Lint/UselessRuby2Keywords:
   Enabled: true
 Lint/UselessTimes:
@@ -169,6 +179,8 @@ Metrics/BlockNesting:
   Max: 10
 Metrics/ClassLength:
   Enabled: false
+Metrics/CollectionLiteralLength:
+  Enabled: true
 Metrics/CyclomaticComplexity:
   Enabled: false
 Metrics/MethodLength:
@@ -206,6 +218,8 @@ RSpec:
     ExampleGroups:
       Regular:
       - describe_method
+RSpec/BeEmpty:
+  Enabled: true
 RSpec/BeEq:
   Enabled: true
 RSpec/BeEql:
@@ -214,11 +228,11 @@ RSpec/BeNil:
   Enabled: true
 RSpec/BeforeAfterAll:
   Enabled: true
-RSpec/Capybara:
-  Enabled: false
 RSpec/ChangeByZero:
   Enabled: true
 RSpec/ClassCheck:
+  Enabled: true
+RSpec/ContainExactly:
   Enabled: true
 RSpec/ContextWording:
   Enabled: false
@@ -236,11 +250,13 @@ RSpec/ExcessiveDocstringSpacing:
   Enabled: true
 RSpec/ExpectInHook:
   Enabled: true
-RSpec/FactoryBot:
-  Enabled: false
 RSpec/FilePath:
   Enabled: false
 RSpec/IdenticalEqualityAssertion:
+  Enabled: true
+RSpec/IndexedLet:
+  Enabled: true
+RSpec/MatchArray:
   Enabled: true
 RSpec/MultipleExpectations:
   Enabled: true
@@ -255,6 +271,10 @@ RSpec/PendingWithoutReason:
   Enabled: true
 RSpec/Rails:
   Enabled: false
+RSpec/RedundantAround:
+  Enabled: true
+RSpec/SkipBlockInsideExample:
+  Enabled: true
 RSpec/SortMetadata:
   Enabled: true
 RSpec/SubjectDeclaration:
@@ -316,11 +336,17 @@ Style/CommentAnnotation:
   - NOTE
   - QUESTION
   RequireColon: false
+Style/ComparableClamp:
+  Enabled: true
 Style/ConcatArrayLiterals:
   Enabled: true
 Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
   IncludeTernaryExpressions: false
+Style/DataInheritance:
+  Enabled: true
+Style/DirEmpty:
+  Enabled: true
 Style/DocumentDynamicEvalDefinition:
   Enabled: true
 Style/Documentation:
@@ -335,12 +361,16 @@ Style/EndlessMethod:
   Enabled: true
 Style/EnvHome:
   Enabled: true
+Style/ExactRegexpMatch:
+  Enabled: true
 Style/ExplicitBlockArgument:
   Enabled: false # reason: yield is fine
 Style/ExponentialNotation:
   Enabled: true
 Style/FetchEnvVar:
   Enabled: false # reason: just no
+Style/FileEmpty:
+  Enabled: true
 Style/FileRead:
   Enabled: true
 Style/FileWrite:
@@ -391,11 +421,15 @@ Style/MapCompactWithConditionalBlock:
   Enabled: true
 Style/MapToHash:
   Enabled: false # reason: not supported in JRuby < 9.3
+Style/MapToSet:
+  Enabled: true
 Style/MethodCallWithArgsParentheses:
   Enabled: true
   EnforcedStyle: omit_parentheses
 Style/MethodDefParentheses:
   EnforcedStyle: require_no_parentheses
+Style/MinMaxComparison:
+  Enabled: true
 Style/MultilineBlockChain:
   Enabled: false # reason: no reason not to allow method call on block result
 Style/MultilineInPatternThen:
@@ -463,7 +497,11 @@ Style/RedundantFetchBlock:
   Enabled: true
 Style/RedundantFileExtensionInRequire:
   Enabled: true
+Style/RedundantHeredocDelimiterQuotes:
+  Enabled: false # reason: we want to be explicit about when no interpolation should be performed
 Style/RedundantInitialize:
+  Enabled: true
+Style/RedundantLineContinuation:
   Enabled: true
 Style/RedundantPercentQ:
   Enabled: true

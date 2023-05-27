@@ -10,7 +10,7 @@ group :coverage do
 end
 
 group :lint do
-  gem 'rubocop', '~> 1.41.0', require: false
+  gem 'rubocop', '~> 1.51.0', require: false
   gem 'rubocop-rake', '~> 0.6.0', require: false
-  gem 'rubocop-rspec', '~> 2.16.0', require: false
+  gem 'rubocop-rspec', '~> 2.22.0', require: false
 end
