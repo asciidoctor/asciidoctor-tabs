@@ -47,6 +47,26 @@ Tab B:: Just text.
 ======
 ----
 
+Using this technique, you can also create nested tabsets.
+
+[,asciidoc]
+----
+[tabs]
+======
+Tab A::
++
+Selecting Tab A reveals a tabset with Tab Y and Tab Z.
++
+[tabs]
+====
+Tab Y:: Contents of Tab Y, nested inside Tab A.
+Tab Z:: Contents of Tab Z, nested inside Tab A.
+====
+
+Tab B:: Just text.
+======
+----
+
 == Usage
 
 === CLI

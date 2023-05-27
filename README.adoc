@@ -80,11 +80,11 @@ Contains more than one block.
 ====
 ----
 
-The tabbed content is modeled as a dlist.
+The tabs themselves are modeled as a dlist.
 Each item in the dlist becomes a separate tab.
 The term is used as the tab's label and the description is used as the tab's contents.
 The contents can be defined as primary text, attached blocks, or both.
-If the attached blocks are themselves enclosed in a single open block, the open block enclosure itself is discarded upon conversion.
+If the tab has a single attached block, and that block is an open block with no attributes, the open block enclosure itself is discarded upon conversion.
 
 You may choose to extend the block delimiter length from the typical 4 characters to 6 in order to avoid conflicts with any example blocks inside the tabs block (or just as a matter of style).
 
@@ -96,6 +96,26 @@ Tab A::
 +
 ====
 Example block in Tab A.
+====
+
+Tab B:: Just text.
+======
+----
+
+Using this technique, you can also create nested tabsets.
+
+[,asciidoc]
+----
+[tabs]
+======
+Tab A::
++
+Selecting Tab A reveals a tabset with Tab Y and Tab Z.
++
+[tabs]
+====
+Tab Y:: Contents of Tab Y, nested inside Tab A.
+Tab Z:: Contents of Tab Z, nested inside Tab A.
 ====
 
 Tab B:: Just text.
