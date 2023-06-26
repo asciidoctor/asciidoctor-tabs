@@ -22,7 +22,7 @@ describe('tabs smoke test', () => {
   it('should generate same output as Ruby extension', async () => {
     const inputPath = ospath.join(FIXTURES_DIR, 'smoke.adoc')
     const scenarios = {
-      js: { requirePath: PACKAGE_DIR, baseCommand: ['npx', '--yes'] },
+      js: { requirePath: PACKAGE_DIR, baseCommand: ['npx', '--yes', '--package', 'asciidoctor@2'] },
       rb: { requirePath: 'asciidoctor/tabs', baseCommand: ['bundle', 'exec'] },
     }
     const results = {}
