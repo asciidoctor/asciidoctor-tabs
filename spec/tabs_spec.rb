@@ -715,7 +715,7 @@ describe Asciidoctor::Tabs do
       (expect actual).to eql expected
     end
 
-    it 'should not unwrap open block if it has metadata' do
+    it 'should not unwrap open block if it has a role' do
       input = <<~'END'
       [tabs]
       ====
@@ -742,6 +742,51 @@ describe Asciidoctor::Tabs do
       </div>
       <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
       <div class="openblock keep-me">
+      <div class="content">
+      <div class="paragraph">
+      <p>Contents of tab A.</p>
+      </div>
+      <div class="paragraph">
+      <p>Contains more than one block.</p>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      END
+
+      actual = Asciidoctor.convert input
+      (expect actual).to eql expected
+    end
+
+    it '.only should not unwrap open block if it has an ID' do
+      input = <<~'END'
+      [tabs]
+      ====
+      Tab A::
+      +
+      [#contents-of-tab-a]
+      --
+      Contents of tab A.
+
+      Contains more than one block.
+      --
+      ====
+      END
+
+      expected = <<~'END'.chomp
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
+      <div class="ulist tablist">
+      <ul>
+      <li id="_tabs_1_tab_a" class="tab">
+      <p>Tab A</p>
+      </li>
+      </ul>
+      </div>
+      <div id="_tabs_1_tab_a--panel" class="tabpanel" aria-labelledby="_tabs_1_tab_a">
+      <div id="contents-of-tab-a" class="openblock">
       <div class="content">
       <div class="paragraph">
       <p>Contents of tab A.</p>
