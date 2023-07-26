@@ -926,7 +926,7 @@ describe Asciidoctor::Tabs do
       (expect actual).to eql expected
     end
 
-    it '.only should preserve attribute entries in body when filetype is not html' do
+    it 'should preserve attribute entries in body when filetype is not html' do
       input = <<~'END'
       before
 
