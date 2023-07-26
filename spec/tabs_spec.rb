@@ -926,6 +926,37 @@ describe Asciidoctor::Tabs do
       (expect actual).to eql expected
     end
 
+    it '.only should preserve attribute entries in body when filetype is not html' do
+      input = <<~'END'
+      before
+
+      :foo: bar
+
+      [tabs]
+      ====
+      foo:: {foo}
+      ====
+      END
+      expected = <<~'END'.chomp
+      <simpara>before</simpara>
+      <variablelist>
+      <varlistentry>
+      <term>foo</term>
+      <listitem>
+      <simpara>bar</simpara>
+      </listitem>
+      </varlistentry>
+      </variablelist>
+      END
+
+      with_memory_logger :info do |logger|
+        doc = Asciidoctor.load input, backend: 'docbook'
+        actual = doc.convert
+        (expect actual).to eql expected
+        (expect logger).to be_empty
+      end
+    end
+
     it 'should add is-sync class to tabs block if tabs-sync-option is set on document' do
       input = <<~END
       :tabs-sync-option:
