@@ -857,13 +857,14 @@ describe Asciidoctor::Tabs do
       (expect actual).to eql expected
     end
 
-    it 'should output original dlist if filetype is not html' do
+    it 'should output original dlist in open block if filetype is not html' do
       input = <<~END
       [#not-tabs,reftext=Not Tabs]
       #{single_tab}
       END
       expected = <<~'END'.chomp
-      <variablelist xml:id="not-tabs" xreflabel="Not Tabs">
+      <para xml:id="not-tabs" xreflabel="Not Tabs">
+      <variablelist>
       <varlistentry>
       <term>Tab A</term>
       <listitem>
@@ -871,13 +872,14 @@ describe Asciidoctor::Tabs do
       </listitem>
       </varlistentry>
       </variablelist>
+      </para>
       END
 
       actual = Asciidoctor.convert input, backend: 'docbook'
       (expect actual).to eql expected
     end
 
-    it 'should prefer ID and reftext on dlist when filetype is not html' do
+    it 'should preserve ID and reftext on dlist when filetype is not html' do
       input = <<~'END'
       [tabs#not-tabs,reftext=Not Tabs]
       ====
@@ -886,6 +888,7 @@ describe Asciidoctor::Tabs do
       ====
       END
       expected = <<~'END'.chomp
+      <para xml:id="not-tabs" xreflabel="Not Tabs">
       <variablelist xml:id="varlist-1" xreflabel="A Variable List">
       <varlistentry>
       <term>Tab A</term>
@@ -894,6 +897,7 @@ describe Asciidoctor::Tabs do
       </listitem>
       </varlistentry>
       </variablelist>
+      </para>
       END
 
       actual = Asciidoctor.convert input, backend: 'docbook'

@@ -7,17 +7,13 @@ module Asciidoctor
       on_context :example
 
       def process parent, reader, attrs
-        tabs_number = (doc = parent.document).counter 'tabs-number'
+        doc = parent.document
+        return create_open_block parent, nil, attrs unless doc.attr? 'filetype', 'html'
+        tabs_number = doc.counter 'tabs-number'
         block = create_block parent, attrs['cloaked-context'], nil, attrs, content_model: :compound
         children = (parse_content block, reader).blocks
         unless children.size == 1 && (seed_tabs = children[0]).context == :dlist && seed_tabs.items?
           return (reset_counter doc, 'tabs-number', (tabs_number - 1)) || block
-        end
-        unless doc.attr? 'filetype', 'html'
-          (id = attrs['id']) && (doc.register :refs, [(seed_tabs.id = id), seed_tabs]) unless seed_tabs.id
-          (reftext = attrs['reftext']) && (seed_tabs.set_attr 'reftext', reftext) unless seed_tabs.reftext?
-          parent << seed_tabs
-          return reset_counter doc, 'tabs-number', (tabs_number - 1)
         end
         tabs_id = attrs['id'] || (generate_id %(tabs #{tabs_number}), doc)
         tabs_role = 'tabs' + (!(block.option? 'nosync') && ((block.option? 'sync') || (doc.option? 'tabs-sync')) ?
