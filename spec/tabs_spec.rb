@@ -904,6 +904,28 @@ describe Asciidoctor::Tabs do
       (expect actual).to eql expected
     end
 
+    it 'should discard tabs enclosure if backend is docbook and tabs block has no attributes' do
+      input = <<~'END'
+      [tabs]
+      ====
+      Tab A:: Contents of tab A.
+      ====
+      END
+      expected = <<~'END'.chomp
+      <variablelist>
+      <varlistentry>
+      <term>Tab A</term>
+      <listitem>
+      <simpara>Contents of tab A.</simpara>
+      </listitem>
+      </varlistentry>
+      </variablelist>
+      END
+
+      actual = Asciidoctor.convert input, backend: 'docbook'
+      (expect actual).to eql expected
+    end
+
     it 'should add is-sync class to tabs block if tabs-sync-option is set on document' do
       input = <<~END
       :tabs-sync-option:
