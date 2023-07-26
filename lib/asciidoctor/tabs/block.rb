@@ -12,9 +12,8 @@ module Asciidoctor
         tabs_number = doc.counter 'tabs-number'
         block = create_block parent, attrs['cloaked-context'], nil, attrs, content_model: :compound
         children = (parse_content block, reader).blocks
-        unless children.size == 1 && (seed_tabs = children[0]).context == :dlist && seed_tabs.items?
-          return (reset_counter doc, 'tabs-number', (tabs_number - 1)) || block
-        end
+        return (reset_counter doc, 'tabs-number', (tabs_number - 1)) || block unless children.size == 1 &&
+          (seed_tabs = children[0]).context == :dlist && seed_tabs.items?
         tabs_id = attrs['id'] || (generate_id %(tabs #{tabs_number}), doc)
         tabs_role = 'tabs' + (!(block.option? 'nosync') && ((block.option? 'sync') || (doc.option? 'tabs-sync')) ?
           ((gid = attrs['sync-group-id']) ? %( is-sync data-sync-group-id=#{gid.gsub ' ', ?\u00a0}) : ' is-sync') : '')
