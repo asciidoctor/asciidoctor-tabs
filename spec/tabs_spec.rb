@@ -230,6 +230,47 @@ describe Asciidoctor::Tabs do
       (expect actual).to eql expected
     end
 
+    it 'should preserve attribute entries above tabs block' do
+      input = <<~'END'
+      before
+
+      :foo: bar
+
+      [tabs]
+      ====
+      foo:: {foo}
+      ====
+      END
+      expected = <<~'END'.chomp
+      <div class="paragraph">
+      <p>before</p>
+      </div>
+      <div id="_tabs_1" class="openblock tabs is-loading">
+      <div class="content">
+      <div class="ulist tablist">
+      <ul>
+      <li id="_tabs_1_foo" class="tab">
+      <p>foo</p>
+      </li>
+      </ul>
+      </div>
+      <div id="_tabs_1_foo--panel" class="tabpanel" aria-labelledby="_tabs_1_foo">
+      <div class="paragraph">
+      <p>bar</p>
+      </div>
+      </div>
+      </div>
+      </div>
+      END
+
+      with_memory_logger :info do |logger|
+        doc = Asciidoctor.load input
+        actual = doc.convert
+        (expect actual).to eql expected
+        (expect logger).to be_empty
+      end
+    end
+
     it 'should not register docinfo processors for embedded document' do
       input = hello_tabs
       (expect (Asciidoctor.load input).extensions.docinfo_processors?).to be false
