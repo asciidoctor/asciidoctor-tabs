@@ -115,6 +115,8 @@ Lint/LambdaWithoutLiteralBlock:
   Enabled: true
 Lint/MissingSuper:
   Enabled: true
+Lint/MixedCaseRange:
+  Enabled: true
 Lint/MixedRegexpCaptureTypes:
   Enabled: true
 Lint/NonAtomicFileOperation:
@@ -132,6 +134,8 @@ Lint/ParenthesesAsGroupedExpression:
 Lint/RaiseException:
   Enabled: true
 Lint/RedundantDirGlobSort:
+  Enabled: true
+Lint/RedundantRegexpQuantifiers:
   Enabled: true
 Lint/RefinementImportMethods:
   Enabled: true
@@ -271,6 +275,8 @@ RSpec/PendingWithoutReason:
   Enabled: true
 RSpec/Rails:
   Enabled: false
+RSpec/ReceiveMessages:
+  Enabled: true
 RSpec/RedundantAround:
   Enabled: true
 RSpec/SkipBlockInsideExample:
@@ -483,11 +489,15 @@ Style/QuotedSymbols:
   Enabled: true
 Style/RedundantArgument:
   Enabled: true
+Style/RedundantArrayConstructor:
+  Enabled: true
 Style/RedundantAssignment:
   Enabled: true
 Style/RedundantBegin:
   Enabled: true
 Style/RedundantConstantBase:
+  Enabled: true
+Style/RedundantCurrentDirectoryInPath:
   Enabled: true
 Style/RedundantDoubleSplatHashBraces:
   Enabled: true
@@ -497,6 +507,8 @@ Style/RedundantFetchBlock:
   Enabled: true
 Style/RedundantFileExtensionInRequire:
   Enabled: true
+Style/RedundantFilterChain:
+  Enabled: true
 Style/RedundantHeredocDelimiterQuotes:
   Enabled: false # reason: we want to be explicit about when no interpolation should be performed
 Style/RedundantInitialize:
@@ -505,7 +517,11 @@ Style/RedundantLineContinuation:
   Enabled: true
 Style/RedundantPercentQ:
   Enabled: true
+Style/RedundantRegexpArgument:
+  Enabled: true
 Style/RedundantRegexpCharacterClass:
+  Enabled: true
+Style/RedundantRegexpConstructor:
   Enabled: true
 Style/RedundantRegexpEscape:
   Enabled: true
@@ -522,6 +538,8 @@ Style/RescueModifier:
   Enabled: false # reason: a useful language feature
 Style/RescueStandardError:
   EnforcedStyle: implicit
+Style/ReturnNilInPredicateMethodDefinition:
+  Enabled: true
 Style/MissingRespondToMissing:
   Enabled: true
 Style/SafeNavigation:
@@ -557,4 +575,6 @@ Style/TrailingCommaInArrayLiteral:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
 Style/WordArray:
+  Enabled: true
+Style/YAMLFileRead:
   Enabled: true
