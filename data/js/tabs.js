@@ -4,6 +4,15 @@
   var config = (document.currentScript || {}).dataset || {}
   var forEach = Array.prototype.forEach
 
+  document.addEventListener('asciidoctor-tabs:toggle', function (event) {
+    const groupId = event.detail.syncGroupId.replace(/\W/g, '-').toLowerCase()
+    const id = event.detail.syncId.replace(/\W/g, '-').toLowerCase()
+    document.querySelectorAll('[class^="' + groupId + '"]').forEach(function (el) {
+      const hide = !el.classList.contains(groupId + '-' + id)
+      el.classList[(el.hidden = hide) ? 'add' : 'remove']('is-hidden')
+    })
+  })
+
   init(document.querySelectorAll('.tabs'))
 
   function init (tabsBlocks) {
@@ -11,6 +20,7 @@
     forEach.call(tabsBlocks, function (tabs) {
       var syncIds = tabs.classList.contains('is-sync') ? {} : undefined
       var tablist = tabs.querySelector('.tablist ul')
+      if (!tablist) return
       tablist.setAttribute('role', 'tablist')
       var start
       forEach.call(tablist.querySelectorAll('li'), function (tab, idx) {
@@ -49,6 +59,9 @@
         var tab = preferredSyncId && syncIds[preferredSyncId]
         tab && Object.assign(start, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
         toggleSelected(start.tab, true) || toggleHidden(start.panel, false)
+        document.dispatchEvent(new CustomEvent('asciidoctor-tabs:toggle', {
+          detail: { syncGroupId: tabs.dataset.syncGroupId, syncId: start.tab.dataset.syncId }
+        }))
       }
     })
     onHashChange()
@@ -91,6 +104,9 @@
     })
     var shiftedBy = thisTabs.getBoundingClientRect().y - initialY
     if (shiftedBy && (shiftedBy = Math.round(shiftedBy))) window.scrollBy({ top: shiftedBy, behavior: 'instant' })
+    document.dispatchEvent(new CustomEvent('asciidoctor-tabs:toggle', {
+      detail: { syncGroupId: thisTabs.dataset.syncGroupId, syncId: thisTab.dataset.syncId }
+    }))
   }
 
   function querySelectorWithSiblings (scope, selector, siblingClass) {
