@@ -309,6 +309,10 @@ If you're not using other scoped extensions, you can pass in the extensions grou
 Asciidoctor.convert_file 'tabs.adoc', extensions: Asciidoctor::Tabs::Extensions.group, safe: :safe
 ----
 
+=== Antora
+
+See [this page](docs/use-with-antora.adoc) explaining how to use the tabs extension with Antora.
+
 == How it Works
 
 This extension works by transforming the dlist inside the example block into a tabbed interface.
