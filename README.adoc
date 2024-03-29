@@ -311,7 +311,7 @@ Asciidoctor.convert_file 'tabs.adoc', extensions: Asciidoctor::Tabs::Extensions.
 
 === Antora
 
-See [this page](docs/use-with-antora.adoc) explaining how to use the tabs extension with Antora.
+See xref:docs/use-with-antora.adoc[this page] explaining how to use the tabs extension with Antora.
 
 == How it Works
 
