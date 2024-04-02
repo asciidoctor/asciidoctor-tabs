@@ -16,7 +16,7 @@ NOTE: This extension is intended to be used with HTML backends (e.g., `html5`).
 For all other backends (i.e., the filetype is not html), the custom block enclosure is discarded and its contents (a dlist) is converted normally.
 
 TIP: This extension is also published as an npm package named `@asciidoctor/tabs` for use with Asciidoctor.js, and hence, with Antora.
-See xref:js/README.adoc[the npm package README] and xref:docs/use-with-antora.adoc[its Antora integration guide].
+See the xref:js/README.adoc[README] for the npm package and its xref:docs/use-with-antora.adoc[Antora integration guide] for details.
 
 == Overview
 
