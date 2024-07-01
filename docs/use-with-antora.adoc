@@ -151,6 +151,10 @@ ui:
       <link rel="stylesheet" href="{{{uiRootPath}}}/css/vendor/tabs.css">
 ----
 
+NOTE: The paths used in this example assume that the *@asciidoctor/tabs* npm package is installed in your project and that your Antora playbook file is located adjacent to [.path]_package.json_ and the [.path]_node_modules_ directory.
+If it's installed somewhere else, you'll need to tune the path to the [.path]_node_modules_ directory accordingly (replacing `./node_modules/`).
+You can use either relative or absolute paths.
+
 If the `ui` key or `ui.supplemental_files` keys already exist, merge this entry with the existing key.
 
 On the other hand, if you already have a supplemental UI that's being loaded from a directory (e.g., [.path]_supplemental-ui_), you won't be able to define the supplemental files that support Asciidoctor Tabs directly in your playbook.
