@@ -51,14 +51,16 @@ require('@asciidoctor/tabs')
 browserify will know how to resolve the script from the npm package name based on metadata provided by the package.
 This assumes the build task in your UI project is set up to process vendor files (i.e., [.path]_src/js/vendor/*.bundle.js_).
 
-Next, add the following line to the bottom of the [.path]_src/partials/footer-scripts.hbs_ to link to the script from the HTML pages.
+Next, *append* the following line to the bottom of the [.path]_src/partials/footer-scripts.hbs_ to link to the script from the HTML pages.
 
 [,hbs]
 ----
 <script async src="{{{uiRootPath}}}/js/vendor/tabs.js"></script>
 ----
 
-TIP: You can move [.path]_src/js/vendor/tabs.bundle.js_ to [.path]_src/js/10-tabs.js_ so it gets bundled into site.js.
+IMPORTANT: Do not remove any of the other lines in [.path]_src/partials/footer-scripts.hbs_ or else other features of the site will stop working!
+
+TIP: Alternately, you can move [.path]_src/js/vendor/tabs.bundle.js_ to [.path]_src/js/10-tabs.js_ so it gets bundled into site.js.
 In this case, you _don't_ need to add the additional `<script>` tag.
 
 The next time you bundle your UI, it will be ready to be used with the Asciidoctor Tabs extension!
