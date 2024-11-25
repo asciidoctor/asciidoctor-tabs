@@ -13,19 +13,20 @@ jobs:
     environment: releases
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Install Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.1'
+        ruby-version: '3.3'
         bundler-cache: false
     - name: Install Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '16'
+        node-version: '22'
     - name: Install Ruby dependencies
       run: |
         bundle config --local path vendor/bundle
+        bundle config --local without coverage
         bundle --jobs 3 --retry 3
     - name: Run linter
       run: bundle exec rake lint

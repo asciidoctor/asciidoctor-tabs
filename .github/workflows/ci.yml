@@ -26,20 +26,20 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        ruby: ['2.7', '3.2']
+        ruby: ['2.7', '3.3']
         exclude:
         - os: ubuntu-latest
-          ruby: '3.2'
+          ruby: '3.3'
         include:
         - os: ubuntu-latest
-          ruby: '3.2'
+          ruby: '3.3'
           primary: primary
     runs-on: ${{ matrix.os }}
     env:
       BUNDLE_WITHOUT: coverage:lint
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Enable lint and coverage (primary only)
       if: matrix.primary
       run: |
@@ -62,9 +62,9 @@ jobs:
       run: bundle exec ruby -w $(bundle exec ruby -e 'print File.join Gem.bindir, %q(rake)') spec
     - name: Install Node.js
       if: matrix.primary
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '16'
+        node-version: '22'
     - name: Run smoke test for npm package
       if: matrix.primary
       working-directory: js
