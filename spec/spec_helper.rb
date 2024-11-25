@@ -16,7 +16,7 @@ require 'shellwords'
 RSpec.configure do
   def create_class super_class = Object, &block
     klass = Class.new super_class, &block
-    Object.const_set %(AnonymousClass#{klass.object_id}).to_sym, klass
+    Object.const_set :"AnonymousClass#{klass.object_id}", klass
     klass
   end
 

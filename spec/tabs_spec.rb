@@ -482,7 +482,7 @@ describe Asciidoctor::Tabs do
     it 'should use anchor for tab ID if converter does not support id property on list item' do
       backend = nil
       create_class (Asciidoctor::Converter.for 'html5') do
-        register_for (backend = %(#{object_id}html5).to_sym)
+        register_for (backend = :"#{object_id}html5")
         def convert_ulist node
           super.gsub %r/<li id="[^"]+"/, '<li'
         end

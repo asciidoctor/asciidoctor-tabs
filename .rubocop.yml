@@ -3,10 +3,8 @@ require:
 - rubocop-rspec
 AllCops:
   TargetRubyVersion: 2.7
-Capybara:
-  Enabled: false
-FactoryBot:
-  Enabled: false
+Gemspec/AddRuntimeDependency:
+  Enabled: true
 Gemspec/DeprecatedAttributeAssignment:
   Enabled: true
 Gemspec/DevelopmentDependencies:
@@ -93,6 +91,8 @@ Lint/DuplicateRequire:
   Enabled: true
 Lint/DuplicateRescueException:
   Enabled: true
+Lint/DuplicateSetElement:
+  Enabled: true
 Lint/EmptyBlock:
   Enabled: true
 Lint/EmptyClass:
@@ -111,7 +111,11 @@ Lint/IdentityComparison:
   Enabled: true
 Lint/IncompatibleIoSelectWithFiberScheduler:
   Enabled: true
+Lint/ItWithoutArgumentsInBlock:
+  Enabled: true
 Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
+Lint/LiteralAssignmentInCondition:
   Enabled: true
 Lint/MissingSuper:
   Enabled: true
@@ -159,6 +163,8 @@ Lint/TrailingCommaInAttributeDeclaration:
   Enabled: true
 Lint/TripleQuotes:
   Enabled: true
+Lint/UnescapedBracketInRegexp:
+  Enabled: true
 Lint/UnexpectedBlockArity:
   Enabled: true
 Lint/UnmodifiedReduceAccumulator:
@@ -168,6 +174,8 @@ Lint/UnreachableLoop:
 Lint/UnusedMethodArgument:
   Enabled: true
 Lint/UselessMethodDefinition:
+  Enabled: true
+Lint/UselessNumericOperation:
   Enabled: true
 Lint/UselessRescue:
   Enabled: true
@@ -254,7 +262,7 @@ RSpec/ExcessiveDocstringSpacing:
   Enabled: true
 RSpec/ExpectInHook:
   Enabled: true
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
   Enabled: false
 RSpec/IdenticalEqualityAssertion:
   Enabled: true
@@ -273,8 +281,6 @@ RSpec/Pending:
   Enabled: true
 RSpec/PendingWithoutReason:
   Enabled: true
-RSpec/Rails:
-  Enabled: false
 RSpec/ReceiveMessages:
   Enabled: true
 RSpec/RedundantAround:
@@ -282,6 +288,8 @@ RSpec/RedundantAround:
 RSpec/SkipBlockInsideExample:
   Enabled: true
 RSpec/SortMetadata:
+  Enabled: true
+RSpec/StringAsInstanceDoubleConstant:
   Enabled: true
 RSpec/SubjectDeclaration:
   Enabled: true
@@ -301,6 +309,8 @@ Style/AccessorGrouping:
 Style/Alias:
   Enabled: true
   EnforcedStyle: prefer_alias
+Style/AmbiguousEndlessMethodDefinition:
+  Enabled: true
 Style/ArgumentsForwarding:
   Enabled: true
 Style/ArrayCoercion:
@@ -312,6 +322,8 @@ Style/AsciiComments:
 Style/Attr:
   Enabled: true
 Style/BisectedAttrAccessor:
+  Enabled: true
+Style/BitwisePredicate:
   Enabled: true
 Style/BlockComments:
   Enabled: true
@@ -328,6 +340,8 @@ Style/ClassAndModuleChildren:
 Style/ClassVars:
   Enabled: false # reason: an important language feature
 Style/CollectionCompact:
+  Enabled: true
+Style/CombinableDefined:
   Enabled: true
 Style/CombinableLoops:
   Enabled: true
@@ -419,11 +433,15 @@ Style/InPatternThen:
   Enabled: true
 Style/InfiniteLoop:
   Enabled: false # reason: loop is measurably slower than while true
+Style/KeywordArgumentsMerging:
+  Enabled: true
 Style/KeywordParametersOrder:
   Enabled: true
 Style/MagicCommentFormat:
   Enabled: true
 Style/MapCompactWithConditionalBlock:
+  Enabled: true
+Style/MapIntoArray:
   Enabled: true
 Style/MapToHash:
   Enabled: false # reason: not supported in JRuby < 9.3
@@ -513,6 +531,8 @@ Style/RedundantHeredocDelimiterQuotes:
   Enabled: false # reason: we want to be explicit about when no interpolation should be performed
 Style/RedundantInitialize:
   Enabled: true
+Style/RedundantInterpolationUnfreeze:
+  Enabled: true
 Style/RedundantLineContinuation:
   Enabled: true
 Style/RedundantPercentQ:
@@ -544,9 +564,15 @@ Style/MissingRespondToMissing:
   Enabled: true
 Style/SafeNavigation:
   Enabled: true
+Style/SafeNavigationChainLength:
+  Enabled: true
 Style/SelectByRegexp:
   Enabled: true
+Style/SendWithLiteralMethodName:
+  Enabled: true
 Style/SingleArgumentDig:
+  Enabled: true
+Style/SingleLineDoEndBlock:
   Enabled: true
 Style/SlicingWithRange:
   Enabled: false # reason: not supported in JRuby < 9.3
@@ -561,6 +587,10 @@ Style/StringChars:
   Enabled: true
 Style/StringConcatenation:
   Enabled: false # reason: string concatenation can be faster
+Style/SuperArguments:
+  Enabled: true
+Style/SuperWithArgsParentheses:
+  Enabled: true
 Style/SwapValues:
   Enabled: true
 Style/SymbolArray:
