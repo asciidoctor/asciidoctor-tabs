@@ -9,6 +9,11 @@ Therefore, you must install that package when installing this one.
 
  $ npm i asciidoctor @asciidoctor/tabs
 
+If you're using the extension with Antora, there's no need to install the `asciidoctor` package as Antora provides it.
+ifndef::env-npm[]
+See the xref:../docs/use-with-antora.adoc[Antora integration guide] to learn how to integrate this extension into an Antora site.
+endif::[]
+
 == Syntax
 
 A tabset is defined using a description list (dlist) enclosed in an example block annotated with the tabs style.
