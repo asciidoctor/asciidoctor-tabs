@@ -318,8 +318,9 @@ The tabbed interface is supported by a stylesheet (style) and script (behavior) 
 
 NOTE: The stylesheet and script are only added when producing a standalone document.
 The stylesheet is added to the end of the `<head>` tag and the script added to the end of the `<body>` tag.
+By default, the contents of these assets are embedded into the HTML.
 If the `linkcss` attribute is set by the API, the CLI, the document, or the safe mode, the HTML links to these assets.
-Otherwise, the contents of these assets are embedded into the HTML.
+*In this case, you must ensure the assets (found in the [.path]_data_ folder of the gem or project repository) get copied to the linked location.*
 
 The tabbed interface consists of two output elements.
 The first element contains an unordered list of all the tab labels in document order.
