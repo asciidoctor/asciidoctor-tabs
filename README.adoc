@@ -56,6 +56,20 @@ Then use Bundler to install the gem:
 
  $ bundle
 
+=== Runtime Configuration
+
+Asciidoctor-tabs works at runtime via a combination of specific CSS, needed to create the visual appearance (it transforms an HTML dlist into visual tabs), and a small amount of Java Script, which handles the user interaction events.
+
+Both of these will be automatically embedded in the generated HTML if Asciidoctor is used in its default mode, in which CSS and JS are embedded inline. If this is the case, there is no extra work to do.
+
+If however, the `linkcss` attribute is set in your source documents (i.e. you are using linked CSS files), then both the asciidoctor-tabs CSS and JS files have to be manually uploaded. The required CSS and JS files are included with the asciidoctor-tabs Ruby gem, installed as above. The location of the gem may be found with the command `gem environment` on most platforms. Look for the variable `INSTALLATION_DIRECTORY` in the output. This will be something like `/var/lib/gems/3.2.0` on a Linux environment.
+
+Under this location, look for the files in `gems/asciidoctor-tabs-xxx/data/css` and `.../data/js` (where `xxx` will be version information like `1.0.0.beta.6`). These should be named `tabs.css` and `tabs.js` respectively.
+
+The `tabs.css` file needs to be uploaded to the location where your other CSS files are, using the filename `asciidoctor-tabs.css`. You can check the location and the file name by looking ffor the relevant CSS include statements (search for `<link rel="stylesheet" ...>`) in the HTML.
+
+The location and name of the `tabs.js` file on the server is by default `asciidoctor-tabs.js`, in the same location at the HTML files (i.e. relative directory `./`). This may be verified by inspecting the `<script ...>` line added to the HTML by Asciidoctor. The output location may be controlled by https://docs.asciidoctor.org/asciidoc/latest/attributes/built-in-attributes/[setting the built-in `scriptsdir` attribute ^]. Setting this attribute for example to `/css` will mean that the JS file is expected in that directory relative to the site root.
+
 == Syntax
 
 A tabset is defined using a description list (dlist) enclosed in an example block annotated with the tabs style.
