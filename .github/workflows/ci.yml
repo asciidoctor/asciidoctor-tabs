@@ -8,6 +8,7 @@ on:
     paths-ignore: ['*.adoc', 'docs/**', 'js/*.adoc']
   schedule:
   - cron: '45 2 * * MON'
+  workflow_dispatch:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
