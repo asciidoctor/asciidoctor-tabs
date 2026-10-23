@@ -24,7 +24,7 @@ Next, define a vendor stylesheet at [.path]_src/css/vendor/tabs.css_ and populat
 
 [,css]
 ----
-@import "@asciidoctor/tabs"
+@import "@asciidoctor/tabs";
 ----
 
 postCSS will know how to resolve the stylesheet from the npm package name based on metadata provided by the package.
